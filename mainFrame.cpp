@@ -8,6 +8,10 @@ enum {
 	ID_PROCESS_GRAPH // the app process the graph
 };
 
+BEGIN_EVENT_TABLE(mainFrame, wxFrame)
+	EVT_MENU(wxID_EXIT, mainFrame::OnQuit)
+END_EVENT_TABLE()
+
 
 
 mainFrame::mainFrame(const wxString& title)
@@ -56,4 +60,9 @@ mainFrame::mainFrame(const wxString& title)
 	SetToolBar(toolBar);
 	SetMenuBar(menuBar);
 	SetIcon(wxIcon(wxT("res/Pictogrammers-Material-Graph-outline.ico"), wxBITMAP_TYPE_ICO));
+}
+
+void mainFrame::OnQuit(wxCommandEvent& evt)
+{
+	Close(true);
 }

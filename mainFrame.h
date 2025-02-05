@@ -18,5 +18,12 @@ public:
 
 private:
 
+
+
+    // menu bar functions
+    void OnQuit(wxCommandEvent& evt);
+
+
+    DECLARE_EVENT_TABLE();
 };
 
