@@ -45,11 +45,13 @@ mainFrame::mainFrame(const wxString& title)
 	menuBar->Append(helpMenu, "&Help");
 
 	// toolbar
-	wxToolBar* toolBar = new wxToolBar(this, wxID_ANY);
+	wxToolBar* toolBar = CreateToolBar(wxTB_FLAT);
+	toolBar->SetToolBitmapSize(wxSize(24, 24));
 	toolBar->AddRadioTool(ID_MODE_NORMAL, "", wxBitmap(cursor_xpm), wxBitmapBundle(), "Normal mode");
 	toolBar->AddRadioTool(ID_MODE_ADD_NODE, "", wxBitmap(node_xpm), wxBitmapBundle(), "Add new node");
 	toolBar->AddRadioTool(ID_MODE_ADD_EDGE, "", wxBitmap(edge_xpm), wxBitmapBundle(), "Add new edge");
 	toolBar->AddRadioTool(ID_MODE_DELETE, "", wxBitmap(delete_xpm), wxBitmapBundle(), "Delete nodes and edges");
+	toolBar->Realize();
 	toolBar->AddSeparator();
 	toolBar->AddTool(wxID_ANY, "", wxBitmap(process_color_xpm), "Calculate the graph");
 	toolBar->Realize();
