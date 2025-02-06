@@ -10,6 +10,7 @@ enum {
 
 BEGIN_EVENT_TABLE(mainFrame, wxFrame)
 	EVT_MENU(wxID_EXIT, mainFrame::OnQuit)
+	EVT_MENU(wxID_HELP, mainFrame::OnHelp)
 END_EVENT_TABLE()
 
 
@@ -62,9 +63,19 @@ mainFrame::mainFrame(const wxString& title)
 	SetToolBar(toolBar);
 	SetMenuBar(menuBar);
 	SetIcon(wxIcon(wxT("res/Pictogrammers-Material-Graph-outline.ico"), wxBITMAP_TYPE_ICO));
+
 }
 
 void mainFrame::OnQuit(wxCommandEvent& evt)
 {
 	Close(true);
+}
+
+void mainFrame::OnHelp(wxCommandEvent& evt)
+{
+	// Shows tool tips
+	wxTipProvider* tipProvider = wxCreateFileTipProvider(wxT("files/tool_tips.txt"), 0);
+	wxShowTip(this, tipProvider, true);
+	delete tipProvider;
+
 }
