@@ -11,5 +11,6 @@ bool cApp::OnInit()
 	frame->SetSize(600, 400);
 
 	frame->Show(true);
+	frame->ShowStartupTip();
 	return true;
 }
