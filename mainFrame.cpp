@@ -10,6 +10,7 @@ enum {
 
 BEGIN_EVENT_TABLE(mainFrame, wxFrame)
 	EVT_MENU(wxID_EXIT, mainFrame::OnQuit)
+	EVT_MENU(wxID_HELP, mainFrame::OnHelp)
 END_EVENT_TABLE()
 
 
@@ -26,10 +27,10 @@ mainFrame::mainFrame(const wxString& title)
 	fileMenu->AppendSeparator();
 	fileMenu->Append(wxID_PRINT); // todo: implement QuickPrint
 	fileMenu->AppendSeparator();
-	fileMenu->Append(wxID_EXIT, "E&xit\tAlt+F4"); // todo: exits from app
+	fileMenu->Append(wxID_EXIT, wxT("E&xit\tAlt+F4")); // todo: exits from app
 
 	wxMenu* editMenu = new wxMenu;
-	editMenu->Append(wxID_CLEAR, "&Clear", "Clears drawing area"); // todo: clears the drawing area
+	editMenu->Append(wxID_CLEAR, wxT("&Clear"), wxT("Clears drawing area")); // todo: clears the drawing area
 
 	wxMenu* prefMenu = new wxMenu;
 	prefMenu->Append(wxID_PREFERENCES); // todo: add: changing language, colour scheme
@@ -39,32 +40,98 @@ mainFrame::mainFrame(const wxString& title)
 	helpMenu->Append(wxID_ABOUT); // todo: add ref to github page
 
 	wxMenuBar* menuBar = new wxMenuBar;
-	menuBar->Append(fileMenu, "&File");
-	menuBar->Append(editMenu, "&Edit");
-	menuBar->Append(prefMenu, "&Preferences");
-	menuBar->Append(helpMenu, "&Help");
+	menuBar->Append(fileMenu, wxT("&File"));
+	menuBar->Append(editMenu, wxT("&Edit"));
+	menuBar->Append(prefMenu, wxT("&Preferences"));
+	menuBar->Append(helpMenu, wxT("&Help"));
 
 	// toolbar
 	wxToolBar* toolBar = CreateToolBar(wxTB_FLAT);
 	toolBar->SetToolBitmapSize(wxSize(24, 24));
-	toolBar->AddRadioTool(ID_MODE_NORMAL, "", wxBitmap(cursor_xpm), wxBitmapBundle(), "Normal mode");
-	toolBar->AddRadioTool(ID_MODE_ADD_NODE, "", wxBitmap(node_xpm), wxBitmapBundle(), "Add new node");
-	toolBar->AddRadioTool(ID_MODE_ADD_EDGE, "", wxBitmap(edge_xpm), wxBitmapBundle(), "Add new edge");
-	toolBar->AddRadioTool(ID_MODE_DELETE, "", wxBitmap(delete_xpm), wxBitmapBundle(), "Delete nodes and edges");
+	toolBar->AddRadioTool(ID_MODE_NORMAL, "", wxBitmap(cursor_xpm), wxBitmapBundle(), wxT("Normal mode"));
+	toolBar->AddRadioTool(ID_MODE_ADD_NODE, "", wxBitmap(node_xpm), wxBitmapBundle(), wxT("Add new node"));
+	toolBar->AddRadioTool(ID_MODE_ADD_EDGE, "", wxBitmap(edge_xpm), wxBitmapBundle(), wxT("Add new edge"));
+	toolBar->AddRadioTool(ID_MODE_DELETE, "", wxBitmap(delete_xpm), wxBitmapBundle(), wxT("Delete nodes and edges"));
 	toolBar->Realize();
 	toolBar->AddSeparator();
-	toolBar->AddTool(wxID_ANY, "", wxBitmap(process_color_xpm), "Calculate the graph");
+	toolBar->AddTool(wxID_ANY, "", wxBitmap(process_color_xpm), wxT("Calculate the graph"));
 	toolBar->Realize();
-
-
-
 
 	SetToolBar(toolBar);
 	SetMenuBar(menuBar);
 	SetIcon(wxIcon(wxT("res/Pictogrammers-Material-Graph-outline.ico"), wxBITMAP_TYPE_ICO));
+
 }
 
 void mainFrame::OnQuit(wxCommandEvent& evt)
 {
 	Close(true);
+}
+
+void mainFrame::OnHelp(wxCommandEvent& evt)
+{
+	// Shows tool tips
+	ShowToolTip();
+}
+
+bool mainFrame::ShowToolTip()
+{
+	wxTipProvider* tipProvider = wxCreateFileTipProvider(wxT("files/tool_tips.txt"), 0);
+	bool showAtStartup = wxShowTip(this, tipProvider, true);
+	delete tipProvider;
+	return showAtStartup;
+}
+
+void mainFrame::ShowStartupTip()
+{
+	// todo: change to xml
+
+	if (!wxFile::Exists("files/global.ini"))
+	{
+		wxMessageBox(wxT("Something wrong with files/global.ini, try to reinstall the application"), wxT("Warning"), wxICON_ERROR);
+		return;
+	}
+
+	wxFile settingsFile("files/global.ini");
+	if (!settingsFile.IsOpened())
+	{
+		wxMessageBox(wxT("Unable to open files/global.ini, try to reinstall the application"), wxT("Warning"), wxICON_ERROR);
+		return;
+	}
+
+	// read the whole file data
+	wxString data;
+	if (!settingsFile.ReadAll(&data))
+	{
+		wxMessageBox(wxT("Unable to read data from files/global.ini, try to reinstall the application"), wxT("Warning"), wxICON_ERROR);
+		return;
+	}
+
+	if (data[0] == '0')m_showTipAtStartup = false;
+
+	if (m_showTipAtStartup)
+	{
+		if (!ShowToolTip()) // user refused to seeing startup tool tip
+		{
+			// rewrite global.ini
+			m_showTipAtStartup = false;
+			data[0] = '0';
+
+			if (!wxFile::Exists("files/global.ini"))
+			{
+				wxMessageBox(wxT("Something wrong with files/global.ini, try to reinstall the application"), wxT("Warning"), wxICON_ERROR);
+				return;
+			}
+
+			wxFile otf("files/global.ini", wxFile::write);
+			if (!otf.IsOpened())
+			{
+				wxMessageBox(wxT("Unable to open files/global.ini, try to reinstall the application"), wxT("Warning"), wxICON_ERROR);
+				return;
+			}
+
+			otf.Write(data);
+		}
+	}
+
 }

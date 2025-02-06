@@ -1,5 +1,7 @@
 #pragma once
 #include "wx\wx.h"
+#include "wx/tipdlg.h"
+#include "wx/file.h"
 
 // toolbar images
 #include "res/cursor24.xpm"
@@ -15,14 +17,28 @@ class mainFrame :
 {
 public:
     mainFrame(const wxString& title);
+    void ShowStartupTip(); // shows startup tip window unless disabled in files/global.ini
 
 private:
+    // settings variables
+    bool m_showTipAtStartup = true;
 
 
 
     // menu bar functions
+    void OnNew(wxCommandEvent& evt);
+    void OnOpen(wxCommandEvent& evt);
+    void OnSave(wxCommandEvent& evt);
+    void OnSaveAs(wxCommandEvent& evt);
+    void OnPrint(wxCommandEvent& evt);
     void OnQuit(wxCommandEvent& evt);
+    void OnClear(wxCommandEvent& evt);
+    void OnPreferences(wxCommandEvent& evt);
+    void OnHelp(wxCommandEvent& evt); // shows tool tip
+    void OnAbout(wxCommandEvent& evt);
 
+
+    bool ShowToolTip();
 
     DECLARE_EVENT_TABLE();
 };
