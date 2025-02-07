@@ -21,10 +21,17 @@
   <ItemGroup>
     <ClInclude Include="cApp.h" />
     <ClInclude Include="mainFrame.h" />
+    <ClInclude Include="resource.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="cApp.cpp" />
     <ClCompile Include="mainFrame.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="GraphApp.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="res\Pictogrammers-Material-Graph-outline.ico" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
