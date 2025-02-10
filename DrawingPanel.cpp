@@ -24,7 +24,7 @@ void DrawingPanel::OnLeftDClick(wxMouseEvent& evt)
 	{
 		wxNumberEntryDialog* dlg = new wxNumberEntryDialog(
 			this,
-			wxT("Set the index of the node. Remember that the node index is unique number."), 
+			wxT("Set the index of the node. Remember that \nthe node index is unique number."), 
 			wxT("Enter a number:"),
 			wxT("Set node index"), 
 			0, 
@@ -36,10 +36,6 @@ void DrawingPanel::OnLeftDClick(wxMouseEvent& evt)
 			graph.AddNode(evt.GetPosition(), dlg->GetValue());
 			Refresh();
 		}
-		
-		//InputWindow* window = new InputWindow(this, wxT("Set node index"));
-		//window->ShowModal();		
-		//graph.AddNode(evt.GetPosition(), window->GetValue());
 	}
 		break;
 	case DrawingPanel::ADD_EDGE:
@@ -57,7 +53,7 @@ void DrawingPanel::OnLeftDClick(wxMouseEvent& evt)
 			{
 				wxNumberEntryDialog* dlg = new wxNumberEntryDialog(
 				this,
-					wxT("Set the weight of the edge. Remember that the edge weight can be only integer."),
+					wxT("Set the weight of the edge. Remember that \nthe edge weight can be only integer."),
 					wxT("Enter a number:"),
 					wxT("Set edge weight"),
 					0,
@@ -66,15 +62,9 @@ void DrawingPanel::OnLeftDClick(wxMouseEvent& evt)
 
 				if (dlg->ShowModal() == wxID_OK)
 				{
-					graph.AddNode(evt.GetPosition(), dlg->GetValue());
+					graph.AddEdge(selected_begin_node, graph.GetNode(evt.GetPosition()), dlg->GetValue());
 					Refresh();
 				}
-
-
-				//InputWindow* window = new InputWindow(this, wxT("Set edge weight"));
-				//window->ShowModal();
-				//graph.AddEdge(selected_begin_node, graph.GetNode(evt.GetPosition()), window->GetValue());
-				//selected_begin_node = nullptr;
 			}
 		}
 		break;
