@@ -159,6 +159,12 @@ bool Graph::Contain(int node_index)
 
 }
 
+int Graph::MaxNodeIndex()
+{
+	Node* node = *(std::max_element(nodes.begin(), nodes.end()));
+	return node->index;
+}
+
 bool Graph::IsInsideNode(const wxPoint& pt)
 {
 	for (std::vector<Node*>::iterator iter = nodes.begin(); iter != nodes.end(); iter++)
