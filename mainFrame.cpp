@@ -11,6 +11,9 @@ enum {
 BEGIN_EVENT_TABLE(mainFrame, wxFrame)
 	EVT_MENU(wxID_EXIT, mainFrame::OnQuit)
 	EVT_MENU(wxID_HELP, mainFrame::OnHelp)
+	EVT_MENU(wxID_CLEAR, mainFrame::OnClear)
+	EVT_MENU(wxID_PRINT, mainFrame::OnPrint)
+	EVT_TOOL_RANGE(ID_MODE_NORMAL, ID_MODE_DELETE, mainFrame::SetEditingRegime)
 END_EVENT_TABLE()
 
 
@@ -27,7 +30,7 @@ mainFrame::mainFrame(const wxString& title)
 	fileMenu->AppendSeparator();
 	fileMenu->Append(wxID_PRINT); // todo: implement QuickPrint
 	fileMenu->AppendSeparator();
-	fileMenu->Append(wxID_EXIT, wxT("E&xit\tAlt+F4")); // todo: exits from app
+	fileMenu->Append(wxID_EXIT, wxT("E&xit\tAlt+F4"));
 
 	wxMenu* editMenu = new wxMenu;
 	editMenu->Append(wxID_CLEAR, wxT("&Clear"), wxT("Clears drawing area")); // todo: clears the drawing area
@@ -36,7 +39,7 @@ mainFrame::mainFrame(const wxString& title)
 	prefMenu->Append(wxID_PREFERENCES); // todo: add: changing language, colour scheme
 
 	wxMenu* helpMenu = new wxMenu;
-	helpMenu->Append(wxID_HELP); // todo: add help window
+	helpMenu->Append(wxID_HELP);
 	helpMenu->Append(wxID_ABOUT); // todo: add ref to github page
 
 	wxMenuBar* menuBar = new wxMenuBar;
@@ -57,10 +60,29 @@ mainFrame::mainFrame(const wxString& title)
 	toolBar->AddTool(wxID_ANY, "", wxBitmap(process_color_xpm), wxT("Calculate the graph"));
 	toolBar->Realize();
 
+	// creating controls
+	drawingPanel = new DrawingPanel(this, wxID_ANY);
+	drawingPanel->SetColourScheme(DrawingPanel::COLOURED);
+
+	// setting sizer
+	wxBoxSizer* top_sizer = new wxBoxSizer(wxVERTICAL);
+	top_sizer->Add(drawingPanel, 1, wxALL | wxEXPAND);
+
+
+
+
+
+
+
+
+	SetSizerAndFit(top_sizer);
 	SetToolBar(toolBar);
 	SetMenuBar(menuBar);
 	SetIcon(wxIcon(wxT("res/Pictogrammers-Material-Graph-outline.ico"), wxBITMAP_TYPE_ICO));
+}
 
+void mainFrame::OnPrint(wxCommandEvent& evt)
+{
 }
 
 void mainFrame::OnQuit(wxCommandEvent& evt)
@@ -68,10 +90,38 @@ void mainFrame::OnQuit(wxCommandEvent& evt)
 	Close(true);
 }
 
+void mainFrame::OnClear(wxCommandEvent& evt)
+{
+	drawingPanel->OnClear();
+}
+
 void mainFrame::OnHelp(wxCommandEvent& evt)
 {
 	// Shows tool tips
 	ShowToolTip();
+}
+
+void mainFrame::SetEditingRegime(wxCommandEvent& evt)
+{
+		switch (evt.GetId())
+		{
+		case ID_MODE_NORMAL: // normal cursor
+			drawingPanel->SetDrawingRegime(DrawingPanel::STANDARD_CURSOR);
+			break;
+		case ID_MODE_ADD_NODE: // add new node
+			drawingPanel->SetDrawingRegime(DrawingPanel::ADD_NODE);
+			break;
+		case ID_MODE_ADD_EDGE: // add new edge
+			drawingPanel->SetDrawingRegime(DrawingPanel::ADD_EDGE);
+			break;
+		case ID_MODE_DELETE: // delete node or edge
+			drawingPanel->SetDrawingRegime(DrawingPanel::DELETE_NODE_OR_EDGE);
+			break;
+
+		default:
+			wxMessageBox("undefined regime file mainFrame.cpp");
+			break;
+		}
 }
 
 bool mainFrame::ShowToolTip()

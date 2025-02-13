@@ -2,6 +2,7 @@
 #include "wx\wx.h"
 #include "wx/tipdlg.h"
 #include "wx/file.h"
+#include "DrawingPanel.h"
 
 // toolbar images
 #include "res/cursor24.xpm"
@@ -22,7 +23,7 @@ public:
 private:
     // settings variables
     bool m_showTipAtStartup = true;
-
+    DrawingPanel* drawingPanel;
 
 
     // menu bar functions
@@ -36,7 +37,7 @@ private:
     void OnPreferences(wxCommandEvent& evt);
     void OnHelp(wxCommandEvent& evt); // shows tool tip
     void OnAbout(wxCommandEvent& evt);
-
+    void SetEditingRegime(wxCommandEvent& evt);
 
     bool ShowToolTip();
 
