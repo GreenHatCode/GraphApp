@@ -4,7 +4,7 @@ void Graph::AddNode(const wxPoint& coords, int index)
 {
 	Node *new_node = new Node;
 	new_node->coords = coords;
-	new_node->idex = index;
+	new_node->index = index;
 	nodes.push_back(new_node);
 }
 
@@ -17,7 +17,7 @@ void Graph::EditNode(const wxPoint& node_coords, int index, int t_early, int t_l
 		if (IsNode(node_coords, iter))break;
 	}
 	(*iter)->coords = node_coords;
-	if (index != -1)(*iter)->idex = index;
+	if (index != -1)(*iter)->index = index;
 	if(t_early != -1)(*iter)->early_event_deadline = t_early;
 	if (t_late != -1)(*iter)->late_event_deadline = t_late;
 	if (time_reserve != -1)(*iter)->time_reserve = time_reserve;
@@ -146,6 +146,17 @@ void Graph::Clear()
 
 	nodes.clear();
 	edges.clear();
+}
+
+bool Graph::Contain(int node_index)
+{
+	for (size_t i = 0; i < nodes.size(); i++)
+	{
+		if (nodes[i]->index == node_index) return true;
+	}
+
+	return false;
+
 }
 
 bool Graph::IsInsideNode(const wxPoint& pt)

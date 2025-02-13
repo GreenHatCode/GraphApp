@@ -9,7 +9,7 @@ struct Node
 	int early_event_deadline = -1;
 	int late_event_deadline = -1;
 	int time_reserve = -1;
-	int idex = -1;
+	int index = -1;
 
 	bool operator ==(Node right)
 	{
@@ -54,6 +54,8 @@ public:
 	size_t GetNodeAmount();
 	size_t GetEdgeAmount();
 	void Clear(); // clears all the graph
+	bool Contain(int node_index); // searches for node with given index, if it exists return true
+
 
 	// for drawing
 	bool IsInsideNode(const wxPoint& pt);

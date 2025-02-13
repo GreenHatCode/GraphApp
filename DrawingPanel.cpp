@@ -250,7 +250,7 @@ void DrawingPanel::PrintDrawing(wxDC& dc)
 
 		// drawing node indes in left bottom circle sector
 		wxString str;
-		str << (*node).idex;
+		str << (*node).index;
 		wxSize str_width = dc.GetTextExtent(str);
 		dc.DrawText(str, (*node).coords.x - circle_radius / 2 - str_width.x / 2, (*node).coords.y + 3);
 	}
@@ -274,7 +274,7 @@ void DrawingPanel::DrawNode(const Node* node)
 
 	// drawing node indes in left bottom circle sector
 	wxString str;
-	str << (*node).idex;
+	str << (*node).index;
 	wxSize str_width = dc.GetTextExtent(str);
 	dc.DrawText(str, (*node).coords.x - circle_radius / 2 - str_width.x / 2, (*node).coords.y + 3);
 
