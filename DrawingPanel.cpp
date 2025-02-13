@@ -70,6 +70,7 @@ void DrawingPanel::OnLeftDClick(wxMouseEvent& evt)
 				if (dlg->ShowModal() == wxID_OK)
 				{
 					graph.AddEdge(selected_begin_node, graph.GetNode(evt.GetPosition()), dlg->GetValue());
+					selected_begin_node = nullptr;
 					Refresh();
 				}
 			}
