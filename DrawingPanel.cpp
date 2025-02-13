@@ -27,7 +27,7 @@ void DrawingPanel::OnLeftDClick(wxMouseEvent& evt)
 			wxT("Set the index of the node. Remember that \nthe node index is unique number."), 
 			wxT("Enter a number:"),
 			wxT("Set node index"), 
-			0, 
+			graph.MaxNodeIndex() + 1, 
 			std::numeric_limits<int>::min(),
 			std::numeric_limits<int>::max());
 

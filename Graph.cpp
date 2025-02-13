@@ -161,8 +161,12 @@ bool Graph::Contain(int node_index)
 
 int Graph::MaxNodeIndex()
 {
-	Node* node = *(std::max_element(nodes.begin(), nodes.end()));
-	return node->index;
+	if (!nodes.empty())
+	{
+		Node* node = *(std::max_element(nodes.begin(), nodes.end()));
+		return node->index;
+	}
+	return -1; // the index of the first node will be 0
 }
 
 bool Graph::IsInsideNode(const wxPoint& pt)
