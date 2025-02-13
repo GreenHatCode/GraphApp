@@ -55,7 +55,7 @@ public:
 	size_t GetEdgeAmount();
 	void Clear(); // clears all the graph
 	bool Contain(int node_index); // searches for node with given index, if it exists return true
-
+	int MaxNodeIndex();
 
 	// for drawing
 	bool IsInsideNode(const wxPoint& pt);
