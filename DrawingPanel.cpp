@@ -33,6 +33,13 @@ void DrawingPanel::OnLeftDClick(wxMouseEvent& evt)
 
 		if (dlg->ShowModal() == wxID_OK)
 		{
+			if (graph.Contain(dlg->GetValue()))
+			{
+				wxString ms;
+				ms = wxString::Format("You can't add node with index %i, because it is already exist.", dlg->GetValue());
+				wxMessageBox(ms, wxT("Warning"), wxICON_WARNING);
+				return;
+			}
 			graph.AddNode(evt.GetPosition(), dlg->GetValue());
 			Refresh();
 		}
