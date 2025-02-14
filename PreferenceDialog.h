@@ -1,5 +1,7 @@
 #pragma once
 #include "wx/wx.h"
+#include "wx/gbsizer.h"
+#include "wx/srchctrl.h"
 
 class PreferenceDialog :
     public wxDialog
