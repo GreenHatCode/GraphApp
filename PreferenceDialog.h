@@ -18,6 +18,12 @@ public:
 
 
 private:
+    wxPanel* main_panel = NULL;
+
+
+
+    void SetUpTabPanels();
+    void SetPreferenceTab(wxUpdateUIEvent& evt); // changes the controls on wxpanel according to selected item in the list
 
 
 
