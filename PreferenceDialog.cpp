@@ -27,9 +27,12 @@ PreferenceDialog::PreferenceDialog(
 {
 	// layout
 
-	wxBoxSizer* top_sizer = new wxBoxSizer(wxHORIZONTAL);
-	
+	wxBoxSizer* top_sizer = new wxBoxSizer(wxVERTICAL);
+	wxBoxSizer* box_sizer = new wxBoxSizer(wxHORIZONTAL);
 	wxBoxSizer* pref_tabs_sizer = new wxBoxSizer(wxVERTICAL);
+	wxBoxSizer* buttons_sizer = new wxBoxSizer(wxHORIZONTAL);
+
+	
 	
 	wxSearchCtrl* search_ctrl = new wxSearchCtrl(this, ID_SEARCH, wxEmptyString, wxDefaultPosition, wxSize(175, -1));
 	search_ctrl->SetDescriptiveText(wxT("Search options Ctrl + E"));
@@ -44,12 +47,21 @@ PreferenceDialog::PreferenceDialog(
 
 	wxPanel* panel = new wxPanel(this, ID_PANEL);
 	panel->SetBackgroundColour(*wxGREEN);
-	panel->SetMinSize(wxSize(440, 250));
+	panel->SetMinSize(wxSize(300, 250));
+	
+	box_sizer->Add(pref_tabs_sizer);
+	box_sizer->Add(panel, 1, wxALL | wxEXPAND, 5);
 
+	wxButton* ok_button = new wxButton(this, wxID_OK);
+	wxButton* cancel_button = new wxButton(this, wxID_CANCEL);
+	wxButton* apply_button = new wxButton(this, wxID_APPLY);
 
+	buttons_sizer->Add(ok_button, 0, wxALL, 5);
+	buttons_sizer->Add(cancel_button, 0, wxALL, 5);
+	buttons_sizer->Add(apply_button, 0, wxALL, 5);
 
-	top_sizer->Add(pref_tabs_sizer);
-	top_sizer->Add(panel, 1, wxALL | wxEXPAND, 5);
+	top_sizer->Add(box_sizer, 1, wxALL | wxEXPAND, 5);
+	top_sizer->Add(buttons_sizer, 0, wxALL|wxALIGN_RIGHT, 5);
 
 	SetSizerAndFit(top_sizer);
 }
