@@ -13,6 +13,7 @@ BEGIN_EVENT_TABLE(mainFrame, wxFrame)
 	EVT_MENU(wxID_HELP, mainFrame::OnHelp)
 	EVT_MENU(wxID_CLEAR, mainFrame::OnClear)
 	EVT_MENU(wxID_PRINT, mainFrame::OnPrint)
+	EVT_MENU(wxID_PREFERENCES, mainFrame::OnPreferences)
 	EVT_TOOL_RANGE(ID_MODE_NORMAL, ID_MODE_DELETE, mainFrame::SetEditingRegime)
 END_EVENT_TABLE()
 
@@ -93,6 +94,17 @@ void mainFrame::OnQuit(wxCommandEvent& evt)
 void mainFrame::OnClear(wxCommandEvent& evt)
 {
 	drawingPanel->OnClear();
+}
+
+void mainFrame::OnPreferences(wxCommandEvent& evt)
+{
+	PreferenceDialog* dlg = new PreferenceDialog(this, wxID_ANY, wxT("Preferences"));
+
+	if (dlg->ShowModal() == wxID_OK)
+	{
+		// apply preferences and write them to file
+	}
+
 }
 
 void mainFrame::OnHelp(wxCommandEvent& evt)
