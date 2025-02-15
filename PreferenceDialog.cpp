@@ -17,6 +17,7 @@ enum {
 
 BEGIN_EVENT_TABLE(PreferenceDialog, wxDialog)
 	EVT_UPDATE_UI(ID_PANEL, PreferenceDialog::SetPreferenceTab)
+	EVT_SEARCH(ID_SEARCH, PreferenceDialog::SearchTab)
 END_EVENT_TABLE()
 
 
@@ -160,6 +161,17 @@ void PreferenceDialog::OnOK(wxCommandEvent& evt)
 
 void PreferenceDialog::OnCancel(wxCommandEvent& evt)
 {
+
+}
+
+void PreferenceDialog::SearchTab(wxCommandEvent& evt)
+{
+	wxListBox* pref_tabs = (wxListBox* )FindWindow(ID_PREFERENCE_TABS);
+	int item_index = pref_tabs->FindString(evt.GetString());
+	if (item_index != wxNOT_FOUND)
+	{
+		pref_tabs->SetSelection(item_index);
+	}
 
 }
 

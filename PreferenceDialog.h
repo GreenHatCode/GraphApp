@@ -29,6 +29,8 @@ private:
 
     void OnOK(wxCommandEvent& evt);
     void OnCancel(wxCommandEvent& evt);
+    void SearchTab(wxCommandEvent& evt); // searches the tab in listbox
+
 
     bool TransferDataFromWindow();
     bool TransferDataToWindow();
