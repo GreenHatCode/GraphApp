@@ -5,7 +5,7 @@ enum {
 	ID_PREFERENCE_TABS,
 	ID_PANEL,
 	ID_DUPL_WARNING_CHECK,
-	ID_TIP_CHEKC,
+	ID_TIP_CHECK,
 	ID_COLOUR_SCHEME
 };
 
@@ -72,6 +72,7 @@ PreferenceDialog::PreferenceDialog(
 	SetSizerAndFit(top_sizer);
 
 	SetUpTabPanel();// setups the inital tab for wxpanel, the inital tab is 'General'
+	TransferDataToWindow(); // transfers data to controls
 }
 
 PreferenceDialog::~PreferenceDialog()
@@ -83,10 +84,10 @@ void PreferenceDialog::SetUpTabPanel()
 	// setups the inital tab for wxpanel, the inital tab is 'General'
 	// general panel layout
 	wxBoxSizer* top_sizer1 = new wxBoxSizer(wxVERTICAL);
-	wxCheckBox* check1 = new wxCheckBox(main_panel, ID_DUPL_WARNING_CHECK, wxT("Show warning when a new node with existing index is added."));
-	top_sizer1->Add(check1, 0, wxALL, 5);
-	wxCheckBox* check2 = new wxCheckBox(main_panel, ID_TIP_CHEKC, wxT("Show tip of the day at start."));
-	top_sizer1->Add(check2, 0, wxALL, 5);
+	wxCheckBox* dupl_warning_check = new wxCheckBox(main_panel, ID_DUPL_WARNING_CHECK, wxT("Show warning when a new node with existing index is added."));
+	top_sizer1->Add(dupl_warning_check, 0, wxALL, 5);
+	wxCheckBox* tip_check = new wxCheckBox(main_panel, ID_TIP_CHECK, wxT("Show tip of the day at start."));
+	top_sizer1->Add(tip_check, 0, wxALL, 5);
 	main_panel->SetSizerAndFit(top_sizer1);
 
 }
@@ -112,8 +113,8 @@ void PreferenceDialog::SetPreferenceTab(wxUpdateUIEvent& evt)
 			
 			wxCheckBox* dupl_warning_check = new wxCheckBox(main_panel, ID_DUPL_WARNING_CHECK, wxT("Show warning when a new node with existing index is added."));
 			top_sizer->Add(dupl_warning_check, 0, wxALL, 5);
-			wxCheckBox* tooptip_check = new wxCheckBox(main_panel, ID_TIP_CHEKC, wxT("Show tip of the day at start."));
-			top_sizer->Add(tooptip_check, 0, wxALL, 5);
+			wxCheckBox* tip_check = new wxCheckBox(main_panel, ID_TIP_CHECK, wxT("Show tip of the day at start."));
+			top_sizer->Add(tip_check, 0, wxALL, 5);
 		}
 		else if (curr_tab_idx == 1)
 		{
@@ -146,9 +147,11 @@ void PreferenceDialog::SetPreferenceTab(wxUpdateUIEvent& evt)
 		main_panel->Layout();
 		main_panel->Thaw();
 		main_panel->Refresh();
+		TransferDataToWindow();
 	}
 
-
+	// update the state of the apply button 
+	// if the user changes the state of any control
 
 		
 
@@ -175,12 +178,50 @@ void PreferenceDialog::SearchTab(wxCommandEvent& evt)
 
 }
 
-bool PreferenceDialog::TransferDataFromWindow()
+bool PreferenceDialog::IsControlsStateChanged()
 {
 	return false;
 }
 
+bool PreferenceDialog::TransferDataFromWindow()
+{
+
+
+
+	return true;
+}
+
 bool PreferenceDialog::TransferDataToWindow()
 {
-	return false;
+	switch (curr_tab_idx)
+	{
+	case 0: // general tab panel
+	{
+		wxCheckBox* dupl_warning_check = (wxCheckBox*)FindWindow(ID_DUPL_WARNING_CHECK);
+		wxCheckBox* tip_check = (wxCheckBox*)FindWindow(ID_TIP_CHECK);
+
+		dupl_warning_check->SetValue(dupl_warning);
+		tip_check->SetValue(show_tip);
+	}
+	break;
+	case 1: // appearance tab panel
+	{
+		wxChoice* colour_shceme_choice = (wxChoice*)FindWindow(ID_COLOUR_SCHEME);
+		colour_shceme_choice->SetSelection(colour_scheme);
+	}
+	break;
+	default:
+	{
+		wxString ms = wxString::Format("There is no TransferDataToWindow implementation for tab index = %i", curr_tab_idx);
+		wxMessageBox(ms);
+	}
+	break;
+	}
+
+
+	
+
+
+
+	return true;
 }

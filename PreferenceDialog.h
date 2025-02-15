@@ -21,6 +21,12 @@ private:
     wxPanel* main_panel = NULL;
     int curr_tab_idx = 0;
 
+    // controls data
+    bool dupl_warning = true;
+    bool show_tip = true;
+    int colour_scheme = 0;
+
+
 
     void SetUpTabPanel(); // setups the inital tab for wxpanel, the inital tab is 'General'
     void SetPreferenceTab(wxUpdateUIEvent& evt); // changes the controls on wxpanel according to selected item in the list
@@ -31,6 +37,7 @@ private:
     void OnCancel(wxCommandEvent& evt);
     void SearchTab(wxCommandEvent& evt); // searches the tab in listbox
 
+    bool IsControlsStateChanged(); // checks the states of all controls in the current tab  
 
     bool TransferDataFromWindow();
     bool TransferDataToWindow();
