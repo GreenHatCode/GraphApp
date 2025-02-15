@@ -19,6 +19,7 @@ BEGIN_EVENT_TABLE(PreferenceDialog, wxDialog)
 	EVT_UPDATE_UI(wxID_APPLY, PreferenceDialog::UpdateApplyButton)
 	EVT_SEARCH(ID_SEARCH, PreferenceDialog::SearchTab)
 	EVT_LISTBOX(ID_PREFERENCE_TABS, PreferenceDialog::SetPreferenceTab)
+	EVT_BUTTON(wxID_APPLY, PreferenceDialog::OnApply)
 END_EVENT_TABLE()
 
 
@@ -176,6 +177,12 @@ void PreferenceDialog::OnCancel(wxCommandEvent& evt)
 
 }
 
+void PreferenceDialog::OnApply(wxCommandEvent& evt)
+{
+	TransferDataFromWindow();
+	SaveDataToFile();
+}
+
 void PreferenceDialog::SearchTab(wxCommandEvent& evt)
 {
 	wxListBox* pref_tabs = (wxListBox* )FindWindow(ID_PREFERENCE_TABS);
@@ -218,16 +225,38 @@ bool PreferenceDialog::IsControlsStateChanged()
 	{
 		wxString ms = wxString::Format("There is no IsControlsStateChanged implementation for tab index = %i", curr_tab_idx);
 		wxMessageBox(ms);
+		return false;
 	}
 	break;
 	}
-
 }
 
 bool PreferenceDialog::TransferDataFromWindow()
 {
+	switch (curr_tab_idx)
+	{
+	case 0: // general tab panel
+	{
+		wxCheckBox* dupl_warning_check = (wxCheckBox*)FindWindow(ID_DUPL_WARNING_CHECK);
+		wxCheckBox* tip_check = (wxCheckBox*)FindWindow(ID_TIP_CHECK);
 
-
+		dupl_warning = dupl_warning_check->GetValue();
+		show_tip = tip_check->GetValue();
+	}
+	break;
+	case 1: // appearance tab panel
+	{
+		wxChoice* colour_shceme_choice = (wxChoice*)FindWindow(ID_COLOUR_SCHEME);
+		colour_scheme = colour_shceme_choice->GetSelection();
+	}
+	break;
+	default:
+	{
+		wxString ms = wxString::Format("There is no TransferDataFromWindow implementation for tab index = %i", curr_tab_idx);
+		wxMessageBox(ms);
+	}
+	break;
+	}
 
 	return true;
 }
@@ -260,4 +289,14 @@ bool PreferenceDialog::TransferDataToWindow()
 	}
 
 	return true;
+}
+
+bool PreferenceDialog::SaveDataToFile()
+{
+	return false;
+}
+
+bool PreferenceDialog::LoadDataFromFile()
+{
+	return false;
 }

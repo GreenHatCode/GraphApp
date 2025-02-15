@@ -35,13 +35,15 @@ private:
 
     void OnOK(wxCommandEvent& evt);
     void OnCancel(wxCommandEvent& evt);
+    void OnApply(wxCommandEvent& evt); // saves settings without exiting the dialog
     void SearchTab(wxCommandEvent& evt); // searches the tab in listbox
 
     bool IsControlsStateChanged(); // checks the states of all controls in the current tab  
 
     bool TransferDataFromWindow();
     bool TransferDataToWindow();
-
+    bool SaveDataToFile();
+    bool LoadDataFromFile();
 
     DECLARE_EVENT_TABLE();
 };
