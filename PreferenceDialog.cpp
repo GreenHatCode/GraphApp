@@ -4,9 +4,14 @@ enum {
 	ID_SEARCH,
 	ID_PREFERENCE_TABS,
 	ID_PANEL,
-	ID_CHECK1,
-	ID_CHECK2
+	ID_DUPL_WARNING_CHECK,
+	ID_TIP_CHEKC,
+	ID_COLOUR_SCHEME
 };
+
+
+
+
 
 
 
@@ -42,6 +47,7 @@ PreferenceDialog::PreferenceDialog(
 	choices.Add(wxT("Language"));
 	wxListBox* pref_tabs = new wxListBox(this, ID_PREFERENCE_TABS, wxDefaultPosition, wxDefaultSize, choices);
 	pref_tabs->SetSelection(0);
+	curr_tab_idx = pref_tabs->GetSelection();
 	pref_tabs_sizer->Add(pref_tabs, 0, wxALL | wxEXPAND, 5);
 
 	main_panel = new wxPanel(this, ID_PANEL);
@@ -64,25 +70,21 @@ PreferenceDialog::PreferenceDialog(
 
 	SetSizerAndFit(top_sizer);
 
-	SetUpTabPanels(); // creates a panel for each element in the list
+	SetUpTabPanel();// setups the inital tab for wxpanel, the inital tab is 'General'
 }
 
 PreferenceDialog::~PreferenceDialog()
 {
 }
 
-void PreferenceDialog::SetUpTabPanels()
+void PreferenceDialog::SetUpTabPanel()
 {
-	// creates a panel for each element in the list
-
-	//создать наследника от панели и разнести в него конструкторы для каждой вкладки
-
-
+	// setups the inital tab for wxpanel, the inital tab is 'General'
 	// general panel layout
 	wxBoxSizer* top_sizer1 = new wxBoxSizer(wxVERTICAL);
-	wxCheckBox* check1 = new wxCheckBox(main_panel, ID_CHECK1, wxT("Show warning when a new node with existing index is added."));
+	wxCheckBox* check1 = new wxCheckBox(main_panel, ID_DUPL_WARNING_CHECK, wxT("Show warning when a new node with existing index is added."));
 	top_sizer1->Add(check1, 0, wxALL, 5);
-	wxCheckBox* check2 = new wxCheckBox(main_panel, ID_CHECK2, wxT("Show tip of the day at start."));
+	wxCheckBox* check2 = new wxCheckBox(main_panel, ID_TIP_CHEKC, wxT("Show tip of the day at start."));
 	top_sizer1->Add(check2, 0, wxALL, 5);
 	main_panel->SetSizerAndFit(top_sizer1);
 
@@ -93,36 +95,72 @@ void PreferenceDialog::SetPreferenceTab(wxUpdateUIEvent& evt)
 	// changes the controls on wxpanel according to selected item in the list
 	wxListBox* tabs = (wxListBox*)FindWindow(ID_PREFERENCE_TABS);
 
-	switch (tabs->GetSelection())
+	if (curr_tab_idx != tabs->GetSelection())
 	{
-	case 0: // general preferences
-	{
-		wxCheckBox* check1 = (wxCheckBox*)main_panel->FindItem(ID_CHECK1);
-		check1->Show();
-		Layout();
-	}
-	break;
-	case 1: // language preferences
-	{
-		wxCheckBox* check1 = (wxCheckBox*)main_panel->FindItem(ID_CHECK1);
-		check1->Hide();
-		Layout();
-	}
-	break;
+		// change the tab panel
+		curr_tab_idx = tabs->GetSelection();
+		main_panel->Freeze();
+		main_panel->GetSizer()->Clear(true);
+		wxBoxSizer* top_sizer = new wxBoxSizer(wxVERTICAL);
+		main_panel->SetSizer(top_sizer);
 
-	default:
-		wxMessageBox(wxT("Error in the file PreferenceDialog.cpp, method SetPreferenceTab."));
-		break;
+
+		if (curr_tab_idx == 0)
+		{
+			// general tab panel
+			
+			wxCheckBox* dupl_warning_check = new wxCheckBox(main_panel, ID_DUPL_WARNING_CHECK, wxT("Show warning when a new node with existing index is added."));
+			top_sizer->Add(dupl_warning_check, 0, wxALL, 5);
+			wxCheckBox* tooptip_check = new wxCheckBox(main_panel, ID_TIP_CHEKC, wxT("Show tip of the day at start."));
+			top_sizer->Add(tooptip_check, 0, wxALL, 5);
+		}
+		else if (curr_tab_idx == 1)
+		{
+			// appearance tab panel
+			
+			wxBoxSizer* colour_scheme_sizer = new wxBoxSizer(wxHORIZONTAL);
+
+			wxStaticText* color_scheme_label = new wxStaticText(main_panel, wxID_ANY, _("Colour scheme:"), wxDefaultPosition, wxSize(-1, -1), 0);
+
+			colour_scheme_sizer->Add(color_scheme_label, 0, wxALL, 5);
+
+			wxArrayString colour_shceme_choiceArr;
+			colour_shceme_choiceArr.Add(_("Coloured"));
+			colour_shceme_choiceArr.Add(_("Black/White"));
+			wxChoice* colour_shceme_choice = new wxChoice(main_panel, ID_COLOUR_SCHEME, wxDefaultPosition, wxSize(-1, -1), colour_shceme_choiceArr, 0);
+			colour_shceme_choice->SetSelection(0);
+
+			colour_scheme_sizer->Add(colour_shceme_choice, 0, wxALL, 2);
+			
+			
+			top_sizer->Add(colour_scheme_sizer, 0, wxALL, 5);
+		}
+		else
+		{
+			wxMessageBox(wxT("Error in the file PreferenceDialog.cpp, method SetPreferenceTab."));
+		}
+
+
+
+		main_panel->Layout();
+		main_panel->Thaw();
+		main_panel->Refresh();
 	}
+
+
+
+		
 
 }
 
 void PreferenceDialog::OnOK(wxCommandEvent& evt)
 {
+
 }
 
 void PreferenceDialog::OnCancel(wxCommandEvent& evt)
 {
+
 }
 
 bool PreferenceDialog::TransferDataFromWindow()
