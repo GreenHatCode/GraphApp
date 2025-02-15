@@ -16,8 +16,9 @@ enum {
 
 
 BEGIN_EVENT_TABLE(PreferenceDialog, wxDialog)
-	EVT_UPDATE_UI(wxID_APPLY, PreferenceDialog::SetPreferenceTab)
+	EVT_UPDATE_UI(wxID_APPLY, PreferenceDialog::UpdateApplyButton)
 	EVT_SEARCH(ID_SEARCH, PreferenceDialog::SearchTab)
+	EVT_LISTBOX(ID_PREFERENCE_TABS, PreferenceDialog::SetPreferenceTab)
 END_EVENT_TABLE()
 
 
@@ -92,7 +93,21 @@ void PreferenceDialog::SetUpTabPanel()
 
 }
 
-void PreferenceDialog::SetPreferenceTab(wxUpdateUIEvent& evt)
+void PreferenceDialog::UpdateApplyButton(wxUpdateUIEvent& evt)
+{
+	// update the state of the apply button 
+	// if the user changes the state of any control
+	if (IsControlsStateChanged())
+	{
+		evt.Enable(true);
+	}
+	else
+	{
+		evt.Enable(false);
+	}
+}
+
+void PreferenceDialog::SetPreferenceTab(wxCommandEvent& evt)
 {
 	// changes the controls on wxpanel according to selected item in the list
 	wxListBox* tabs = (wxListBox*)FindWindow(ID_PREFERENCE_TABS);
@@ -149,18 +164,6 @@ void PreferenceDialog::SetPreferenceTab(wxUpdateUIEvent& evt)
 		main_panel->Refresh();
 		TransferDataToWindow();
 	}
-
-	// update the state of the apply button 
-	// if the user changes the state of any control
-	if (IsControlsStateChanged())
-	{
-		evt.Enable(true);
-	}
-	else
-	{
-		evt.Enable(false);
-	}
-
 }
 
 void PreferenceDialog::OnOK(wxCommandEvent& evt)
@@ -203,7 +206,6 @@ bool PreferenceDialog::IsControlsStateChanged()
 	case 1: // appearance tab panel
 	{
 		wxChoice* colour_shceme_choice = (wxChoice*)FindWindow(ID_COLOUR_SCHEME);
-		colour_shceme_choice->SetSelection(colour_scheme);
 
 		if (colour_scheme != colour_shceme_choice->GetSelection())
 		{

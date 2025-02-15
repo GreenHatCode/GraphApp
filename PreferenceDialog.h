@@ -29,8 +29,8 @@ private:
 
 
     void SetUpTabPanel(); // setups the inital tab for wxpanel, the inital tab is 'General'
-    void SetPreferenceTab(wxUpdateUIEvent& evt); // changes the controls on wxpanel according to selected item in the list
-
+    void SetPreferenceTab(wxCommandEvent& evt); // changes the controls on wxpanel according to selected item in the list
+    void UpdateApplyButton(wxUpdateUIEvent& evt);
 
 
     void OnOK(wxCommandEvent& evt);
