@@ -3,6 +3,7 @@
 #include "wx/tipdlg.h"
 #include "wx/file.h"
 #include "DrawingPanel.h"
+#include "PreferenceDialog.h"
 
 // toolbar images
 #include "res/cursor24.xpm"

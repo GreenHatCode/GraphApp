@@ -23,6 +23,8 @@
     <ClInclude Include="DrawingPanel.h" />
     <ClInclude Include="Graph.h" />
     <ClInclude Include="mainFrame.h" />
+    <ClInclude Include="mini\ini.h" />
+    <ClInclude Include="PreferenceDialog.h" />
     <ClInclude Include="resource.h" />
   </ItemGroup>
   <ItemGroup>
@@ -30,6 +32,7 @@
     <ClCompile Include="DrawingPanel.cpp" />
     <ClCompile Include="Graph.cpp" />
     <ClCompile Include="mainFrame.cpp" />
+    <ClCompile Include="PreferenceDialog.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="GraphApp.rc" />
