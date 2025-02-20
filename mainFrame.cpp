@@ -98,12 +98,17 @@ void mainFrame::OnClear(wxCommandEvent& evt)
 
 void mainFrame::OnPreferences(wxCommandEvent& evt)
 {
-	PreferenceDialog* dlg = new PreferenceDialog(this, wxID_ANY, wxT("Preferences"));
-
+	PreferenceDialog* dlg = new PreferenceDialog(this, wxID_ANY, wxT("Preferences"), m_app_preferences);
 	if (dlg->ShowModal() == wxID_OK)
 	{
-		// apply preferences and write them to file
+		m_app_preferences = dlg->GetPreferencesData();
 	}
+	else
+	{
+		// the user could use apply button to save setting, so we need to load file again
+		m_app_preferences.LoadDataFromFile();
+	}
+	dlg->Destroy();
 
 }
 
@@ -146,53 +151,12 @@ bool mainFrame::ShowToolTip()
 
 void mainFrame::ShowStartupTip()
 {
-	// todo: change to xml
-
-	if (!wxFile::Exists("files/global.ini"))
-	{
-		wxMessageBox(wxT("Something wrong with files/global.ini, try to reinstall the application"), wxT("Warning"), wxICON_ERROR);
-		return;
-	}
-
-	wxFile settingsFile("files/global.ini");
-	if (!settingsFile.IsOpened())
-	{
-		wxMessageBox(wxT("Unable to open files/global.ini, try to reinstall the application"), wxT("Warning"), wxICON_ERROR);
-		return;
-	}
-
-	// read the whole file data
-	wxString data;
-	if (!settingsFile.ReadAll(&data))
-	{
-		wxMessageBox(wxT("Unable to read data from files/global.ini, try to reinstall the application"), wxT("Warning"), wxICON_ERROR);
-		return;
-	}
-
-	if (data[0] == '0')m_showTipAtStartup = false;
-
-	if (m_showTipAtStartup)
+	if (m_app_preferences.GetShowTooltip())
 	{
 		if (!ShowToolTip()) // user refused to seeing startup tool tip
 		{
-			// rewrite global.ini
-			m_showTipAtStartup = false;
-			data[0] = '0';
-
-			if (!wxFile::Exists("files/global.ini"))
-			{
-				wxMessageBox(wxT("Something wrong with files/global.ini, try to reinstall the application"), wxT("Warning"), wxICON_ERROR);
-				return;
-			}
-
-			wxFile otf("files/global.ini", wxFile::write);
-			if (!otf.IsOpened())
-			{
-				wxMessageBox(wxT("Unable to open files/global.ini, try to reinstall the application"), wxT("Warning"), wxICON_ERROR);
-				return;
-			}
-
-			otf.Write(data);
+			m_app_preferences.SetShowTooltip(false);
+			m_app_preferences.SaveDataToFile();
 		}
 	}
 

@@ -4,6 +4,9 @@
 #include "wx/file.h"
 #include "DrawingPanel.h"
 #include "PreferenceDialog.h"
+#include "PreferenceDialog.h"
+#include "AppPreferences.h"
+
 
 // toolbar images
 #include "res/cursor24.xpm"
@@ -25,7 +28,7 @@ private:
     // settings variables
     bool m_showTipAtStartup = true;
     DrawingPanel* drawingPanel;
-
+    AppPreferences m_app_preferences{ "files/global.ini" };
 
     // menu bar functions
     void OnNew(wxCommandEvent& evt);
