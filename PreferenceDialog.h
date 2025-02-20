@@ -2,6 +2,7 @@
 #include "wx/wx.h"
 #include "wx/gbsizer.h"
 #include "wx/srchctrl.h"
+#include "mini/ini.h"
 
 class PreferenceDialog :
     public wxDialog
@@ -24,7 +25,7 @@ private:
     // controls data
     bool dupl_warning = true;
     bool show_tip = true;
-    int colour_scheme = 0;
+    int colour_scheme_type = 0;
 
 
 

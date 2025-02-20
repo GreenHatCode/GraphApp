@@ -23,6 +23,7 @@
     <ClInclude Include="DrawingPanel.h" />
     <ClInclude Include="Graph.h" />
     <ClInclude Include="mainFrame.h" />
+    <ClInclude Include="mini\ini.h" />
     <ClInclude Include="PreferenceDialog.h" />
     <ClInclude Include="resource.h" />
   </ItemGroup>

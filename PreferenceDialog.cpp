@@ -73,6 +73,13 @@ PreferenceDialog::PreferenceDialog(
 
 	SetSizerAndFit(top_sizer);
 
+	if (!LoadDataFromFile())
+	{
+		wxMessageBox("Can't open file global.ini");
+		// add throw exeption
+	}
+
+
 	SetUpTabPanel();// setups the inital tab for wxpanel, the inital tab is 'General'
 	TransferDataToWindow(); // transfers data to controls
 }
@@ -214,7 +221,7 @@ bool PreferenceDialog::IsControlsStateChanged()
 	{
 		wxChoice* colour_shceme_choice = (wxChoice*)FindWindow(ID_COLOUR_SCHEME);
 
-		if (colour_scheme != colour_shceme_choice->GetSelection())
+		if (colour_scheme_type != colour_shceme_choice->GetSelection())
 		{
 			return true;
 		}
@@ -247,7 +254,7 @@ bool PreferenceDialog::TransferDataFromWindow()
 	case 1: // appearance tab panel
 	{
 		wxChoice* colour_shceme_choice = (wxChoice*)FindWindow(ID_COLOUR_SCHEME);
-		colour_scheme = colour_shceme_choice->GetSelection();
+		colour_scheme_type = colour_shceme_choice->GetSelection();
 	}
 	break;
 	default:
@@ -277,7 +284,7 @@ bool PreferenceDialog::TransferDataToWindow()
 	case 1: // appearance tab panel
 	{
 		wxChoice* colour_shceme_choice = (wxChoice*)FindWindow(ID_COLOUR_SCHEME);
-		colour_shceme_choice->SetSelection(colour_scheme);
+		colour_shceme_choice->SetSelection(colour_scheme_type);
 	}
 	break;
 	default:
@@ -293,10 +300,45 @@ bool PreferenceDialog::TransferDataToWindow()
 
 bool PreferenceDialog::SaveDataToFile()
 {
-	return false;
+	mINI::INIFile otf("files/global.ini");
+	mINI::INIStructure ini;
+	if (!otf.read(ini))
+	{
+		return false;
+	}
+
+	std::string dupl_warning_str = std::to_string(dupl_warning);
+	std::string show_tip_str = std::to_string(show_tip);
+	std::string colour_scheme_type_str = std::to_string(colour_scheme_type);
+
+	ini["general"].set({
+		{ "dupl_warning", dupl_warning_str },
+		{ "show_tip", show_tip_str }
+	});
+
+	ini["appearance"]["colour_scheme_type"] = colour_scheme_type_str;
+
+	return otf.write(ini);
 }
 
 bool PreferenceDialog::LoadDataFromFile()
 {
-	return false;
+	mINI::INIFile otf("files/global.ini");
+	mINI::INIStructure ini;
+	if (!otf.read(ini))
+	{
+		return false;
+	}
+
+	std::string dupl_warning_str = ini.get("general").get("dupl_warning");
+	std::string show_tip_str = ini.get("general").get("show_tip");
+	std::string colour_scheme_type_str = ini.get("appearance").get("colour_scheme_type");
+
+	std::istringstream(dupl_warning_str) >> dupl_warning;
+	std::istringstream(show_tip_str) >> show_tip;
+	colour_scheme_type = std::stoi(colour_scheme_type_str);
+
+
+	return true;
+
 }
