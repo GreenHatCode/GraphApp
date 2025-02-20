@@ -71,6 +71,7 @@ bool AppPreferences::SaveDataToFile()
 	if (!otf.write(ini))
 	{
 		wxLogError("Unable to write data to %s. File: AppPreference.cpp.", m_preference_file);
+		return false;
 	}
 	else return true;
 }

@@ -29,9 +29,19 @@ public:
 	void SetColourScheme(ColourSchemes value);
 	ColourSchemes GetColourScheme();
 
-
 	bool SaveDataToFile();
 	bool LoadDataFromFile();
+
+	bool operator != (AppPreferences& obj)
+	{
+		if (m_dupl_warning != obj.m_dupl_warning || m_show_tip != obj.m_show_tip || m_colour_scheme_type != obj.m_colour_scheme_type)
+		{
+			return true;
+		}
+		return false;
+	}
+
+
 
 private:
 	std::string m_preference_file; // path to file with app's preferences
