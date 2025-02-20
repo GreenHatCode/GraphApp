@@ -173,29 +173,34 @@ void PreferenceDialog::SetPreferenceTab(wxCommandEvent& evt)
 
 void PreferenceDialog::OnOK(wxCommandEvent& evt)
 {
-	//if (Validate() && TransferDataFromWindow())
-	//{
-	//	if (!SaveDataToFile())wxMessageBox("Can't save data to file global.ini");
-	//	else
-	//	{
-	//		if (IsModal())
-	//		{
-	//			EndModal(wxID_OK); // if modal
-	//		}
-	//		else
-	//		{
-	//			SetReturnCode(wxID_OK);
-	//			this->Show(false); // if modeless
-	//		}
-	//	}
-	//}
-	//else wxMessageBox(wxT("You didn't pass the validation or the data wasn't transfered from window."));
+	if (Validate() && TransferDataFromWindow())
+	{
+		if (!m_preferences_copy.SaveDataToFile())wxLogError("Can't save data to file global.ini");
+		else
+		{
+			m_preferences_data = m_preferences_copy;
+
+			if (IsModal())
+			{
+				EndModal(wxID_OK); // if modal
+			}
+			else
+			{
+				SetReturnCode(wxID_OK);
+				this->Show(false); // if modeless
+			}
+		}
+	}
+	else wxMessageBox(wxT("You didn't pass the validation or the data wasn't transfered from window."));
 }
 
 void PreferenceDialog::OnApply(wxCommandEvent& evt)
 {
 	if (!m_preferences_copy.SaveDataToFile())wxLogError("Can't save data to file global.ini");
-	else m_preferences_data = m_preferences_copy;
+	else
+	{
+		m_preferences_data = m_preferences_copy;
+	}
 }
 
 void PreferenceDialog::SearchTab(wxCommandEvent& evt)
