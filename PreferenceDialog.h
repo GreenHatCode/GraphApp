@@ -4,6 +4,18 @@
 #include "wx/srchctrl.h"
 #include "AppPreferences.h"
 
+// This dialog is used to edit the application settings. 
+//
+// How to add a new parameter:
+// 1) execute the instruction in the AppPreferences.h file.
+// 
+// 2) add a new control to an existing tab or create a new tab. 
+// If you create a new tab, add it to the navigation menu, it is created in the constructor (pref_tabs)
+// To handle a new tab, add code to SetPreferenceTab() - constructs and displays tabs.
+// 
+// 3) Add handling for this control (get and set data). 
+// Add code to IsPreferencesChanged() and TransferDataToWindow()
+// 
 
 class PreferenceDialog :
     public wxDialog
