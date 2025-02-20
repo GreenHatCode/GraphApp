@@ -2,6 +2,14 @@
 #include "wx/wx.h"
 #include "mini/ini.h"
 
+// In case the app can't open setting file, it will use 
+// the default settings
+//
+//	To add new settings:
+// 1) add a new variable and necessary set/get methods
+// 2) add it's key and value to setting file
+// 3) add necessary controls and their handlers in preference window class
+//
 
 // represents colours scheme types
 enum ColourSchemes 
@@ -46,13 +54,10 @@ public:
 private:
 	std::string m_preference_file; // path to file with app's preferences
 
-
-
-
 	// show warning message if the user tries to add a new node with existing index
-	bool m_dupl_warning = true;
+	bool m_dupl_warning;
 	// show tooltip at startup of the app
-	bool m_show_tip = true;
+	bool m_show_tip;
 	// sets the colour scheme of the drawint area
 	ColourSchemes m_colour_scheme_type = ColourSchemes::COLOURED;
 

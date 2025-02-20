@@ -62,11 +62,11 @@ bool AppPreferences::SaveDataToFile()
 	std::string m_colour_scheme_type_str = std::to_string(m_colour_scheme_type);
 
 	ini["general"].set({
-		{ "m_dupl_warning", m_dupl_warning_str },
-		{ "m_show_tip", m_show_tip_str }
+		{ "dupl_warning", m_dupl_warning_str },
+		{ "show_tip", m_show_tip_str }
 		});
 
-	ini["appearance"]["m_colour_scheme_type"] = m_colour_scheme_type_str;
+	ini["appearance"]["colour_scheme_type"] = m_colour_scheme_type_str;
 
 	if (!otf.write(ini))
 	{
@@ -86,9 +86,9 @@ bool AppPreferences::LoadDataFromFile()
 		return false;
 	}
 
-	std::string m_dupl_warning_str = ini.get("general").get("m_dupl_warning");
-	std::string m_show_tip_str = ini.get("general").get("m_show_tip");
-	std::string m_colour_scheme_type_str = ini.get("appearance").get("m_colour_scheme_type");
+	std::string m_dupl_warning_str = ini.get("general").get("dupl_warning");
+	std::string m_show_tip_str = ini.get("general").get("show_tip");
+	std::string m_colour_scheme_type_str = ini.get("appearance").get("colour_scheme_type");
 
 	std::istringstream(m_dupl_warning_str) >> m_dupl_warning;
 	std::istringstream(m_show_tip_str) >> m_show_tip;
@@ -109,5 +109,4 @@ bool AppPreferences::LoadDataFromFile()
 	}
 	
 	return true;
-
 }
