@@ -19,6 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="AppPreferences.h" />
     <ClInclude Include="cApp.h" />
     <ClInclude Include="DrawingPanel.h" />
     <ClInclude Include="Graph.h" />
@@ -28,6 +29,7 @@
     <ClInclude Include="resource.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="AppPreferences.cpp" />
     <ClCompile Include="cApp.cpp" />
     <ClCompile Include="DrawingPanel.cpp" />
     <ClCompile Include="Graph.cpp" />

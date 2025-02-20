@@ -98,12 +98,17 @@ void mainFrame::OnClear(wxCommandEvent& evt)
 
 void mainFrame::OnPreferences(wxCommandEvent& evt)
 {
-	PreferenceDialog* dlg = new PreferenceDialog(this, wxID_ANY, wxT("Preferences"));
-
+	PreferenceDialog* dlg = new PreferenceDialog(this, wxID_ANY, wxT("Preferences"), m_app_preferences);
 	if (dlg->ShowModal() == wxID_OK)
 	{
-		// apply preferences and write them to file
+		m_app_preferences = dlg->GetPreferencesData();
 	}
+	else
+	{
+		// the user could use apply button to save setting, so we need to load file again
+		m_app_preferences.LoadDataFromFile();
+	}
+	dlg->Destroy();
 
 }
 
