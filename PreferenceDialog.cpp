@@ -20,6 +20,7 @@ BEGIN_EVENT_TABLE(PreferenceDialog, wxDialog)
 	EVT_SEARCH(ID_SEARCH, PreferenceDialog::SearchTab)
 	EVT_LISTBOX(ID_PREFERENCE_TABS, PreferenceDialog::SetPreferenceTab)
 	EVT_BUTTON(wxID_APPLY, PreferenceDialog::OnApply)
+	EVT_BUTTON(wxID_OK, PreferenceDialog::OnOK)
 END_EVENT_TABLE()
 
 
@@ -176,18 +177,29 @@ void PreferenceDialog::SetPreferenceTab(wxCommandEvent& evt)
 
 void PreferenceDialog::OnOK(wxCommandEvent& evt)
 {
-
-}
-
-void PreferenceDialog::OnCancel(wxCommandEvent& evt)
-{
-
+	if (Validate() && TransferDataFromWindow())
+	{
+		if (!SaveDataToFile())wxMessageBox("Can't save data to file global.ini");
+		else
+		{
+			if (IsModal())
+			{
+				EndModal(wxID_OK); // if modal
+			}
+			else
+			{
+				SetReturnCode(wxID_OK);
+				this->Show(false); // if modeless
+			}
+		}
+	}
+	else wxMessageBox(wxT("You didn't pass the validation or the data wasn't transfered from window."));
 }
 
 void PreferenceDialog::OnApply(wxCommandEvent& evt)
 {
 	TransferDataFromWindow();
-	SaveDataToFile();
+	if (!SaveDataToFile())wxMessageBox("Can't save data to file global.ini");
 }
 
 void PreferenceDialog::SearchTab(wxCommandEvent& evt)

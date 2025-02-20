@@ -35,7 +35,6 @@ private:
 
 
     void OnOK(wxCommandEvent& evt);
-    void OnCancel(wxCommandEvent& evt);
     void OnApply(wxCommandEvent& evt); // saves settings without exiting the dialog
     void SearchTab(wxCommandEvent& evt); // searches the tab in listbox
 
