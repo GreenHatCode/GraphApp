@@ -9,12 +9,6 @@ enum {
 	ID_COLOUR_SCHEME
 };
 
-
-
-
-
-
-
 BEGIN_EVENT_TABLE(PreferenceDialog, wxDialog)
 	EVT_UPDATE_UI(wxID_APPLY, PreferenceDialog::UpdateApplyButton)
 	EVT_SEARCH(ID_SEARCH, PreferenceDialog::SearchTab)
@@ -23,18 +17,18 @@ BEGIN_EVENT_TABLE(PreferenceDialog, wxDialog)
 	EVT_BUTTON(wxID_OK, PreferenceDialog::OnOK)
 END_EVENT_TABLE()
 
-
-
 PreferenceDialog::PreferenceDialog(
 	wxWindow* parent, 
 	wxWindowID id, 
 	const wxString& title, 
+	const AppPreferences& preferences_data,
 	const wxPoint& pos, 
 	const wxSize& size, 
 	long style, 
 	const wxString& name
 )
-	:wxDialog(parent, id, title, pos, size, style, name)
+	:m_preferences_data{preferences_data}, m_preferences_copy{preferences_data},
+	wxDialog(parent, id, title, pos, size, style, name)
 {
 	// layout
 	wxBoxSizer* top_sizer = new wxBoxSizer(wxVERTICAL);
@@ -51,15 +45,15 @@ PreferenceDialog::PreferenceDialog(
 	choices.Add(wxT("Language"));
 	wxListBox* pref_tabs = new wxListBox(this, ID_PREFERENCE_TABS, wxDefaultPosition, wxDefaultSize, choices);
 	pref_tabs->SetSelection(0);
-	curr_tab_idx = pref_tabs->GetSelection();
+	m_curr_tab_idx = pref_tabs->GetSelection();
 	pref_tabs_sizer->Add(pref_tabs, 0, wxALL | wxEXPAND, 5);
 
-	main_panel = new wxPanel(this, ID_PANEL);
-	main_panel->SetBackgroundColour(*wxGREEN); // remove at finish
-	main_panel->SetMinSize(wxSize(300, 250));
+	m_main_panel = new wxPanel(this, ID_PANEL);
+	m_main_panel->SetBackgroundColour(*wxGREEN); // remove at finish
+	m_main_panel->SetMinSize(wxSize(300, 250));
 	
 	box_sizer->Add(pref_tabs_sizer);
-	box_sizer->Add(main_panel, 1, wxALL | wxEXPAND, 5);
+	box_sizer->Add(m_main_panel, 1, wxALL | wxEXPAND, 5);
 
 	wxButton* ok_button = new wxButton(this, wxID_OK);
 	wxButton* cancel_button = new wxButton(this, wxID_CANCEL);
@@ -74,13 +68,6 @@ PreferenceDialog::PreferenceDialog(
 
 	SetSizerAndFit(top_sizer);
 
-	if (!LoadDataFromFile())
-	{
-		wxMessageBox("Can't open file global.ini");
-		// add throw exeption
-	}
-
-
 	SetUpTabPanel();// setups the inital tab for wxpanel, the inital tab is 'General'
 	TransferDataToWindow(); // transfers data to controls
 }
@@ -89,16 +76,26 @@ PreferenceDialog::~PreferenceDialog()
 {
 }
 
+void PreferenceDialog::SetPreferencesData(AppPreferences& value)
+{
+	m_preferences_data = value;
+}
+
+AppPreferences PreferenceDialog::GetPreferencesData()
+{
+	return m_preferences_data;
+}
+
 void PreferenceDialog::SetUpTabPanel()
 {
 	// setups the inital tab for wxpanel, the inital tab is 'General'
 	// general panel layout
-	wxBoxSizer* top_sizer1 = new wxBoxSizer(wxVERTICAL);
-	wxCheckBox* dupl_warning_check = new wxCheckBox(main_panel, ID_DUPL_WARNING_CHECK, wxT("Show warning when a new node with existing index is added."));
-	top_sizer1->Add(dupl_warning_check, 0, wxALL, 5);
-	wxCheckBox* tip_check = new wxCheckBox(main_panel, ID_TIP_CHECK, wxT("Show tip of the day at start."));
-	top_sizer1->Add(tip_check, 0, wxALL, 5);
-	main_panel->SetSizerAndFit(top_sizer1);
+	wxBoxSizer* top_sizer = new wxBoxSizer(wxVERTICAL);
+	wxCheckBox* dupl_warning_check = new wxCheckBox(m_main_panel, ID_DUPL_WARNING_CHECK, wxT("Show warning when a new node with existing index is added."));
+	top_sizer->Add(dupl_warning_check, 0, wxALL, 5);
+	wxCheckBox* tip_check = new wxCheckBox(m_main_panel, ID_TIP_CHECK, wxT("Show tip of the day at start."));
+	top_sizer->Add(tip_check, 0, wxALL, 5);
+	m_main_panel->SetSizerAndFit(top_sizer);
 
 }
 
@@ -106,7 +103,7 @@ void PreferenceDialog::UpdateApplyButton(wxUpdateUIEvent& evt)
 {
 	// update the state of the apply button 
 	// if the user changes the state of any control
-	if (IsControlsStateChanged())
+	if (IsPreferencesChanged())
 	{
 		evt.Enable(true);
 	}
@@ -121,85 +118,84 @@ void PreferenceDialog::SetPreferenceTab(wxCommandEvent& evt)
 	// changes the controls on wxpanel according to selected item in the list
 	wxListBox* tabs = (wxListBox*)FindWindow(ID_PREFERENCE_TABS);
 
-	if (curr_tab_idx != tabs->GetSelection())
+	if (m_curr_tab_idx != tabs->GetSelection())
 	{
 		// change the tab panel
-		curr_tab_idx = tabs->GetSelection();
-		main_panel->Freeze();
-		main_panel->GetSizer()->Clear(true);
+		m_curr_tab_idx = tabs->GetSelection();
+		m_main_panel->Freeze();
+		m_main_panel->GetSizer()->Clear(true);
 		wxBoxSizer* top_sizer = new wxBoxSizer(wxVERTICAL);
-		main_panel->SetSizer(top_sizer);
+		m_main_panel->SetSizer(top_sizer);
 
-
-		if (curr_tab_idx == 0)
+		switch (m_curr_tab_idx)
+		{
+		case 0:
 		{
 			// general tab panel
-			
-			wxCheckBox* dupl_warning_check = new wxCheckBox(main_panel, ID_DUPL_WARNING_CHECK, wxT("Show warning when a new node with existing index is added."));
+
+			wxCheckBox* dupl_warning_check = new wxCheckBox(m_main_panel, ID_DUPL_WARNING_CHECK, wxT("Show warning when a new node with existing index is added."));
 			top_sizer->Add(dupl_warning_check, 0, wxALL, 5);
-			wxCheckBox* tip_check = new wxCheckBox(main_panel, ID_TIP_CHECK, wxT("Show tip of the day at start."));
+			wxCheckBox* tip_check = new wxCheckBox(m_main_panel, ID_TIP_CHECK, wxT("Show tip of the day at start."));
 			top_sizer->Add(tip_check, 0, wxALL, 5);
 		}
-		else if (curr_tab_idx == 1)
+			break;
+		case 1:
 		{
 			// appearance tab panel
-			
+
 			wxBoxSizer* colour_scheme_sizer = new wxBoxSizer(wxHORIZONTAL);
-
-			wxStaticText* color_scheme_label = new wxStaticText(main_panel, wxID_ANY, _("Colour scheme:"), wxDefaultPosition, wxSize(-1, -1), 0);
-
+			wxStaticText* color_scheme_label = new wxStaticText(m_main_panel, wxID_ANY, _("Colour scheme:"), wxDefaultPosition, wxSize(-1, -1), 0);
 			colour_scheme_sizer->Add(color_scheme_label, 0, wxALL, 5);
 
 			wxArrayString colour_shceme_choiceArr;
 			colour_shceme_choiceArr.Add(_("Coloured"));
 			colour_shceme_choiceArr.Add(_("Black/White"));
-			wxChoice* colour_shceme_choice = new wxChoice(main_panel, ID_COLOUR_SCHEME, wxDefaultPosition, wxSize(-1, -1), colour_shceme_choiceArr, 0);
+			wxChoice* colour_shceme_choice = new wxChoice(m_main_panel, ID_COLOUR_SCHEME, wxDefaultPosition, wxSize(-1, -1), colour_shceme_choiceArr, 0);
 			colour_shceme_choice->SetSelection(0);
-
 			colour_scheme_sizer->Add(colour_shceme_choice, 0, wxALL, 2);
-			
-			
+
 			top_sizer->Add(colour_scheme_sizer, 0, wxALL, 5);
 		}
-		else
-		{
-			wxMessageBox(wxT("Error in the file PreferenceDialog.cpp, method SetPreferenceTab."));
+			break;
+
+		default:
+			wxLogError(wxT("Error in the file PreferenceDialog.cpp, method SetPreferenceTab."));
+			break;
 		}
 
 
-
-		main_panel->Layout();
-		main_panel->Thaw();
-		main_panel->Refresh();
+		m_main_panel->Layout();
+		m_main_panel->Thaw();
+		m_main_panel->Refresh();
 		TransferDataToWindow();
 	}
 }
 
 void PreferenceDialog::OnOK(wxCommandEvent& evt)
 {
-	if (Validate() && TransferDataFromWindow())
-	{
-		if (!SaveDataToFile())wxMessageBox("Can't save data to file global.ini");
-		else
-		{
-			if (IsModal())
-			{
-				EndModal(wxID_OK); // if modal
-			}
-			else
-			{
-				SetReturnCode(wxID_OK);
-				this->Show(false); // if modeless
-			}
-		}
-	}
-	else wxMessageBox(wxT("You didn't pass the validation or the data wasn't transfered from window."));
+	//if (Validate() && TransferDataFromWindow())
+	//{
+	//	if (!SaveDataToFile())wxMessageBox("Can't save data to file global.ini");
+	//	else
+	//	{
+	//		if (IsModal())
+	//		{
+	//			EndModal(wxID_OK); // if modal
+	//		}
+	//		else
+	//		{
+	//			SetReturnCode(wxID_OK);
+	//			this->Show(false); // if modeless
+	//		}
+	//	}
+	//}
+	//else wxMessageBox(wxT("You didn't pass the validation or the data wasn't transfered from window."));
 }
 
 void PreferenceDialog::OnApply(wxCommandEvent& evt)
 {
-	TransferDataFromWindow();
-	if (!SaveDataToFile())wxMessageBox("Can't save data to file global.ini");
+	if (!m_preferences_copy.SaveDataToFile())wxLogError("Can't save data to file global.ini");
+	else m_preferences_data = m_preferences_copy;
 }
 
 void PreferenceDialog::SearchTab(wxCommandEvent& evt)
@@ -213,144 +209,68 @@ void PreferenceDialog::SearchTab(wxCommandEvent& evt)
 
 }
 
-bool PreferenceDialog::IsControlsStateChanged()
+bool PreferenceDialog::IsPreferencesChanged()
 {
-	switch (curr_tab_idx)
+	switch (m_curr_tab_idx)
 	{
 	case 0: // general tab panel
 	{
 		wxCheckBox* dupl_warning_check = (wxCheckBox*)FindWindow(ID_DUPL_WARNING_CHECK);
 		wxCheckBox* tip_check = (wxCheckBox*)FindWindow(ID_TIP_CHECK);
 
-		if (dupl_warning != dupl_warning_check->GetValue() || show_tip != tip_check->GetValue())
-		{
-			return true;
-		}
-		return false;
+		m_preferences_copy.SetDuplicationWarning(dupl_warning_check->GetValue());
+		m_preferences_copy.SetShowTooltip(tip_check->GetValue());
+
 	}
 	break;
 	case 1: // appearance tab panel
 	{
 		wxChoice* colour_shceme_choice = (wxChoice*)FindWindow(ID_COLOUR_SCHEME);
 
-		if (colour_scheme_type != colour_shceme_choice->GetSelection())
-		{
-			return true;
-		}
-		return false;
+		m_preferences_copy.SetColourScheme((ColourSchemes)colour_shceme_choice->GetSelection());
+
 	}
 	break;
 	default:
 	{
-		wxString ms = wxString::Format("There is no IsControlsStateChanged implementation for tab index = %i", curr_tab_idx);
-		wxMessageBox(ms);
+		wxLogError("There is no IsPreferencesChanged implementation for tab index = %i", m_curr_tab_idx);
 		return false;
 	}
 	break;
 	}
-}
 
-bool PreferenceDialog::TransferDataFromWindow()
-{
-	switch (curr_tab_idx)
+	if (m_preferences_data != m_preferences_copy)
 	{
-	case 0: // general tab panel
-	{
-		wxCheckBox* dupl_warning_check = (wxCheckBox*)FindWindow(ID_DUPL_WARNING_CHECK);
-		wxCheckBox* tip_check = (wxCheckBox*)FindWindow(ID_TIP_CHECK);
-
-		dupl_warning = dupl_warning_check->GetValue();
-		show_tip = tip_check->GetValue();
+		return true;
 	}
-	break;
-	case 1: // appearance tab panel
-	{
-		wxChoice* colour_shceme_choice = (wxChoice*)FindWindow(ID_COLOUR_SCHEME);
-		colour_scheme_type = colour_shceme_choice->GetSelection();
-	}
-	break;
-	default:
-	{
-		wxString ms = wxString::Format("There is no TransferDataFromWindow implementation for tab index = %i", curr_tab_idx);
-		wxMessageBox(ms);
-	}
-	break;
-	}
-
-	return true;
+	return false;
 }
 
 bool PreferenceDialog::TransferDataToWindow()
 {
-	switch (curr_tab_idx)
+	switch (m_curr_tab_idx)
 	{
 	case 0: // general tab panel
 	{
 		wxCheckBox* dupl_warning_check = (wxCheckBox*)FindWindow(ID_DUPL_WARNING_CHECK);
 		wxCheckBox* tip_check = (wxCheckBox*)FindWindow(ID_TIP_CHECK);
 
-		dupl_warning_check->SetValue(dupl_warning);
-		tip_check->SetValue(show_tip);
+		dupl_warning_check->SetValue(m_preferences_copy.GetDuplicationWarning());
+		tip_check->SetValue(m_preferences_copy.GetShowTooltip());
 	}
-	break;
+		break;
 	case 1: // appearance tab panel
 	{
 		wxChoice* colour_shceme_choice = (wxChoice*)FindWindow(ID_COLOUR_SCHEME);
-		colour_shceme_choice->SetSelection(colour_scheme_type);
+		colour_shceme_choice->SetSelection(m_preferences_copy.GetColourScheme());
 	}
-	break;
+		break;
 	default:
 	{
-		wxString ms = wxString::Format("There is no TransferDataToWindow implementation for tab index = %i", curr_tab_idx);
-		wxMessageBox(ms);
+		wxLogError("There is no TransferDataToWindow implementation for tab index = %i", m_curr_tab_idx);
 	}
-	break;
+		break;
 	}
 
 	return true;
-}
-
-bool PreferenceDialog::SaveDataToFile()
-{
-	mINI::INIFile otf("files/global.ini");
-	mINI::INIStructure ini;
-	if (!otf.read(ini))
-	{
-		return false;
-	}
-
-	std::string dupl_warning_str = std::to_string(dupl_warning);
-	std::string show_tip_str = std::to_string(show_tip);
-	std::string colour_scheme_type_str = std::to_string(colour_scheme_type);
-
-	ini["general"].set({
-		{ "dupl_warning", dupl_warning_str },
-		{ "show_tip", show_tip_str }
-	});
-
-	ini["appearance"]["colour_scheme_type"] = colour_scheme_type_str;
-
-	return otf.write(ini);
-}
-
-bool PreferenceDialog::LoadDataFromFile()
-{
-	mINI::INIFile otf("files/global.ini");
-	mINI::INIStructure ini;
-	if (!otf.read(ini))
-	{
-		return false;
-	}
-
-	std::string dupl_warning_str = ini.get("general").get("dupl_warning");
-	std::string show_tip_str = ini.get("general").get("show_tip");
-	std::string colour_scheme_type_str = ini.get("appearance").get("colour_scheme_type");
-
-	std::istringstream(dupl_warning_str) >> dupl_warning;
-	std::istringstream(show_tip_str) >> show_tip;
-	colour_scheme_type = std::stoi(colour_scheme_type_str);
-
-
-	return true;
-
 }
