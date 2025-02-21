@@ -178,7 +178,7 @@ void DrawingPanel::ShowNodeDuplicationWarning(bool show)
 	m_dupl_warning = show;
 }
 
-void DrawingPanel::PrintDrawing(wxDC& dc)
+void DrawingPanel::Print(wxDC& dc)
 {
 	wxPen pen;
 	if (m_colour_scheme == ColourSchemes::COLOURED)
