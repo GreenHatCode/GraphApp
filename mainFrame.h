@@ -44,6 +44,7 @@ private:
     void SetEditingRegime(wxCommandEvent& evt);
 
     bool ShowToolTip();
+    void SetPreferences();
 
     DECLARE_EVENT_TABLE();
 };

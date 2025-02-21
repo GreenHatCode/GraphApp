@@ -63,7 +63,6 @@ mainFrame::mainFrame(const wxString& title)
 
 	// creating controls
 	drawingPanel = new DrawingPanel(this, wxID_ANY);
-	drawingPanel->SetColourScheme(DrawingPanel::COLOURED);
 
 	// setting sizer
 	wxBoxSizer* top_sizer = new wxBoxSizer(wxVERTICAL);
@@ -80,6 +79,8 @@ mainFrame::mainFrame(const wxString& title)
 	SetToolBar(toolBar);
 	SetMenuBar(menuBar);
 	SetIcon(wxIcon(wxT("res/Pictogrammers-Material-Graph-outline.ico"), wxBITMAP_TYPE_ICO));
+
+	SetPreferences();
 }
 
 void mainFrame::OnPrint(wxCommandEvent& evt)
@@ -147,6 +148,16 @@ bool mainFrame::ShowToolTip()
 	bool showAtStartup = wxShowTip(this, tipProvider, true);
 	delete tipProvider;
 	return showAtStartup;
+}
+
+void mainFrame::SetPreferences()
+{
+	// setting preferences for drawing area
+	drawingPanel->SetColourScheme(m_app_preferences.GetColourScheme());
+
+
+
+
 }
 
 void mainFrame::ShowStartupTip()
