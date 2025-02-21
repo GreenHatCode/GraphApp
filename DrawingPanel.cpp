@@ -136,8 +136,8 @@ void DrawingPanel::OnMove(wxMouseEvent& evt)
 	}
 	else if ((m_graph.IsOnEdge(evt.GetPosition()) || m_graph.IsInsideNode(evt.GetPosition())) && m_drawing_regime == DrawingPanel::DELETE_NODE_OR_EDGE)
 	{
-		// changing cursor in delete mode
-		SetCursor(wxCURSOR_HAND);
+	// changing cursor in delete mode
+	SetCursor(wxCURSOR_HAND);
 	}
 	else SetCursor(wxCURSOR_DEFAULT);
 }
@@ -199,7 +199,7 @@ void DrawingPanel::Print(wxDC& dc, int pageNum, wxSize dc_size)
 	// Here we are looking for the coords of a rectangle that can contain the graph.
 	// Or we can say that we are looking for coords 
 	// to draw a border around the graph with a given margin.
-	
+
 	int margin = 5; // 5px
 	int node_radius = 30;
 	int x_min = m_graph.GetNode(0)->coords.x;
@@ -219,6 +219,7 @@ void DrawingPanel::Print(wxDC& dc, int pageNum, wxSize dc_size)
 	wxPoint diff(0 - x_min + node_radius + margin, 0 - y_min + node_radius + margin);
 
 	// drawing edges
+	std::vector<Node> out_of_range_nodes;
 	for (size_t k = 0; k < m_graph.GetEdgeAmount(); k++)
 	{
 		Node from = *(*m_graph.GetEdge(k)).from;
@@ -227,15 +228,13 @@ void DrawingPanel::Print(wxDC& dc, int pageNum, wxSize dc_size)
 		to.coords += diff; // nove the node
 
 		// check if the node coords are in the range
-		if (from.coords.x >= dc_size.x || from.coords.y >= dc_size.y)
+		if (std::count(out_of_range_nodes.begin(), out_of_range_nodes.end(), from) == 0 && (from.coords.x >= dc_size.x || from.coords.y >= dc_size.y))
 		{
-			wxLogWarning("The node with index %i has coordinates larger than the current sheet of paper. Select a larger sheet of paper or move the node closer to the top left corner of the drawing area.", from.index);
-			return;
+			out_of_range_nodes.push_back(from);
 		}
-		if (to.coords.x >= dc_size.x || to.coords.y >= dc_size.y)
+		if (std::count(out_of_range_nodes.begin(), out_of_range_nodes.end(), to) == 0 && (to.coords.x >= dc_size.x || to.coords.y >= dc_size.y))
 		{
-			wxLogWarning("The node with index %i has coordinates larger than the current sheet of paper. Select a larger sheet of paper or move the node closer to the top left corner of the drawing area.", to.index);
-			return;
+			out_of_range_nodes.push_back(to);
 		}
 
 
@@ -292,6 +291,31 @@ void DrawingPanel::Print(wxDC& dc, int pageNum, wxSize dc_size)
 		dc.DrawText(edge_weight_text, midpoint);
 		
 	}
+
+	// print a warning about all nodes 
+	// that cannot be drawn on the current sheet of paper
+	if (!out_of_range_nodes.empty())
+	{
+		if (out_of_range_nodes.size() > 1)
+		{
+			wxString ms = "The nodes with indexes ";
+			for (std::vector<Node>::iterator iter = out_of_range_nodes.begin(); iter < out_of_range_nodes.end(); iter++)
+			{
+				ms += wxString::Format("%i, ", (*iter).index);
+			}
+			ms.erase(ms.size() - 2, 2);
+			ms += " have coordinates larger than the current sheet of paper. Select a larger sheet of paper or move the nodes closer to the top left corner of the drawing area.";
+			wxLogWarning(ms);
+		}
+		else
+		{
+			wxLogWarning("The node with index %i has coordinates larger than the current sheet of paper. Select a larger sheet of paper or move the node closer to the top left corner of the drawing area.", out_of_range_nodes[0].index);
+		}
+		return;
+	}
+
+
+
 	// drawing nodes
 	for (size_t i = 0; i < m_graph.GetNodeAmount(); i++)
 	{
