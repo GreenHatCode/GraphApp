@@ -110,7 +110,7 @@ void mainFrame::OnPreferences(wxCommandEvent& evt)
 		m_app_preferences.LoadDataFromFile();
 	}
 	dlg->Destroy();
-
+	SetPreferences();
 }
 
 void mainFrame::OnHelp(wxCommandEvent& evt)

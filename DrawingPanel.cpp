@@ -170,6 +170,7 @@ void DrawingPanel::SetColourScheme(ColourSchemes scheme)
 		SetBackgroundColour(*wxBLUE);
 	}
 	else SetBackgroundColour(*wxWHITE);
+	Refresh();
 }
 
 void DrawingPanel::PrintDrawing(wxDC& dc)
