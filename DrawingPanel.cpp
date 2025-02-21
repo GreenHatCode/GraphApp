@@ -180,6 +180,7 @@ void DrawingPanel::ShowNodeDuplicationWarning(bool show)
 
 void DrawingPanel::Print(wxDC& dc, int pageNum, wxSize dc_size)
 {
+	// setting colours
 	wxPen pen;
 	if (m_colour_scheme == ColourSchemes::COLOURED)
 	{
@@ -193,6 +194,29 @@ void DrawingPanel::Print(wxDC& dc, int pageNum, wxSize dc_size)
 	}
 	pen.SetWidth(2);
 	dc.SetPen(pen);
+
+	// We are looking for the minimum coords of the rectangle which we can draw around the graph.
+	// Here we are looking for the coords of a rectangle that can contain the graph.
+	// Or we can say that we are looking for coords 
+	// to draw a border around the graph with a given margin.
+	
+	int margin = 5; // 5px
+	int node_radius = 30;
+	int x_min = 0;
+	int y_min = 0;
+
+	// search for x_min and y_min
+	for (size_t i = 0; i < m_graph.GetNodeAmount(); i++)
+	{
+		if (x_min > m_graph.GetNode(i)->coords.x)
+			x_min = m_graph.GetNode(i)->coords.x;
+
+		if (y_min > m_graph.GetNode(i)->coords.y)
+			y_min = m_graph.GetNode(i)->coords.y;
+	}
+
+	// this value determines how far we should move our graph drawing to the left top corner of the sheet of paper
+	wxPoint diff(0 - x_min, 0 - y_min);
 
 	// drawing edges
 	for (size_t k = 0; k < m_graph.GetEdgeAmount(); k++)
