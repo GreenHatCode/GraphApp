@@ -26,6 +26,7 @@
     <ClInclude Include="mainFrame.h" />
     <ClInclude Include="mini\ini.h" />
     <ClInclude Include="PreferenceDialog.h" />
+    <ClInclude Include="QuickPrint.h" />
     <ClInclude Include="resource.h" />
   </ItemGroup>
   <ItemGroup>
@@ -35,6 +36,7 @@
     <ClCompile Include="Graph.cpp" />
     <ClCompile Include="mainFrame.cpp" />
     <ClCompile Include="PreferenceDialog.cpp" />
+    <ClCompile Include="QuickPrint.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="GraphApp.rc" />

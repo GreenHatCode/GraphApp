@@ -23,7 +23,7 @@ public:
     void SetDrawingRegime(DrawingRegimes regime);
     void SetColourScheme(ColourSchemes scheme);
     void ShowNodeDuplicationWarning(bool show);
-    void PrintDrawing(wxDC& dc);
+    void Print(wxDC& dc, int pageNum, wxSize dc_size);
 private:
     Graph m_graph;
     DrawingRegimes m_drawing_regime = STANDARD_CURSOR;

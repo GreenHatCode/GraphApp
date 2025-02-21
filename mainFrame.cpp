@@ -85,6 +85,31 @@ mainFrame::mainFrame(const wxString& title)
 
 void mainFrame::OnPrint(wxCommandEvent& evt)
 {
+	std::function<void(wxDC& dc, int pageNum, wxSize dc_size)> print_method =
+		std::bind(&DrawingPanel::Print, drawingPanel, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3);
+
+	QuickPrint* preview_print = new QuickPrint(1, wxT("Print preview"), 30, print_method); // Now all you need to do is pass a pointer to the print function to the class constructor
+
+	// preforming page setup
+	if (!preview_print->performPageSetup(true))
+	{
+		// the user cancelled
+		return;
+	}
+
+	QuickPrint* finish_print = new QuickPrint(*preview_print); // making a copy of the object, the preview window will use it for printing
+
+	// invoking preview window
+	wxPrintData print_data = preview_print->getPrintData();
+	wxPrintPreview* preview = new wxPrintPreview(preview_print, finish_print, &print_data);
+	wxPreviewFrame* frame = new wxPreviewFrame(preview, this,
+		"Print Preview",
+		wxPoint(100, 100),
+		wxSize(600, 650));
+	frame->Centre(wxBOTH);
+	frame->Initialize();
+	frame->Show(true);
+
 }
 
 void mainFrame::OnQuit(wxCommandEvent& evt)
