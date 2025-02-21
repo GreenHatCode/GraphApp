@@ -2,6 +2,7 @@
 #include "wx/wx.h"
 #include "Graph.h"
 #include "wx/numdlg.h"
+#include "AppPreferences.h"
 
 #include <wx/dcbuffer.h>
 
@@ -15,22 +16,26 @@ public:
         ADD_EDGE,
         DELETE_NODE_OR_EDGE
     };
-    enum ColourScheme {
-        COLOURED,
-        MONOCHROME
-    };
     
     
     DrawingPanel(wxWindow* parent, wxWindowID winid);
     void OnClear(); // clears drawing area
     void SetDrawingRegime(DrawingRegimes regime);
-    void SetColourScheme(ColourScheme scheme);
+    void SetColourScheme(ColourSchemes scheme);
+    void ShowNodeDuplicationWarning(bool show);
     void PrintDrawing(wxDC& dc);
 private:
-    Graph graph;
-    DrawingRegimes drawing_regime = STANDARD_CURSOR;
-    Node* selected_begin_node = nullptr;
-    ColourScheme colour_scheme = COLOURED;
+    Graph m_graph;
+    DrawingRegimes m_drawing_regime = STANDARD_CURSOR;
+    Node* m_selected_begin_node = nullptr;
+    ColourSchemes m_colour_scheme = ColourSchemes::COLOURED;
+
+    // settings
+
+    // show warning message if the user tries to add node with existing index
+    bool m_dupl_warning = true;
+
+
 
     void OnLeftDClick(wxMouseEvent& evt); // general drawing
     void OnPaint(wxPaintEvent& evt); // calls after Refresh()

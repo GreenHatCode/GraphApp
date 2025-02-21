@@ -15,7 +15,7 @@ DrawingPanel::DrawingPanel(wxWindow* parent, wxWindowID winid)
 
 void DrawingPanel::OnLeftDClick(wxMouseEvent& evt)
 {
-	switch (drawing_regime)
+	switch (m_drawing_regime)
 	{
 	case DrawingPanel::STANDARD_CURSOR:
 		// do nothing
@@ -27,36 +27,36 @@ void DrawingPanel::OnLeftDClick(wxMouseEvent& evt)
 			wxT("Set the index of the node. Remember that \nthe node index is unique number."), 
 			wxT("Enter a number:"),
 			wxT("Set node index"), 
-			graph.MaxNodeIndex() + 1, 
+			m_graph.MaxNodeIndex() + 1, 
 			std::numeric_limits<int>::min(),
 			std::numeric_limits<int>::max());
 
 		if (dlg->ShowModal() == wxID_OK)
 		{
-			if (graph.Contain(dlg->GetValue()))
+			if (m_graph.Contain(dlg->GetValue()))
 			{
-				wxString ms;
-				ms = wxString::Format("You can't add node with index %i, because it is already exist.", dlg->GetValue());
-				wxMessageBox(ms, wxT("Warning"), wxICON_WARNING);
-				return;
+				if(m_dupl_warning)wxLogWarning("You can't add node with index %i, because it is already exist.", dlg->GetValue());
 			}
-			graph.AddNode(evt.GetPosition(), dlg->GetValue());
-			Refresh();
+			else 
+			{
+				m_graph.AddNode(evt.GetPosition(), dlg->GetValue());
+				Refresh();
+			}
 		}
 	}
 		break;
 	case DrawingPanel::ADD_EDGE:
 
 		// select begin Node
-		if (graph.IsInsideNode(evt.GetPosition()) && selected_begin_node == nullptr)
+		if (m_graph.IsInsideNode(evt.GetPosition()) && m_selected_begin_node == nullptr)
 		{
-			selected_begin_node = graph.GetNode(evt.GetPosition());
+			m_selected_begin_node = m_graph.GetNode(evt.GetPosition());
 			Refresh();
 		}
 		// select end Node and add edge
-		if (graph.IsInsideNode(evt.GetPosition()) && selected_begin_node != nullptr)
+		if (m_graph.IsInsideNode(evt.GetPosition()) && m_selected_begin_node != nullptr)
 		{
-			if (graph.GetNode(evt.GetPosition()) != selected_begin_node)// preventing chosing the same node
+			if (m_graph.GetNode(evt.GetPosition()) != m_selected_begin_node)// preventing chosing the same node
 			{
 				wxNumberEntryDialog* dlg = new wxNumberEntryDialog(
 				this,
@@ -69,15 +69,15 @@ void DrawingPanel::OnLeftDClick(wxMouseEvent& evt)
 
 				if (dlg->ShowModal() == wxID_OK)
 				{
-					graph.AddEdge(selected_begin_node, graph.GetNode(evt.GetPosition()), dlg->GetValue());
-					selected_begin_node = nullptr;
+					m_graph.AddEdge(m_selected_begin_node, m_graph.GetNode(evt.GetPosition()), dlg->GetValue());
+					m_selected_begin_node = nullptr;
 					Refresh();
 				}
 			}
 		}
 		break;
 	case DrawingPanel::DELETE_NODE_OR_EDGE:
-		graph.Erase(evt.GetPosition());
+		m_graph.Erase(evt.GetPosition());
 		Refresh();
 		break;
 	default:
@@ -91,7 +91,7 @@ void DrawingPanel::OnPaint(wxPaintEvent& evt)
 	wxPaintDC dc(this);
 	wxPen pen;
 
-	if (colour_scheme == ColourScheme::COLOURED)
+	if (m_colour_scheme == ColourSchemes::COLOURED)
 	{
 		pen.SetColour(*wxBLACK);
 		dc.SetBackground(*wxWHITE);
@@ -107,14 +107,14 @@ void DrawingPanel::OnPaint(wxPaintEvent& evt)
 	dc.SetPen(pen);
 	
 	// redrawing all existing edges
-	for (size_t k = 0; k < graph.GetEdgeAmount(); k++)
+	for (size_t k = 0; k < m_graph.GetEdgeAmount(); k++)
 	{
-		DrawEdge(graph.GetEdge(k));
+		DrawEdge(m_graph.GetEdge(k));
 	}
 	// redrawing all existing nodes
-	for (size_t i = 0; i < graph.GetNodeAmount(); i++)
+	for (size_t i = 0; i < m_graph.GetNodeAmount(); i++)
 	{
-		DrawNode(graph.GetNode(i));
+		DrawNode(m_graph.GetNode(i));
 	}
 
 }
@@ -124,17 +124,17 @@ void DrawingPanel::OnMove(wxMouseEvent& evt)
 	// calls when cusros moves
 	
 	// if cursor is inside node borders
-	if (graph.IsInsideNode(evt.GetPosition()) && drawing_regime == DrawingPanel::STANDARD_CURSOR)
+	if (m_graph.IsInsideNode(evt.GetPosition()) && m_drawing_regime == DrawingPanel::STANDARD_CURSOR)
 	{
 		if (evt.m_leftDown)  // moving the node
 		{
 			SetCursor(wxCURSOR_SIZING);
-			graph.EditNode(evt.GetPosition());
+			m_graph.EditNode(evt.GetPosition());
 			Refresh();
 		}
 		else SetCursor(wxCURSOR_DEFAULT);
 	}
-	else if ((graph.IsOnEdge(evt.GetPosition()) || graph.IsInsideNode(evt.GetPosition())) && drawing_regime == DrawingPanel::DELETE_NODE_OR_EDGE)
+	else if ((m_graph.IsOnEdge(evt.GetPosition()) || m_graph.IsInsideNode(evt.GetPosition())) && m_drawing_regime == DrawingPanel::DELETE_NODE_OR_EDGE)
 	{
 		// changing cursor in delete mode
 		SetCursor(wxCURSOR_HAND);
@@ -144,38 +144,44 @@ void DrawingPanel::OnMove(wxMouseEvent& evt)
 
 void DrawingPanel::OnClear()
 {
-	graph.Clear();
+	m_graph.Clear();
 	Refresh();
 }
 
 void DrawingPanel::SetDrawingRegime(DrawingRegimes regime)
 {
-	drawing_regime = regime;
+	m_drawing_regime = regime;
 	//todo:add clearing temp vars for unused regimes
 
-	if (drawing_regime != DrawingPanel::ADD_EDGE)
+	if (m_drawing_regime != DrawingPanel::ADD_EDGE)
 	{
-		selected_begin_node = nullptr;
+		m_selected_begin_node = nullptr;
 	}
 
 	Refresh();
 }
 
-void DrawingPanel::SetColourScheme(ColourScheme scheme)
+void DrawingPanel::SetColourScheme(ColourSchemes scheme)
 {
-	colour_scheme = scheme;
+	m_colour_scheme = scheme;
 
-	if (colour_scheme == ColourScheme::COLOURED)
+	if (m_colour_scheme == ColourSchemes::COLOURED)
 	{
 		SetBackgroundColour(*wxBLUE);
 	}
 	else SetBackgroundColour(*wxWHITE);
+	Refresh();
+}
+
+void DrawingPanel::ShowNodeDuplicationWarning(bool show)
+{
+	m_dupl_warning = show;
 }
 
 void DrawingPanel::PrintDrawing(wxDC& dc)
 {
 	wxPen pen;
-	if (colour_scheme == ColourScheme::COLOURED)
+	if (m_colour_scheme == ColourSchemes::COLOURED)
 	{
 		pen.SetColour(*wxBLACK);
 		dc.SetBackground(*wxWHITE);
@@ -189,9 +195,9 @@ void DrawingPanel::PrintDrawing(wxDC& dc)
 	dc.SetPen(pen);
 
 	// drawing edges
-	for (size_t k = 0; k < graph.GetEdgeAmount(); k++)
+	for (size_t k = 0; k < m_graph.GetEdgeAmount(); k++)
 	{
-		Edge* edge = graph.GetEdge(k);
+		Edge* edge = m_graph.GetEdge(k);
 		dc.DrawLine((*(edge->from)).coords, (*(edge->to)).coords);
 
 		// calculating trianle coords
@@ -237,7 +243,7 @@ void DrawingPanel::PrintDrawing(wxDC& dc)
 		wxSize str_width = dc.GetTextExtent(edge_weight_text);
 
 
-		if (colour_scheme == ColourScheme::COLOURED)dc.SetTextForeground(*wxWHITE);
+		if (m_colour_scheme == ColourSchemes::COLOURED)dc.SetTextForeground(*wxWHITE);
 		else dc.SetTextForeground(*wxBLACK);
 
 		wxFont font(12, wxFONTFAMILY_DEFAULT, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_BOLD);
@@ -248,9 +254,9 @@ void DrawingPanel::PrintDrawing(wxDC& dc)
 		
 	}
 	// drawing nodes
-	for (size_t i = 0; i < graph.GetNodeAmount(); i++)
+	for (size_t i = 0; i < m_graph.GetNodeAmount(); i++)
 	{
-		Node* node = graph.GetNode(i);
+		Node* node = m_graph.GetNode(i);
 		int circle_radius = 30;
 		dc.DrawCircle((*node).coords, circle_radius);
 		dc.DrawLine(wxPoint((*node).coords.x, (*node).coords.y - circle_radius), wxPoint((*node).coords.x, (*node).coords.y + circle_radius)); // vertical line
@@ -269,7 +275,7 @@ void DrawingPanel::DrawNode(const Node* node)
 	wxClientDC dc(this);
 
 	wxPen pen;
-	if (node == selected_begin_node)pen.SetColour(wxColour(255, 11, 249));
+	if (node == m_selected_begin_node)pen.SetColour(wxColour(255, 11, 249));
 	else pen.SetColour(*wxBLACK);
 	pen.SetWidth(2);
 	
@@ -293,7 +299,7 @@ void DrawingPanel::DrawEdge(const Edge* edge)
 {
 	wxClientDC dc(this);
 	wxPen pen;
-	if (colour_scheme == ColourScheme::COLOURED)pen.SetColour(*wxWHITE);
+	if (m_colour_scheme == ColourSchemes::COLOURED)pen.SetColour(*wxWHITE);
 	else pen.SetColour(*wxBLACK);
 	pen.SetWidth(2);
 
@@ -346,7 +352,7 @@ void DrawingPanel::DrawEdge(const Edge* edge)
 	wxSize str_width = dc.GetTextExtent(edge_weight_text);
 	
 
-	if (colour_scheme == ColourScheme::COLOURED)dc.SetTextForeground(*wxWHITE);
+	if (m_colour_scheme == ColourSchemes::COLOURED)dc.SetTextForeground(*wxWHITE);
 	else dc.SetTextForeground(*wxBLACK);
 
 	wxFont font(12, wxFONTFAMILY_DEFAULT, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_BOLD);
