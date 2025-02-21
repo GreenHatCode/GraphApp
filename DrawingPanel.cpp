@@ -91,7 +91,7 @@ void DrawingPanel::OnPaint(wxPaintEvent& evt)
 	wxPaintDC dc(this);
 	wxPen pen;
 
-	if (colour_scheme == ColourScheme::COLOURED)
+	if (colour_scheme == ColourSchemes::COLOURED)
 	{
 		pen.SetColour(*wxBLACK);
 		dc.SetBackground(*wxWHITE);
@@ -161,11 +161,11 @@ void DrawingPanel::SetDrawingRegime(DrawingRegimes regime)
 	Refresh();
 }
 
-void DrawingPanel::SetColourScheme(ColourScheme scheme)
+void DrawingPanel::SetColourScheme(ColourSchemes scheme)
 {
 	colour_scheme = scheme;
 
-	if (colour_scheme == ColourScheme::COLOURED)
+	if (colour_scheme == ColourSchemes::COLOURED)
 	{
 		SetBackgroundColour(*wxBLUE);
 	}
@@ -175,7 +175,7 @@ void DrawingPanel::SetColourScheme(ColourScheme scheme)
 void DrawingPanel::PrintDrawing(wxDC& dc)
 {
 	wxPen pen;
-	if (colour_scheme == ColourScheme::COLOURED)
+	if (colour_scheme == ColourSchemes::COLOURED)
 	{
 		pen.SetColour(*wxBLACK);
 		dc.SetBackground(*wxWHITE);
@@ -237,7 +237,7 @@ void DrawingPanel::PrintDrawing(wxDC& dc)
 		wxSize str_width = dc.GetTextExtent(edge_weight_text);
 
 
-		if (colour_scheme == ColourScheme::COLOURED)dc.SetTextForeground(*wxWHITE);
+		if (colour_scheme == ColourSchemes::COLOURED)dc.SetTextForeground(*wxWHITE);
 		else dc.SetTextForeground(*wxBLACK);
 
 		wxFont font(12, wxFONTFAMILY_DEFAULT, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_BOLD);
@@ -293,7 +293,7 @@ void DrawingPanel::DrawEdge(const Edge* edge)
 {
 	wxClientDC dc(this);
 	wxPen pen;
-	if (colour_scheme == ColourScheme::COLOURED)pen.SetColour(*wxWHITE);
+	if (colour_scheme == ColourSchemes::COLOURED)pen.SetColour(*wxWHITE);
 	else pen.SetColour(*wxBLACK);
 	pen.SetWidth(2);
 
@@ -346,7 +346,7 @@ void DrawingPanel::DrawEdge(const Edge* edge)
 	wxSize str_width = dc.GetTextExtent(edge_weight_text);
 	
 
-	if (colour_scheme == ColourScheme::COLOURED)dc.SetTextForeground(*wxWHITE);
+	if (colour_scheme == ColourSchemes::COLOURED)dc.SetTextForeground(*wxWHITE);
 	else dc.SetTextForeground(*wxBLACK);
 
 	wxFont font(12, wxFONTFAMILY_DEFAULT, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_BOLD);
