@@ -154,7 +154,7 @@ void mainFrame::SetPreferences()
 {
 	// setting preferences for drawing area
 	drawingPanel->SetColourScheme(m_app_preferences.GetColourScheme());
-
+	drawingPanel->ShowNodeDuplicationWarning(m_app_preferences.GetDuplicationWarning());
 
 
 
