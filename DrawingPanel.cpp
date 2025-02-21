@@ -202,11 +202,11 @@ void DrawingPanel::Print(wxDC& dc, int pageNum, wxSize dc_size)
 	
 	int margin = 5; // 5px
 	int node_radius = 30;
-	int x_min = 0;
-	int y_min = 0;
+	int x_min = m_graph.GetNode(0)->coords.x;
+	int y_min = m_graph.GetNode(0)->coords.y;
 
 	// search for x_min and y_min
-	for (size_t i = 0; i < m_graph.GetNodeAmount(); i++)
+	for (size_t i = 1; i < m_graph.GetNodeAmount(); i++)
 	{
 		if (x_min > m_graph.GetNode(i)->coords.x)
 			x_min = m_graph.GetNode(i)->coords.x;
@@ -216,33 +216,48 @@ void DrawingPanel::Print(wxDC& dc, int pageNum, wxSize dc_size)
 	}
 
 	// this value determines how far we should move our graph drawing to the left top corner of the sheet of paper
-	wxPoint diff(0 - x_min, 0 - y_min);
+	wxPoint diff(0 - x_min + node_radius + margin, 0 - y_min + node_radius + margin);
 
 	// drawing edges
 	for (size_t k = 0; k < m_graph.GetEdgeAmount(); k++)
 	{
-		Edge* edge = m_graph.GetEdge(k);
-		dc.DrawLine((*(edge->from)).coords, (*(edge->to)).coords);
+		Node from = *(*m_graph.GetEdge(k)).from;
+		Node to = *(*m_graph.GetEdge(k)).to;
+		from.coords += diff; // nove the node
+		to.coords += diff; // nove the node
+
+		// check if the node coords are in the range
+		if (from.coords.x >= dc_size.x || from.coords.y >= dc_size.y)
+		{
+			wxLogWarning("The node with index %i has coordinates larger than the current sheet of paper. Select a larger sheet of paper or move the node closer to the top left corner of the drawing area.", from.index);
+			return;
+		}
+		if (to.coords.x >= dc_size.x || to.coords.y >= dc_size.y)
+		{
+			wxLogWarning("The node with index %i has coordinates larger than the current sheet of paper. Select a larger sheet of paper or move the node closer to the top left corner of the drawing area.", to.index);
+			return;
+		}
+
+
+		// drawing the edge
+		dc.DrawLine(from.coords, to.coords);
 
 		// calculating trianle coords
-		const Node* from = (*edge).from;
-		const Node* to = (*edge).to;
-
-		wxPoint vector((to->coords.x - from->coords.x), (to->coords.y - from->coords.y));
-		double d = sqrt(pow(to->coords.x - from->coords.x, 2) + pow(to->coords.y - from->coords.y, 2));
+		wxPoint vector((to.coords.x - from.coords.x), (to.coords.y - from.coords.y));
+		double d = sqrt(pow(to.coords.x - from.coords.x, 2) + pow(to.coords.y - from.coords.y, 2));
 
 		// normalized vector
 		double normalized_x = vector.x / d;
 		double normalized_y = vector.y / d;
 
 		wxPoint triangle_head; // the first triangle node
-		triangle_head.x = to->coords.x - 30 * normalized_x;
-		triangle_head.y = to->coords.y - 30 * normalized_y;
+		triangle_head.x = to.coords.x - 30 * normalized_x;
+		triangle_head.y = to.coords.y - 30 * normalized_y;
 
 
 		wxPoint triangle_base_center;
-		triangle_base_center.x = to->coords.x - 45 * normalized_x;
-		triangle_base_center.y = to->coords.y - 45 * normalized_y;
+		triangle_base_center.x = to.coords.x - 45 * normalized_x;
+		triangle_base_center.y = to.coords.y - 45 * normalized_y;
 
 		wxPoint triangle_base_A; // the second triangle node
 		triangle_base_A.x = triangle_base_center.x - 10 * (normalized_y);
@@ -260,14 +275,14 @@ void DrawingPanel::Print(wxDC& dc, int pageNum, wxSize dc_size)
 
 
 		// drawing edge weight
-		wxPoint midpoint = ((*(edge->from)).coords + (*(edge->to)).coords) / 2;
+		wxPoint midpoint = (from.coords + to.coords) / 2;
 		midpoint.y += 10;
 		wxString edge_weight_text;
-		edge_weight_text << (*edge).weight;
+		edge_weight_text << (*m_graph.GetEdge(k)).weight;
 		wxSize str_width = dc.GetTextExtent(edge_weight_text);
 
 
-		if (m_colour_scheme == ColourSchemes::COLOURED)dc.SetTextForeground(*wxWHITE);
+		if (m_colour_scheme == ColourSchemes::COLOURED)dc.SetTextForeground(*wxBLACK); // todo: fix bug with white background
 		else dc.SetTextForeground(*wxBLACK);
 
 		wxFont font(12, wxFONTFAMILY_DEFAULT, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_BOLD);
@@ -280,17 +295,20 @@ void DrawingPanel::Print(wxDC& dc, int pageNum, wxSize dc_size)
 	// drawing nodes
 	for (size_t i = 0; i < m_graph.GetNodeAmount(); i++)
 	{
-		Node* node = m_graph.GetNode(i);
+		Node node = *(m_graph.GetNode(i));
+
+		node.coords += diff; // nove the node
+
 		int circle_radius = 30;
-		dc.DrawCircle((*node).coords, circle_radius);
-		dc.DrawLine(wxPoint((*node).coords.x, (*node).coords.y - circle_radius), wxPoint((*node).coords.x, (*node).coords.y + circle_radius)); // vertical line
-		dc.DrawLine(wxPoint((*node).coords.x - circle_radius, (*node).coords.y), wxPoint((*node).coords.x + circle_radius, (*node).coords.y)); // horizontal line
+		dc.DrawCircle(node.coords, circle_radius);
+		dc.DrawLine(wxPoint(node.coords.x, node.coords.y - circle_radius), wxPoint(node.coords.x, node.coords.y + circle_radius)); // vertical line
+		dc.DrawLine(wxPoint(node.coords.x - circle_radius, node.coords.y), wxPoint(node.coords.x + circle_radius, node.coords.y)); // horizontal line
 
 		// drawing node indes in left bottom circle sector
 		wxString str;
-		str << (*node).index;
+		str << node.index;
 		wxSize str_width = dc.GetTextExtent(str);
-		dc.DrawText(str, (*node).coords.x - circle_radius / 2 - str_width.x / 2, (*node).coords.y + 3);
+		dc.DrawText(str, node.coords.x - circle_radius / 2 - str_width.x / 2, node.coords.y + 3);
 	}
 }
 
