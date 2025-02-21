@@ -6,7 +6,7 @@
 #include "PreferenceDialog.h"
 #include "PreferenceDialog.h"
 #include "AppPreferences.h"
-
+#include "QuickPrint.h"
 
 // toolbar images
 #include "res/cursor24.xpm"
