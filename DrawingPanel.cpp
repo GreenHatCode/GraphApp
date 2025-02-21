@@ -173,6 +173,11 @@ void DrawingPanel::SetColourScheme(ColourSchemes scheme)
 	Refresh();
 }
 
+void DrawingPanel::ShowNodeDuplicationWarning(bool show)
+{
+	m_dupl_warning = show;
+}
+
 void DrawingPanel::PrintDrawing(wxDC& dc)
 {
 	wxPen pen;

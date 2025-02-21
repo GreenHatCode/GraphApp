@@ -22,12 +22,20 @@ public:
     void OnClear(); // clears drawing area
     void SetDrawingRegime(DrawingRegimes regime);
     void SetColourScheme(ColourSchemes scheme);
+    void ShowNodeDuplicationWarning(bool show);
     void PrintDrawing(wxDC& dc);
 private:
     Graph graph;
     DrawingRegimes drawing_regime = STANDARD_CURSOR;
     Node* selected_begin_node = nullptr;
     ColourSchemes colour_scheme = ColourSchemes::COLOURED;
+
+    // settings
+
+    // show warning message if the user tries to add node with existing index
+    bool m_dupl_warning = true;
+
+
 
     void OnLeftDClick(wxMouseEvent& evt); // general drawing
     void OnPaint(wxPaintEvent& evt); // calls after Refresh()
