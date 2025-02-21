@@ -25,10 +25,10 @@ public:
     void ShowNodeDuplicationWarning(bool show);
     void PrintDrawing(wxDC& dc);
 private:
-    Graph graph;
-    DrawingRegimes drawing_regime = STANDARD_CURSOR;
-    Node* selected_begin_node = nullptr;
-    ColourSchemes colour_scheme = ColourSchemes::COLOURED;
+    Graph m_graph;
+    DrawingRegimes m_drawing_regime = STANDARD_CURSOR;
+    Node* m_selected_begin_node = nullptr;
+    ColourSchemes m_colour_scheme = ColourSchemes::COLOURED;
 
     // settings
 
