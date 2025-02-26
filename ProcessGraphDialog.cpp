@@ -5,8 +5,7 @@ enum {
     ID_LATE_EVENT_DATE,
     ID_EVENT_TIME_RESERVE,
     ID_CRITICAL_PATH,
-    ID_OUTPUTTYPE_FILE,
-    ID_OUTPUTTYPE_SEPARATE_WINDOW
+    ID_OUTPUTTYPE_DESTINATION
 };
 
 
@@ -15,9 +14,6 @@ enum {
 ProcessGraphDialog::ProcessGraphDialog(wxWindow* parent, wxWindowID id, const wxString& title, const wxPoint& pos, const wxSize& size, long style, const wxString& name)
     :wxDialog(parent, id, title, pos, size, style, name)
 {
-
-
-
 
     wxBoxSizer* top_sizer = new wxBoxSizer(wxVERTICAL);
 
@@ -53,19 +49,14 @@ ProcessGraphDialog::ProcessGraphDialog(wxWindow* parent, wxWindowID id, const wx
 
     staticBoxSizer62->Add(m_checkBox63, 0, wxALL, 5);
 
-    wxStaticBoxSizer* output_destination_sizer = new wxStaticBoxSizer(new wxStaticBox(this, wxID_ANY, _("Output destination")), wxHORIZONTAL);
+    wxArrayString output_destinationArr;
+    output_destinationArr.Add(_("Drawing area"));
+    output_destinationArr.Add(_("Separate window"));
+    output_destinationArr.Add(_(".txt file"));
+    wxRadioBox* output_destination = new wxRadioBox(this, ID_OUTPUTTYPE_DESTINATION, _("Output destination"), wxDefaultPosition, wxDLG_UNIT(this, wxSize(-1, -1)), output_destinationArr, 3, wxRA_SPECIFY_COLS);
+    output_destination->SetSelection(0);
 
-    boxSizer->Add(output_destination_sizer, 1, wxALL | wxEXPAND, 5);
-
-    wxRadioButton* m_radioButton60 = new wxRadioButton(this, ID_OUTPUTTYPE_FILE, _(".txt file"), wxDefaultPosition, wxDLG_UNIT(this, wxSize(-1, -1)), 0);
-    m_radioButton60->SetValue(1);
-
-    output_destination_sizer->Add(m_radioButton60, 0, wxALL, 5);
-
-    wxRadioButton* m_radioButton61 = new wxRadioButton(this, ID_OUTPUTTYPE_SEPARATE_WINDOW, _("Separate window"), wxDefaultPosition, wxDLG_UNIT(this, wxSize(-1, -1)), 0);
-    m_radioButton61->SetValue(1);
-
-    output_destination_sizer->Add(m_radioButton61, 0, wxALL, 5);
+    boxSizer->Add(output_destination, 0, wxALL, 5);
 
     wxBoxSizer* buttons_sizer = new wxBoxSizer(wxHORIZONTAL);
 
@@ -81,9 +72,60 @@ ProcessGraphDialog::ProcessGraphDialog(wxWindow* parent, wxWindowID id, const wx
 
     SetSizerAndFit(top_sizer);
     SetSize(wxSize(400, -1));
-
+    TransferDataToWindow();
 }
 
 ProcessGraphDialog::~ProcessGraphDialog()
 {
+}
+
+void ProcessGraphDialog::OnOK(wxCommandEvent& evt)
+{
+    if (TransferDataFromWindow())
+    {
+        if (IsModal())
+        {
+            EndModal(wxID_OK); // if modal
+        }
+        else
+        {
+            SetReturnCode(wxID_OK);
+            this->Show(false); // if modeless
+        }
+    }
+    else wxLogError("Can't transfer data from window.");
+}
+
+bool ProcessGraphDialog::TransferDataFromWindow()
+{
+    wxCheckBox* t_early_check = (wxCheckBox*)FindWindow(ID_EARLY_EVENT_DATE);
+    wxCheckBox* t_late_check = (wxCheckBox*)FindWindow(ID_LATE_EVENT_DATE);
+    wxCheckBox* t_R_check = (wxCheckBox*)FindWindow(ID_EVENT_TIME_RESERVE);
+    wxCheckBox* critical_path_check = (wxCheckBox*)FindWindow(ID_CRITICAL_PATH);
+    wxRadioBox* output_destination_selector = (wxRadioBox*)FindWindow(ID_OUTPUTTYPE_DESTINATION);
+
+    m_calculate_t_early = t_early_check->GetValue();
+    m_calculate_t_late = t_late_check->GetValue();
+    m_calculate_R = t_R_check->GetValue();
+    m_draw_critical_path = critical_path_check->GetValue();
+    m_output_destination = output_destination_selector->GetSelection();
+
+    return true;
+}
+
+bool ProcessGraphDialog::TransferDataToWindow()
+{
+    wxCheckBox* t_early_check = (wxCheckBox*)FindWindow(ID_EARLY_EVENT_DATE);
+    wxCheckBox* t_late_check = (wxCheckBox*)FindWindow(ID_LATE_EVENT_DATE);
+    wxCheckBox* t_R_check = (wxCheckBox*)FindWindow(ID_EVENT_TIME_RESERVE);
+    wxCheckBox* critical_path_check = (wxCheckBox*)FindWindow(ID_CRITICAL_PATH);
+    wxRadioBox* output_destination_selector = (wxRadioBox*)FindWindow(ID_OUTPUTTYPE_DESTINATION);
+
+    t_early_check->SetValue(m_calculate_t_early);
+    t_late_check->SetValue(m_calculate_t_late);
+    t_R_check->SetValue(m_calculate_R);
+    critical_path_check->SetValue(m_draw_critical_path);
+    output_destination_selector->SetSelection(m_output_destination);
+
+    return true;
 }
