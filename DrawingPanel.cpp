@@ -184,19 +184,10 @@ void DrawingPanel::Print(wxDC& dc, int pageNum, wxSize dc_size)
 
 	// setting colours
 	wxPen pen;
-	if (m_colour_scheme == ColourSchemes::COLOURED)
-	{
-		pen.SetColour(*wxBLACK);
-		dc.SetBackground(*wxBLUE);
-	}
-	else
-	{
-		pen.SetColour(*wxBLACK);
-		dc.SetBackground(*wxBLUE);
-	}
+	pen.SetColour(*wxBLACK);
 	pen.SetWidth(2);
-	dc.Clear();
 	dc.SetPen(pen);
+	dc.SetBackground(*wxWHITE);
 
 	// We are looking for the minimum coords of the rectangle which we can draw around the graph.
 	// Here we are looking for the coords of a rectangle that can contain the graph.
@@ -283,9 +274,7 @@ void DrawingPanel::Print(wxDC& dc, int pageNum, wxSize dc_size)
 		edge_weight_text << (*m_graph.GetEdge(k)).weight;
 		wxSize str_width = dc.GetTextExtent(edge_weight_text);
 
-
-		if (m_colour_scheme == ColourSchemes::COLOURED)dc.SetTextForeground(*wxBLACK); // todo: fix bug with white background
-		else dc.SetTextForeground(*wxBLACK);
+		dc.SetTextForeground(*wxBLACK);
 
 		wxFont font(12, wxFONTFAMILY_DEFAULT, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_BOLD);
 		dc.SetFont(font);
