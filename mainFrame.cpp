@@ -14,6 +14,7 @@ BEGIN_EVENT_TABLE(mainFrame, wxFrame)
 	EVT_MENU(wxID_CLEAR, mainFrame::OnClear)
 	EVT_MENU(wxID_PRINT, mainFrame::OnPrint)
 	EVT_MENU(wxID_PREFERENCES, mainFrame::OnPreferences)
+	EVT_TOOL(ID_PROCESS_GRAPH, mainFrame::OnProcessGraph)
 	EVT_TOOL_RANGE(ID_MODE_NORMAL, ID_MODE_DELETE, mainFrame::SetEditingRegime)
 END_EVENT_TABLE()
 
@@ -58,7 +59,7 @@ mainFrame::mainFrame(const wxString& title)
 	toolBar->AddRadioTool(ID_MODE_DELETE, "", wxBitmap(delete_xpm), wxBitmapBundle(), wxT("Delete nodes and edges"));
 	toolBar->Realize();
 	toolBar->AddSeparator();
-	toolBar->AddTool(wxID_ANY, "", wxBitmap(process_color_xpm), wxT("Calculate the graph"));
+	toolBar->AddTool(ID_PROCESS_GRAPH, "", wxBitmap(process_color_xpm), wxT("Calculate the graph"));
 	toolBar->Realize();
 
 	// creating controls
@@ -165,6 +166,19 @@ void mainFrame::SetEditingRegime(wxCommandEvent& evt)
 			wxMessageBox("undefined regime file mainFrame.cpp");
 			break;
 		}
+}
+
+void mainFrame::OnProcessGraph(wxCommandEvent& evt)
+{
+	ProcessGraphDialog* dlg = new ProcessGraphDialog(this, wxID_ANY, wxT("Process graph options"));
+	if (dlg->ShowModal() == wxID_OK)
+	{
+		wxMessageBox(wxT("Success!"));
+		// fetching processing params
+		// ProcessGraph();
+	}
+
+	dlg->Destroy();
 }
 
 bool mainFrame::ShowToolTip()
