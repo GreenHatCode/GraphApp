@@ -30,15 +30,15 @@ mainFrame::mainFrame(const wxString& title)
 	fileMenu->Append(wxID_SAVE); // todo: saves project file
 	fileMenu->Append(wxID_SAVEAS); // todo: saves project file in specific location
 	fileMenu->AppendSeparator();
-	fileMenu->Append(wxID_PRINT); // todo: implement QuickPrint
+	fileMenu->Append(wxID_PRINT);
 	fileMenu->AppendSeparator();
 	fileMenu->Append(wxID_EXIT, wxT("E&xit\tAlt+F4"));
 
 	wxMenu* editMenu = new wxMenu;
-	editMenu->Append(wxID_CLEAR, wxT("&Clear"), wxT("Clears drawing area")); // todo: clears the drawing area
+	editMenu->Append(wxID_CLEAR, wxT("&Clear"), wxT("Clears drawing area"));
 
 	wxMenu* prefMenu = new wxMenu;
-	prefMenu->Append(wxID_PREFERENCES); // todo: add: changing language, colour scheme
+	prefMenu->Append(wxID_PREFERENCES);
 
 	wxMenu* helpMenu = new wxMenu;
 	helpMenu->Append(wxID_HELP);

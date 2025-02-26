@@ -98,11 +98,13 @@ Node* Graph::GetNode(const wxPoint& node_coords)
 
 Node* Graph::GetNode(size_t index)
 {
-	return nodes[index];
+	if (nodes.empty() || index >= nodes.size())return nullptr;
+	else return nodes[index];
 }
 
 Edge* Graph::GetEdge(const Node* from, const Node* to)
 {
+	
 	for (size_t i = 0; i < edges.size(); i++)
 	{
 		if (edges[i]->from == from && edges[i]->to == to)
@@ -110,10 +112,12 @@ Edge* Graph::GetEdge(const Node* from, const Node* to)
 			return edges[i];
 		}
 	}
+	return nullptr;
 }
 
 Edge* Graph::GetEdge(size_t index)
 {
+	if (edges.empty() || index >= edges.size()) return nullptr;
 	if (index < edges.size())return edges[index];
 	else throw "Index out of range";
 }
@@ -121,6 +125,15 @@ Edge* Graph::GetEdge(size_t index)
 void Graph::SetEdgeWeight(const Node* from, const Node* to, int weight)
 {
 
+}
+
+bool Graph::Empty()
+{
+	if (nodes.empty())
+	{
+		return true;
+	}
+	return false;
 }
 
 size_t Graph::GetNodeAmount()
@@ -163,7 +176,15 @@ int Graph::MaxNodeIndex()
 {
 	if (!nodes.empty())
 	{
-		Node* node = *(std::max_element(nodes.begin(), nodes.end()));
+		Node* node = nodes[0];
+		for (std::vector<Node*>::iterator iter = nodes.begin()+1; iter < nodes.end(); iter++)
+		{
+			if (node->index < (*iter)->index)
+			{
+				node = *iter;
+			}
+		}
+
 		return node->index;
 	}
 	return -1; // the index of the first node will be 0

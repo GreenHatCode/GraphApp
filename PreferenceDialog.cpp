@@ -42,14 +42,14 @@ PreferenceDialog::PreferenceDialog(
 
 	wxArrayString choices; // the list of possible preference tabs
 	choices.Add(wxT("General"));
-	choices.Add(wxT("Language"));
+	choices.Add(wxT("Appearance"));
 	wxListBox* pref_tabs = new wxListBox(this, ID_PREFERENCE_TABS, wxDefaultPosition, wxDefaultSize, choices);
 	pref_tabs->SetSelection(0);
 	m_curr_tab_idx = pref_tabs->GetSelection();
 	pref_tabs_sizer->Add(pref_tabs, 0, wxALL | wxEXPAND, 5);
 
 	m_main_panel = new wxPanel(this, ID_PANEL);
-	m_main_panel->SetBackgroundColour(*wxGREEN); // remove at finish
+	m_main_panel->SetBackgroundColour(*wxLIGHT_GREY); // remove at finish
 	m_main_panel->SetMinSize(wxSize(300, 250));
 	
 	box_sizer->Add(pref_tabs_sizer);
