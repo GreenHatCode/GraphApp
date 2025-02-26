@@ -180,12 +180,14 @@ void DrawingPanel::ShowNodeDuplicationWarning(bool show)
 
 void DrawingPanel::Print(wxDC& dc, int pageNum, wxSize dc_size)
 {
+	if (m_graph.Empty())return;
+
 	// setting colours
 	wxPen pen;
 	if (m_colour_scheme == ColourSchemes::COLOURED)
 	{
 		pen.SetColour(*wxBLACK);
-		dc.SetBackground(*wxWHITE);
+		dc.SetBackground(*wxBLUE);
 	}
 	else
 	{
@@ -193,6 +195,7 @@ void DrawingPanel::Print(wxDC& dc, int pageNum, wxSize dc_size)
 		dc.SetBackground(*wxBLUE);
 	}
 	pen.SetWidth(2);
+	dc.Clear();
 	dc.SetPen(pen);
 
 	// We are looking for the minimum coords of the rectangle which we can draw around the graph.

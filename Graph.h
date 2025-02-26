@@ -49,7 +49,7 @@ public:
 	Edge* GetEdge(const Node* from, const Node* to);
 	Edge* GetEdge(size_t index);
 	void SetEdgeWeight(const Node* from, const Node* to, int weight);
-	
+	bool Empty();
 
 	size_t GetNodeAmount();
 	size_t GetEdgeAmount();
