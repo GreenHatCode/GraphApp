@@ -173,7 +173,8 @@ void mainFrame::OnProcessGraph(wxCommandEvent& evt)
 	ProcessGraphDialog* dlg = new ProcessGraphDialog(this, wxID_ANY, wxT("Process graph options"));
 	if (dlg->ShowModal() == wxID_OK)
 	{
-		wxMessageBox(wxT("Success!"));
+		wxString ms = wxString::Format("Output: %d %d %d %d %i", dlg->GetCalculateEarlyEventDate(), dlg->GetCalculateLateEventDate(), dlg->GetCalculateEvenTimeReserne(), dlg->GetDrawCriticalPath(), dlg->GetOutputDestination());
+		wxMessageBox(ms);
 		// fetching processing params
 		// ProcessGraph();
 	}

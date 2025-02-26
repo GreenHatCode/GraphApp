@@ -21,8 +21,11 @@ public:
 
     ~ProcessGraphDialog();
 
-
-
+    bool GetCalculateEarlyEventDate();
+    bool GetCalculateLateEventDate();
+    bool GetCalculateEvenTimeReserne();
+    bool GetDrawCriticalPath();
+    int GetOutputDestination();
 
 
 private:
