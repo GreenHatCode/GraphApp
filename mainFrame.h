@@ -7,6 +7,7 @@
 #include "PreferenceDialog.h"
 #include "AppPreferences.h"
 #include "QuickPrint.h"
+#include "ProcessGraphDialog.h"
 
 // toolbar images
 #include "res/cursor24.xpm"
@@ -42,6 +43,7 @@ private:
     void OnHelp(wxCommandEvent& evt); // shows tool tip
     void OnAbout(wxCommandEvent& evt);
     void SetEditingRegime(wxCommandEvent& evt);
+    void OnProcessGraph(wxCommandEvent& evt);
 
     bool ShowToolTip();
     void SetPreferences();
