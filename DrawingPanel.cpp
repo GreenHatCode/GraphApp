@@ -151,7 +151,7 @@ void DrawingPanel::OnClear()
 void DrawingPanel::SetDrawingRegime(DrawingRegimes regime)
 {
 	m_drawing_regime = regime;
-	//todo:add clearing temp vars for unused regimes
+	// clearing temp vars for unused regimes
 
 	if (m_drawing_regime != DrawingPanel::ADD_EDGE)
 	{
