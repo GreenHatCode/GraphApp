@@ -42,7 +42,7 @@ PreferenceDialog::PreferenceDialog(
 
 	wxArrayString choices; // the list of possible preference tabs
 	choices.Add(wxT("General"));
-	choices.Add(wxT("Language"));
+	choices.Add(wxT("Appearance"));
 	wxListBox* pref_tabs = new wxListBox(this, ID_PREFERENCE_TABS, wxDefaultPosition, wxDefaultSize, choices);
 	pref_tabs->SetSelection(0);
 	m_curr_tab_idx = pref_tabs->GetSelection();
