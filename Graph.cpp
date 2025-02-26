@@ -163,7 +163,15 @@ int Graph::MaxNodeIndex()
 {
 	if (!nodes.empty())
 	{
-		Node* node = *(std::max_element(nodes.begin(), nodes.end()));
+		Node* node = nodes[0];
+		for (std::vector<Node*>::iterator iter = nodes.begin()+1; iter < nodes.end(); iter++)
+		{
+			if (node->index < (*iter)->index)
+			{
+				node = *iter;
+			}
+		}
+
 		return node->index;
 	}
 	return -1; // the index of the first node will be 0
