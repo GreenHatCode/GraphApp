@@ -328,6 +328,11 @@ void DrawingPanel::Print(wxDC& dc, int pageNum, wxSize dc_size)
 	}
 }
 
+Graph* DrawingPanel::GetGraph()
+{
+	return &m_graph;
+}
+
 void DrawingPanel::DrawNode(const Node* node)
 {
 	wxClientDC dc(this);
