@@ -99,7 +99,7 @@ bool ProcessGraphDialog::GetDrawCriticalPath()
     return m_draw_critical_path;
 }
 
-int ProcessGraphDialog::GetOutputDestination()
+OutputDestination ProcessGraphDialog::GetOutputDestination()
 {
     return m_output_destination;
 }
