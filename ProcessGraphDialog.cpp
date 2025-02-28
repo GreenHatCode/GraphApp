@@ -133,7 +133,7 @@ bool ProcessGraphDialog::TransferDataFromWindow()
     m_calculate_t_late = t_late_check->GetValue();
     m_calculate_R = t_R_check->GetValue();
     m_draw_critical_path = critical_path_check->GetValue();
-    m_output_destination = output_destination_selector->GetSelection();
+    m_output_destination = (OutputDestination)output_destination_selector->GetSelection();
 
     return true;
 }
