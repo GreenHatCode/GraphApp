@@ -8,6 +8,7 @@
 #include "AppPreferences.h"
 #include "QuickPrint.h"
 #include "ProcessGraphDialog.h"
+#include "ProcessGraph.h"
 
 // toolbar images
 #include "res/cursor24.xpm"
