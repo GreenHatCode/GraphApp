@@ -38,7 +38,7 @@ public:
     bool GetCalculateLateEventDate();
     bool GetCalculateEvenTimeReserne();
     bool GetDrawCriticalPath();
-    int GetOutputDestination();
+    OutputDestination GetOutputDestination();
 
 
 private:
