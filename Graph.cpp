@@ -122,6 +122,17 @@ Edge* Graph::GetEdge(size_t index)
 	else throw "Index out of range";
 }
 
+std::vector<Edge*> Graph::GetIncomingEdges(const Node* in)
+{
+	std::vector<Edge*> result;
+	for (std::vector<Edge*>::iterator iter = edges.begin(); iter < edges.end(); iter++)
+	{
+		if ((*iter)->to == in)result.push_back(*iter);
+	}
+
+	return result;
+}
+
 void Graph::SetEdgeWeight(const Node* from, const Node* to, int weight)
 {
 
