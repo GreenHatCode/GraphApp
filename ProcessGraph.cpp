@@ -9,7 +9,7 @@ ProcessGraph::ProcessGraph(Graph* ptr, OutputDestination output_destination_type
 bool ProcessGraph::DoProcess()
 {
 	if (m_graph_ptr->Empty())return false;
-	Validate();
+	if (!Validate())return false;
 
 	// module 1, DM lab4
 	// EARLY_EVENT_DATE
@@ -36,7 +36,23 @@ bool ProcessGraph::DoProcess()
 		T_early[i] = max_T_early;
 	}
 
+	// LATE_EVENT_DATE
+	std::vector<int>T_late(m_graph_ptr->GetNodeAmount()); // result array
+	T_late[m_graph_ptr->GetNodeAmount() - 1] = T_early[m_graph_ptr->GetNodeAmount() - 1];
+	for (int i = T_late.size() - 2; i >= 0; i--)
+	{
+		int min_T_late = std::numeric_limits<int>::max();
+		for (int k = i + 1; k < T_late.size(); k++)
+		{
+			Edge* curr_outcoming_edge = m_graph_ptr->GetEdge(m_graph_ptr->GetNode(i), m_graph_ptr->GetNode(k));
+			if (curr_outcoming_edge == nullptr)continue;
 
+			int tmp = T_late[k] - curr_outcoming_edge->weight;
+			if (min_T_late > tmp) min_T_late = tmp;
+		}
+
+		T_late[i] = min_T_late;
+	}
 
 
 
