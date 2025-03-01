@@ -9,6 +9,7 @@ class ProcessGraph
 public:
 	ProcessGraph(Graph* ptr, OutputDestination output_destination_type = OutputDestination::DRAWING_AREA);
 	bool DoProcess(); // executes graph porcessig, returns false if processing is failed
+    bool Validate(); // searches for mistakes in graph construction
 
     void SetCalculateEarlyEventDate(bool value);
     void SetCalculateLateEventDate(bool value);

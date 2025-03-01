@@ -9,6 +9,7 @@ ProcessGraph::ProcessGraph(Graph* ptr, OutputDestination output_destination_type
 bool ProcessGraph::DoProcess()
 {
 	if (m_graph_ptr->Empty())return false;
+	Validate();
 
 	// module 1, DM lab4
 	// EARLY_EVENT_DATE
@@ -43,6 +44,21 @@ bool ProcessGraph::DoProcess()
 
 
 	//OutPutResults();
+
+	return true;
+}
+
+bool ProcessGraph::Validate()
+{
+	// searching for edges in which from->index > to->index
+	for (size_t i = 0; i < m_graph_ptr->GetEdgeAmount(); i++)
+	{
+		Edge* curr_edge = m_graph_ptr->GetEdge(i);
+		if (curr_edge->from->index > curr_edge->to->index)return false;
+	}
+
+
+
 
 	return true;
 }

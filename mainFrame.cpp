@@ -180,6 +180,11 @@ void mainFrame::OnProcessGraph(wxCommandEvent& evt)
 		if (dlg->GetCalculateEvenTimeReserne()) { process_graph.SetCalculateEvenTimeReserne(true); }
 		if (dlg->GetDrawCriticalPath()) { process_graph.SetDrawCriticalPath(true); }
 
+		if (!process_graph.Validate())
+		{
+			wxLogError("You didn't pass the graph validation. Correct your net graph.");
+			return;
+		}
 		if (process_graph.DoProcess())
 		{
 			wxMessageBox("success");
