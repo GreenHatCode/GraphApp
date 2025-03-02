@@ -23,6 +23,7 @@ struct Edge
 	const Node* from = nullptr;
 	const Node* to = nullptr;
 	int weight;
+	bool critical_path_edge = false;
 
 	bool operator ==(Edge right)
 	{
