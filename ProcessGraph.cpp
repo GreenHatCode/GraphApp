@@ -4,6 +4,9 @@ ProcessGraph::ProcessGraph(Graph* ptr, OutputDestination output_destination_type
 {
 	m_graph_ptr = ptr;
 	m_output_destination_type = output_destination_type;
+	m_T_early.resize(ptr->GetNodeAmount());
+	m_T_late.resize(ptr->GetNodeAmount());
+	m_Time_reserve.resize(ptr->GetNodeAmount());
 }
 
 bool ProcessGraph::DoProcess()
@@ -16,49 +19,46 @@ bool ProcessGraph::DoProcess()
 	// algorithm
 	//
 	// 1) find all edges that incomes in the node
-	// 2) find the edge with max weight among these edges. This is our T_early
-	// If the node has'n any incoming edges, T_early = 0
+	// 2) find the edge with max weight among these edges. This is our m_T_early
+	// If the node has'n any incoming edges, m_T_early = 0
 
 	// EARLY_EVENT_DATE
-	std::vector<int>T_early(m_graph_ptr->GetNodeAmount()); // result array
-	for (size_t i = 0; i < T_early.size(); i++)
+	for (size_t i = 0; i < m_T_early.size(); i++)
 	{
-		int max_T_early = 0;
+		int max_m_T_early = 0;
 		for (int k = i - 1; k >= 0; k--)
 		{
 			Edge* curr_incoming_edge = m_graph_ptr->GetEdge(m_graph_ptr->GetNode(k), m_graph_ptr->GetNode(i));
 			if (curr_incoming_edge == nullptr)continue;
 
-			int tmp = curr_incoming_edge->weight + T_early[k];
-			if (max_T_early < tmp) max_T_early = tmp;
+			int tmp = curr_incoming_edge->weight + m_T_early[k];
+			if (max_m_T_early < tmp) max_m_T_early = tmp;
 		}
 
-		T_early[i] = max_T_early;
+		m_T_early[i] = max_m_T_early;
 	}
 
 	// LATE_EVENT_DATE
-	std::vector<int>T_late(m_graph_ptr->GetNodeAmount()); // result array
-	T_late[m_graph_ptr->GetNodeAmount() - 1] = T_early[m_graph_ptr->GetNodeAmount() - 1];
-	for (int i = T_late.size() - 2; i >= 0; i--)
+	m_T_late[m_graph_ptr->GetNodeAmount() - 1] = m_T_early[m_graph_ptr->GetNodeAmount() - 1];
+	for (int i = m_T_late.size() - 2; i >= 0; i--)
 	{
-		int min_T_late = std::numeric_limits<int>::max();
-		for (int k = i + 1; k < T_late.size(); k++)
+		int min_m_T_late = std::numeric_limits<int>::max();
+		for (int k = i + 1; k < m_T_late.size(); k++)
 		{
 			Edge* curr_outcoming_edge = m_graph_ptr->GetEdge(m_graph_ptr->GetNode(i), m_graph_ptr->GetNode(k));
 			if (curr_outcoming_edge == nullptr)continue;
 
-			int tmp = T_late[k] - curr_outcoming_edge->weight;
-			if (min_T_late > tmp) min_T_late = tmp;
+			int tmp = m_T_late[k] - curr_outcoming_edge->weight;
+			if (min_m_T_late > tmp) min_m_T_late = tmp;
 		}
 
-		T_late[i] = min_T_late;
+		m_T_late[i] = min_m_T_late;
 	}
 
-	// EVENT_TIME_RESERVE
-	std::vector<int> time_reserve(m_graph_ptr->GetNodeAmount());
-	for (size_t i = 0; i < time_reserve.size(); i++)
+	// EVENT_m_Time_reserve
+	for (size_t i = 0; i < m_Time_reserve.size(); i++)
 	{
-		time_reserve[i] = T_late[i] - T_early[i];
+		m_Time_reserve[i] = m_T_late[i] - m_T_early[i];
 	}
 
 

@@ -20,6 +20,10 @@ private:
 	Graph* m_graph_ptr = nullptr;
     OutputDestination m_output_destination_type = OutputDestination::DRAWING_AREA;
 
+    // calculatoion data
+    std::vector<int>m_T_early; // result array
+    std::vector<int>m_T_late; // result array
+    std::vector<int> m_Time_reserve;
 
     // module 1, DM lab4
     bool m_calculate_t_early = false; // ID_EARLY_EVENT_DATE
