@@ -187,7 +187,7 @@ void mainFrame::OnProcessGraph(wxCommandEvent& evt)
 		}
 		if (process_graph.DoProcess())
 		{
-			wxMessageBox("success");
+			Refresh();
 		}
 		else wxLogError("Unable to process the graph.");
 		
