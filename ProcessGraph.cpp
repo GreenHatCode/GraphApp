@@ -63,7 +63,7 @@ bool ProcessGraph::DoProcess()
 
 
 
-	//OutPutResults();
+	OutputResults();
 
 	return true;
 }
@@ -101,4 +101,18 @@ void ProcessGraph::SetCalculateEvenTimeReserne(bool value)
 void ProcessGraph::SetDrawCriticalPath(bool value)
 {
 	m_search_critical_path = value;
+}
+
+void ProcessGraph::OutputResults()
+{
+	// modifing nodes
+	for (size_t i = 0; i < m_graph_ptr->GetNodeAmount(); i++)
+	{
+		Node* curr_node = m_graph_ptr->GetNode(i);
+		curr_node->early_event_deadline = m_T_early[i];
+		curr_node->late_event_deadline = m_T_late[i];
+		curr_node->time_reserve = m_Time_reserve[i];
+	}
+
+
 }

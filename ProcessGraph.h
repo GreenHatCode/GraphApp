@@ -33,5 +33,12 @@ private:
 
     // module 2, SA lab 1,2
 
+
+
+
+
+
+    void OutputResults(); // modifies graph nodes and edges with calculation results
+
 };
 
