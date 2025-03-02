@@ -54,8 +54,12 @@ bool ProcessGraph::DoProcess()
 		T_late[i] = min_T_late;
 	}
 
-
-
+	// EVENT_TIME_RESERVE
+	std::vector<int> time_reserve(m_graph_ptr->GetNodeAmount());
+	for (size_t i = 0; i < time_reserve.size(); i++)
+	{
+		time_reserve[i] = T_late[i] - T_early[i];
+	}
 
 
 
