@@ -389,7 +389,8 @@ void DrawingPanel::DrawEdge(const Edge* edge)
 {
 	wxClientDC dc(this);
 	wxPen pen;
-	if (m_colour_scheme == ColourSchemes::COLOURED)pen.SetColour(*wxWHITE);
+	if (edge->critical_path_edge) pen.SetColour(wxColour(245, 5, 5));
+	else if (m_colour_scheme == ColourSchemes::COLOURED)pen.SetColour(*wxWHITE);
 	else pen.SetColour(*wxBLACK);
 	pen.SetWidth(2);
 
