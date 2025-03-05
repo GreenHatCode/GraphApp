@@ -41,7 +41,7 @@ class Graph
 {
 public:
 	void AddNode(const wxPoint& coords, int index);
-	void EditNode(const wxPoint& node_coords, int idex = -1, int t_early = -1, int t_late = -1, int time_reserve = -1);
+	void EditNode(const wxPoint& node_coords);
 	void AddEdge(const Node* from, const Node* to, int weight = 0);
 	void Erase(const wxPoint& coords); // erase node
 	void Erase(const Node* from, const Node* to); // erase edge

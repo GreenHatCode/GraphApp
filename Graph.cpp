@@ -9,7 +9,7 @@ void Graph::AddNode(const wxPoint& coords, int index)
 	Rank();
 }
 
-void Graph::EditNode(const wxPoint& node_coords, int index, int t_early, int t_late, int time_reserve)
+void Graph::EditNode(const wxPoint& node_coords)
 {
 	// searching for the node
 	std::vector<Node*>::iterator iter = nodes.begin();
@@ -18,10 +18,6 @@ void Graph::EditNode(const wxPoint& node_coords, int index, int t_early, int t_l
 		if (IsNode(node_coords, iter))break;
 	}
 	(*iter)->coords = node_coords;
-	if (index != -1)(*iter)->index = index;
-	if(t_early != -1)(*iter)->early_event_deadline = t_early;
-	if (t_late != -1)(*iter)->late_event_deadline = t_late;
-	if (time_reserve != -1)(*iter)->time_reserve = time_reserve;
 	Rank();
 }
 
