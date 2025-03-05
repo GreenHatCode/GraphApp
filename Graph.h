@@ -23,6 +23,7 @@ struct Edge
 	const Node* from = nullptr;
 	const Node* to = nullptr;
 	int weight;
+	bool critical_path_edge = false;
 
 	bool operator ==(Edge right)
 	{
@@ -40,7 +41,7 @@ class Graph
 {
 public:
 	void AddNode(const wxPoint& coords, int index);
-	void EditNode(const wxPoint& node_coords, int idex = -1, int t_early = -1, int t_late = -1, int time_reserve = -1);
+	void EditNode(const wxPoint& node_coords);
 	void AddEdge(const Node* from, const Node* to, int weight = 0);
 	void Erase(const wxPoint& coords); // erase node
 	void Erase(const Node* from, const Node* to); // erase edge
@@ -48,8 +49,10 @@ public:
 	Node* GetNode(size_t index);
 	Edge* GetEdge(const Node* from, const Node* to);
 	Edge* GetEdge(size_t index);
+	std::vector<Edge*> GetIncomingEdges(const Node* in);
 	void SetEdgeWeight(const Node* from, const Node* to, int weight);
 	bool Empty();
+	void Rank(); // changes the order of the nodes in the array according to their idexes
 
 	size_t GetNodeAmount();
 	size_t GetEdgeAmount();

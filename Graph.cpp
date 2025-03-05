@@ -6,9 +6,10 @@ void Graph::AddNode(const wxPoint& coords, int index)
 	new_node->coords = coords;
 	new_node->index = index;
 	nodes.push_back(new_node);
+	Rank();
 }
 
-void Graph::EditNode(const wxPoint& node_coords, int index, int t_early, int t_late, int time_reserve)
+void Graph::EditNode(const wxPoint& node_coords)
 {
 	// searching for the node
 	std::vector<Node*>::iterator iter = nodes.begin();
@@ -17,10 +18,7 @@ void Graph::EditNode(const wxPoint& node_coords, int index, int t_early, int t_l
 		if (IsNode(node_coords, iter))break;
 	}
 	(*iter)->coords = node_coords;
-	if (index != -1)(*iter)->index = index;
-	if(t_early != -1)(*iter)->early_event_deadline = t_early;
-	if (t_late != -1)(*iter)->late_event_deadline = t_late;
-	if (time_reserve != -1)(*iter)->time_reserve = time_reserve;
+	Rank();
 }
 
 void Graph::AddEdge(const Node* from, const Node* to, int weight)
@@ -66,6 +64,7 @@ void Graph::Erase(const wxPoint& coords)
 			return;
 		}
 	}
+	Rank();
 
 	// deleting edge
 	for (std::vector<Edge*>::iterator iter = edges.begin(); iter != edges.end(); iter++)
@@ -122,6 +121,17 @@ Edge* Graph::GetEdge(size_t index)
 	else throw "Index out of range";
 }
 
+std::vector<Edge*> Graph::GetIncomingEdges(const Node* in)
+{
+	std::vector<Edge*> result;
+	for (std::vector<Edge*>::iterator iter = edges.begin(); iter < edges.end(); iter++)
+	{
+		if ((*iter)->to == in)result.push_back(*iter);
+	}
+
+	return result;
+}
+
 void Graph::SetEdgeWeight(const Node* from, const Node* to, int weight)
 {
 
@@ -134,6 +144,16 @@ bool Graph::Empty()
 		return true;
 	}
 	return false;
+}
+
+void Graph::Rank()
+{
+	std::sort(nodes.begin(), nodes.end(),
+		[](const Node* node1, const Node* node2)
+		{
+			return node1->index < node2->index;
+		}
+	);
 }
 
 size_t Graph::GetNodeAmount()

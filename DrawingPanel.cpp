@@ -328,6 +328,11 @@ void DrawingPanel::Print(wxDC& dc, int pageNum, wxSize dc_size)
 	}
 }
 
+Graph* DrawingPanel::GetGraph()
+{
+	return &m_graph;
+}
+
 void DrawingPanel::DrawNode(const Node* node)
 {
 	wxClientDC dc(this);
@@ -344,11 +349,38 @@ void DrawingPanel::DrawNode(const Node* node)
 	dc.DrawLine(wxPoint((*node).coords.x, (*node).coords.y - circle_radius), wxPoint((*node).coords.x, (*node).coords.y + circle_radius)); // vertical line
 	dc.DrawLine(wxPoint((*node).coords.x - circle_radius, (*node).coords.y), wxPoint((*node).coords.x + circle_radius, (*node).coords.y)); // horizontal line
 
-	// drawing node indes in left bottom circle sector
+	// drawing node index in left bottom circle sector
 	wxString str;
 	str << (*node).index;
-	wxSize str_width = dc.GetTextExtent(str);
-	dc.DrawText(str, (*node).coords.x - circle_radius / 2 - str_width.x / 2, (*node).coords.y + 3);
+	wxSize str_size = dc.GetTextExtent(str);
+	dc.DrawText(str, (*node).coords.x - circle_radius / 2 - str_size.x / 2, (*node).coords.y + 3);
+
+	if ((*node).early_event_deadline >= 0)
+	{
+		// drawing node t_early in left top circle sector
+		str.clear();
+		str << (*node).early_event_deadline;
+		str_size = dc.GetTextExtent(str);
+		dc.DrawText(str, (*node).coords.x - circle_radius / 2 - str_size.x / 2, (*node).coords.y - str_size.y - 3);
+	}
+	if ((*node).late_event_deadline >= 0)
+	{
+		// drawing node t_late in right bottom circle sector
+		str.clear();
+		str << (*node).late_event_deadline;
+		str_size = dc.GetTextExtent(str);
+		dc.DrawText(str, (*node).coords.x + circle_radius / 2 - str_size.x / 2 - 3, (*node).coords.y + 3);
+	}
+	if ((*node).time_reserve >= 0)
+	{
+		// drawing node time_reserve in right bottom circle sector
+		str.clear();
+		str << (*node).time_reserve;
+		str_size = dc.GetTextExtent(str);
+		dc.DrawText(str, (*node).coords.x + circle_radius / 2 - str_size.x / 2 - 3, (*node).coords.y - str_size.y - 3);
+	}
+
+
 
 	dc.SetPen(wxNullPen);
 }
@@ -357,7 +389,8 @@ void DrawingPanel::DrawEdge(const Edge* edge)
 {
 	wxClientDC dc(this);
 	wxPen pen;
-	if (m_colour_scheme == ColourSchemes::COLOURED)pen.SetColour(*wxWHITE);
+	if (edge->critical_path_edge) pen.SetColour(wxColour(245, 5, 5));
+	else if (m_colour_scheme == ColourSchemes::COLOURED)pen.SetColour(*wxWHITE);
 	else pen.SetColour(*wxBLACK);
 	pen.SetWidth(2);
 

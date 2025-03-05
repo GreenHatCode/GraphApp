@@ -173,10 +173,24 @@ void mainFrame::OnProcessGraph(wxCommandEvent& evt)
 	ProcessGraphDialog* dlg = new ProcessGraphDialog(this, wxID_ANY, wxT("Process graph options"));
 	if (dlg->ShowModal() == wxID_OK)
 	{
-		wxString ms = wxString::Format("Output: %d %d %d %d %i", dlg->GetCalculateEarlyEventDate(), dlg->GetCalculateLateEventDate(), dlg->GetCalculateEvenTimeReserne(), dlg->GetDrawCriticalPath(), dlg->GetOutputDestination());
-		wxMessageBox(ms);
-		// fetching processing params
-		// ProcessGraph();
+
+		ProcessGraph process_graph(drawingPanel->GetGraph(), dlg->GetOutputDestination());
+		if (dlg->GetCalculateEarlyEventDate()) { process_graph.SetCalculateEarlyEventDate(true); }
+		if (dlg->GetCalculateLateEventDate()) { process_graph.SetCalculateLateEventDate(true); }
+		if (dlg->GetCalculateEvenTimeReserne()) { process_graph.SetCalculateEvenTimeReserne(true); }
+		if (dlg->GetDrawCriticalPath()) { process_graph.SetDrawCriticalPath(true); }
+
+		if (!process_graph.Validate())
+		{
+			wxLogError("You didn't pass the graph validation. Correct your net graph.");
+			return;
+		}
+		if (process_graph.DoProcess())
+		{
+			Refresh();
+		}
+		else wxLogError("Unable to process the graph.");
+		
 	}
 
 	dlg->Destroy();

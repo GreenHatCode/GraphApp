@@ -12,6 +12,15 @@
 // 4) add the necessary code to TransferDataFromWindow and TransferDataToWindow
 //
 
+enum OutputDestination
+{
+    DRAWING_AREA,
+    SEPARATE_WINDOW,
+    TXT_FILE
+};
+
+
+
 class ProcessGraphDialog :
     public wxDialog
 {
@@ -29,7 +38,7 @@ public:
     bool GetCalculateLateEventDate();
     bool GetCalculateEvenTimeReserne();
     bool GetDrawCriticalPath();
-    int GetOutputDestination();
+    OutputDestination GetOutputDestination();
 
 
 private:
@@ -42,7 +51,7 @@ private:
     bool m_draw_critical_path = false;
 
     // output destination
-    int m_output_destination = 0; // 0 - Drawing area, 1 - Separate window, 2 - .txt file 
+    OutputDestination m_output_destination = OutputDestination::DRAWING_AREA; // 0 - Drawing area, 1 - Separate window, 2 - .txt file 
 
     void OnOK(wxCommandEvent& evt);
 

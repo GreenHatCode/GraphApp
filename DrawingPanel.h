@@ -24,6 +24,7 @@ public:
     void SetColourScheme(ColourSchemes scheme);
     void ShowNodeDuplicationWarning(bool show);
     void Print(wxDC& dc, int pageNum, wxSize dc_size);
+    Graph* GetGraph();
 private:
     Graph m_graph;
     DrawingRegimes m_drawing_regime = STANDARD_CURSOR;
