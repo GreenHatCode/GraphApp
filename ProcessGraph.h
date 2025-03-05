@@ -34,7 +34,7 @@ private:
     void CalculateEarlyEventDate();
     void CalculateLateEventDate();
     void CalculateTimeReserve();
-
+    void SearchCritPath();
 
     // module 2, SA lab 1,2
 

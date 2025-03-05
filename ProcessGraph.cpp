@@ -45,11 +45,7 @@ bool ProcessGraph::DoProcess()
 	// CRITICAL_PATH
 	if (m_search_critical_path)
 	{
-		for (size_t i = 0; i < m_graph_ptr->GetEdgeAmount(); i++)
-		{
-			Edge* edge = m_graph_ptr->GetEdge(i);
-			if (edge->from->time_reserve == 0 && edge->to->time_reserve == 0)edge->critical_path_edge = true;
-		}
+		SearchCritPath();
 	}
 
 
@@ -138,6 +134,50 @@ void ProcessGraph::CalculateTimeReserve()
 	for (size_t i = 0; i < m_Time_reserve.size(); i++)
 	{
 		m_Time_reserve[i] = m_T_late[i] - m_T_early[i];
+	}
+}
+
+void ProcessGraph::SearchCritPath()
+{
+	CalculateTimeReserve();
+
+	// todo: delete before merging
+	m_calculate_t_early = true; // ID_EARLY_EVENT_DATE
+	m_calculate_t_late = true; // ID_LATE_EVENT_DATE
+	m_calculate_R = true; // ID_EVENT_TIME_RESERVE
+	OutputResults();
+
+	// make all edges non critical
+	for (size_t i = 0; i < m_graph_ptr->GetEdgeAmount(); i++)
+	{
+		m_graph_ptr->GetEdge(i)->critical_path_edge = false;
+	}
+
+	// find all cirtical nodes
+	std::vector<Node*> critical_nodes;
+	for (int i = 0; i < m_graph_ptr->GetNodeAmount(); i++)
+	{
+		Node* curr_node = m_graph_ptr->GetNode(i);
+		if (curr_node->time_reserve == 0)critical_nodes.push_back(curr_node);
+	}
+
+	for (int i = critical_nodes.size() - 1; i >= 0; i--)
+	{
+		std::vector<Edge*>incoming_edges = m_graph_ptr->GetIncomingEdges(critical_nodes[i]);
+		if (incoming_edges.empty())continue;
+		for (std::vector<Edge*>::iterator iter = incoming_edges.begin(); iter != incoming_edges.end();)
+		{
+			if ((*iter)->from->time_reserve != 0)iter = incoming_edges.erase(iter);
+			else iter++;
+		}
+
+
+		Edge* crit_edge = incoming_edges[0];
+		for (int k = 1; k < incoming_edges.size(); k++)
+		{
+			if (crit_edge->from->index < incoming_edges[k]->from->index)crit_edge = incoming_edges[k];
+		}
+		crit_edge->critical_path_edge = true;
 	}
 }
 
