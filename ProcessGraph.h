@@ -21,8 +21,8 @@ private:
     OutputDestination m_output_destination_type = OutputDestination::DRAWING_AREA;
 
     // calculatoion data
-    std::vector<int>m_T_early; // result array
-    std::vector<int>m_T_late; // result array
+    std::vector<int>m_T_early; 
+    std::vector<int>m_T_late; 
     std::vector<int> m_Time_reserve;
 
     // module 1, DM lab4
@@ -30,6 +30,11 @@ private:
     bool m_calculate_t_late = false; // ID_LATE_EVENT_DATE
     bool m_calculate_R = false; // ID_EVENT_TIME_RESERVE
     bool m_search_critical_path = false; // ID_CRITICAL_PATH
+
+    void CalculateEarlyEventDate();
+    void CalculateLateEventDate();
+    void CalculateTimeReserve();
+
 
     // module 2, SA lab 1,2
 

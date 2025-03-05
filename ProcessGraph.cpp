@@ -25,51 +25,21 @@ bool ProcessGraph::DoProcess()
 	// EARLY_EVENT_DATE
 	if (m_calculate_t_early)
 	{
-		for (size_t i = 0; i < m_T_early.size(); i++)
-		{
-			int max_m_T_early = 0;
-			for (int k = i - 1; k >= 0; k--)
-			{
-				Edge* curr_incoming_edge = m_graph_ptr->GetEdge(m_graph_ptr->GetNode(k), m_graph_ptr->GetNode(i));
-				if (curr_incoming_edge == nullptr)continue;
-
-				int tmp = curr_incoming_edge->weight + m_T_early[k];
-				if (max_m_T_early < tmp) max_m_T_early = tmp;
-			}
-
-			m_T_early[i] = max_m_T_early;
-		}
+		CalculateEarlyEventDate();
 	}
 
 
 	// LATE_EVENT_DATE
 	if (m_calculate_t_late)
 	{
-		m_T_late[m_graph_ptr->GetNodeAmount() - 1] = m_T_early[m_graph_ptr->GetNodeAmount() - 1];
-		for (int i = m_T_late.size() - 2; i >= 0; i--)
-		{
-			int min_m_T_late = std::numeric_limits<int>::max();
-			for (int k = i + 1; k < m_T_late.size(); k++)
-			{
-				Edge* curr_outcoming_edge = m_graph_ptr->GetEdge(m_graph_ptr->GetNode(i), m_graph_ptr->GetNode(k));
-				if (curr_outcoming_edge == nullptr)continue;
-
-				int tmp = m_T_late[k] - curr_outcoming_edge->weight;
-				if (min_m_T_late > tmp) min_m_T_late = tmp;
-			}
-
-			m_T_late[i] = min_m_T_late;
-		}
+		CalculateLateEventDate();
 	}
 
 
 	// EVENT_m_Time_reserve
 	if (m_calculate_R)
 	{
-		for (size_t i = 0; i < m_Time_reserve.size(); i++)
-		{
-			m_Time_reserve[i] = m_T_late[i] - m_T_early[i];
-		}
+		CalculateTimeReserve();
 	}
 
 	// CRITICAL_PATH
@@ -121,6 +91,54 @@ void ProcessGraph::SetCalculateEvenTimeReserne(bool value)
 void ProcessGraph::SetDrawCriticalPath(bool value)
 {
 	m_search_critical_path = value;
+}
+
+void ProcessGraph::CalculateEarlyEventDate()
+{
+	for (size_t i = 0; i < m_T_early.size(); i++)
+	{
+		int max_m_T_early = 0;
+		for (int k = i - 1; k >= 0; k--)
+		{
+			Edge* curr_incoming_edge = m_graph_ptr->GetEdge(m_graph_ptr->GetNode(k), m_graph_ptr->GetNode(i));
+			if (curr_incoming_edge == nullptr)continue;
+
+			int tmp = curr_incoming_edge->weight + m_T_early[k];
+			if (max_m_T_early < tmp) max_m_T_early = tmp;
+		}
+
+		m_T_early[i] = max_m_T_early;
+	}
+}
+
+void ProcessGraph::CalculateLateEventDate()
+{
+	CalculateEarlyEventDate();
+	m_T_late[m_graph_ptr->GetNodeAmount() - 1] = m_T_early[m_graph_ptr->GetNodeAmount() - 1];
+	for (int i = m_T_late.size() - 2; i >= 0; i--)
+	{
+		int min_m_T_late = std::numeric_limits<int>::max();
+		for (int k = i + 1; k < m_T_late.size(); k++)
+		{
+			Edge* curr_outcoming_edge = m_graph_ptr->GetEdge(m_graph_ptr->GetNode(i), m_graph_ptr->GetNode(k));
+			if (curr_outcoming_edge == nullptr)continue;
+
+			int tmp = m_T_late[k] - curr_outcoming_edge->weight;
+			if (min_m_T_late > tmp) min_m_T_late = tmp;
+		}
+
+		m_T_late[i] = min_m_T_late;
+	}
+}
+
+void ProcessGraph::CalculateTimeReserve()
+{
+	CalculateEarlyEventDate();
+	CalculateLateEventDate();
+	for (size_t i = 0; i < m_Time_reserve.size(); i++)
+	{
+		m_Time_reserve[i] = m_T_late[i] - m_T_early[i];
+	}
 }
 
 void ProcessGraph::OutputResults()
