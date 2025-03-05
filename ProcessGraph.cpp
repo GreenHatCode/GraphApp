@@ -141,41 +141,43 @@ void ProcessGraph::SearchCritPath()
 {
 	CalculateTimeReserve();
 
-	// todo: delete before merging
-	m_calculate_t_early = true; // ID_EARLY_EVENT_DATE
-	m_calculate_t_late = true; // ID_LATE_EVENT_DATE
-	m_calculate_R = true; // ID_EVENT_TIME_RESERVE
-	OutputResults();
-
-	// make all edges non critical
+	// make all edges non-critical
 	for (size_t i = 0; i < m_graph_ptr->GetEdgeAmount(); i++)
 	{
 		m_graph_ptr->GetEdge(i)->critical_path_edge = false;
 	}
 
-	// find all cirtical nodes
-	std::vector<Node*> critical_nodes;
-	for (int i = 0; i < m_graph_ptr->GetNodeAmount(); i++)
+	std::map<int, int> nodes_time_reserves;
+	for (size_t i = 0; i < m_Time_reserve.size(); i++)
 	{
-		Node* curr_node = m_graph_ptr->GetNode(i);
-		if (curr_node->time_reserve == 0)critical_nodes.push_back(curr_node);
+		nodes_time_reserves.emplace(m_graph_ptr->GetNode(i)->index, m_Time_reserve[i]);
 	}
 
-	for (int i = critical_nodes.size() - 1; i >= 0; i--)
+	// find all cirtical nodes
+	std::map<int,int> critical_nodes_indexes; // stores key: node_index(node number), value: time_reserve_index_in_array
+	for (int i = 0; i < m_Time_reserve.size(); i++)
 	{
-		std::vector<Edge*>incoming_edges = m_graph_ptr->GetIncomingEdges(critical_nodes[i]);
+		if (m_Time_reserve[i] == 0)critical_nodes_indexes.emplace(std::make_pair(m_graph_ptr->GetNode(i)->index, i));
+	}
+
+	// mark edge as critical if it is a part of critical path
+	for (const auto& [node_index, critical_time_in_array_index] : critical_nodes_indexes)
+	{
+		std::vector<Edge*>incoming_edges = m_graph_ptr->GetIncomingEdges(m_graph_ptr->GetNode(critical_time_in_array_index));
 		if (incoming_edges.empty())continue;
+
 		for (std::vector<Edge*>::iterator iter = incoming_edges.begin(); iter != incoming_edges.end();)
 		{
-			if ((*iter)->from->time_reserve != 0)iter = incoming_edges.erase(iter);
+			if (nodes_time_reserves[(*iter)->from->index] != 0)iter = incoming_edges.erase(iter);
 			else iter++;
 		}
-
 
 		Edge* crit_edge = incoming_edges[0];
 		for (int k = 1; k < incoming_edges.size(); k++)
 		{
-			if (crit_edge->from->index < incoming_edges[k]->from->index)crit_edge = incoming_edges[k];
+			// a critical edge is an edge that connects two critical nodes (time_reserve == 0)
+			// and the difference between the indices of these nodes (node.index) is minimal
+			if (crit_edge->from->index < incoming_edges[k]->from->index)crit_edge = incoming_edges[k]; 
 		}
 		crit_edge->critical_path_edge = true;
 	}
