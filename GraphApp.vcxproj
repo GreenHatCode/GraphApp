@@ -25,6 +25,7 @@
     <ClInclude Include="Graph.h" />
     <ClInclude Include="mainFrame.h" />
     <ClInclude Include="mini\ini.h" />
+    <ClInclude Include="OutputProcessingResultsDialog.h" />
     <ClInclude Include="PreferenceDialog.h" />
     <ClInclude Include="ProcessGraph.h" />
     <ClInclude Include="ProcessGraphDialog.h" />
@@ -37,6 +38,7 @@
     <ClCompile Include="DrawingPanel.cpp" />
     <ClCompile Include="Graph.cpp" />
     <ClCompile Include="mainFrame.cpp" />
+    <ClCompile Include="OutputProcessingResultsDialog.cpp" />
     <ClCompile Include="PreferenceDialog.cpp" />
     <ClCompile Include="ProcessGraph.cpp" />
     <ClCompile Include="ProcessGraphDialog.cpp" />
