@@ -165,39 +165,16 @@ void ProcessGraph::SearchCritPath()
 	}
 
 	// find all cirtical nodes
-	std::map<int,int> critical_nodes_indexes; // stores key: node_index(node number), value: time_reserve_index_in_array
 	for (int i = 0; i < m_Time_reserve.size(); i++)
 	{
-		if (m_Time_reserve[i] == 0)critical_nodes_indexes.emplace(std::make_pair(m_graph_ptr->GetNode(i)->index, i));
-	}
-
-	// mark edge as critical if it is a part of critical path
-	for (const auto& [node_index, critical_time_in_array_index] : critical_nodes_indexes)
-	{
-		std::vector<Edge*>incoming_edges = m_graph_ptr->GetIncomingEdges(m_graph_ptr->GetNode(critical_time_in_array_index));
-		if (incoming_edges.empty())continue;
-
-		for (std::vector<Edge*>::iterator iter = incoming_edges.begin(); iter != incoming_edges.end();)
-		{
-			if (nodes_time_reserves[(*iter)->from->index] != 0)iter = incoming_edges.erase(iter);
-			else iter++;
-		}
-
-		Edge* crit_edge = incoming_edges[0];
-		for (int k = 1; k < incoming_edges.size(); k++)
-		{
-			// a critical edge is an edge that connects two critical nodes (time_reserve == 0)
-			// and the difference between the indices of these nodes (node.index) is minimal
-			if (crit_edge->from->index < incoming_edges[k]->from->index)crit_edge = incoming_edges[k]; 
-		}
-		crit_edge->critical_path_edge = true;
+		if (m_Time_reserve[i] == 0)	m_crit_path.push_back(m_graph_ptr->GetNode(i));
 	}
 }
 
 void ProcessGraph::OutputResults()
 {
 
-	if (m_output_destination_type==OutputDestination::DRAWING_AREA)
+	if (m_output_destination_type == OutputDestination::DRAWING_AREA)
 	{
 		// modifing nodes
 		for (size_t i = 0; i < m_graph_ptr->GetNodeAmount(); i++)
@@ -208,7 +185,19 @@ void ProcessGraph::OutputResults()
 			if (m_calculate_R)curr_node->time_reserve = m_Time_reserve[i];
 		}
 		// output ctirical path
-		// set edges as critical by their index in array
+		// marks edges as critical
+		for (size_t i = 0; i < m_crit_path.size() - 1; i++)
+		{
+			for (size_t k = i + 1; k < m_crit_path.size(); k++)
+			{
+				Edge* crit_edge = m_graph_ptr->GetEdge(m_crit_path[i], m_crit_path[k]);
+				if (crit_edge != nullptr)
+				{
+					crit_edge->critical_path_edge = true;
+					break;
+				}
+			}
+		}
 	}
 
 

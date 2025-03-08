@@ -23,10 +23,10 @@ private:
     OutputDestination m_output_destination_type = OutputDestination::DRAWING_AREA;
 
     // calculatoion data
-    std::vector<int>m_T_early; 
-    std::vector<int>m_T_late; 
+    std::vector<int> m_T_early; 
+    std::vector<int> m_T_late; 
     std::vector<int> m_Time_reserve;
-
+    std::vector<Node*> m_crit_path; // stores nodes that create a critical path
 
     // module 1, DM lab4
     bool m_calculate_t_early = false; // ID_EARLY_EVENT_DATE
