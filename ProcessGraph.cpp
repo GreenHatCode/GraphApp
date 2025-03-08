@@ -91,12 +91,6 @@ void ProcessGraph::SetDrawCriticalPath(bool value)
 
 wxString ProcessGraph::GetOutputMessage()
 {
-	wxString output_message;
-
-
-
-
-
 	return output_message;
 }
 
@@ -184,20 +178,66 @@ void ProcessGraph::OutputResults()
 			if (m_calculate_t_late)curr_node->late_event_deadline = m_T_late[i];
 			if (m_calculate_R)curr_node->time_reserve = m_Time_reserve[i];
 		}
-		// output ctirical path
-		// marks edges as critical
-		for (size_t i = 0; i < m_crit_path.size() - 1; i++)
+
+		if (m_search_critical_path)
 		{
-			for (size_t k = i + 1; k < m_crit_path.size(); k++)
+			// output ctirical path
+			// marks edges as critical
+			for (size_t i = 0; i < m_crit_path.size() - 1; i++)
 			{
-				Edge* crit_edge = m_graph_ptr->GetEdge(m_crit_path[i], m_crit_path[k]);
-				if (crit_edge != nullptr)
+				for (size_t k = i + 1; k < m_crit_path.size(); k++)
 				{
-					crit_edge->critical_path_edge = true;
-					break;
+					Edge* crit_edge = m_graph_ptr->GetEdge(m_crit_path[i], m_crit_path[k]);
+					if (crit_edge != nullptr)
+					{
+						crit_edge->critical_path_edge = true;
+						break;
+					}
 				}
 			}
 		}
+
+	}
+	else if (m_output_destination_type == OutputDestination::SEPARATE_WINDOW)
+	{
+		if (m_calculate_t_early)
+		{
+			for (size_t i = 0; i < m_T_early.size(); i++)
+			{
+				output_message.append(wxString::Format("Node%i early event deadline: %i\n", i, m_T_early[i]));
+			}
+			output_message.append(wxT("\n"));
+		}
+
+		if (m_calculate_t_late)
+		{
+			for (size_t i = 0; i < m_T_late.size(); i++)
+			{
+				output_message.append(wxString::Format("Node%i late event deadline: %i\n", i, m_T_late[i]));
+			}
+			output_message.append(wxT("\n"));
+		}
+		
+		if (m_calculate_R)
+		{
+			for (size_t i = 0; i < m_Time_reserve.size(); i++)
+			{
+				output_message.append(wxString::Format("Node%i event time reserve: %i\n", i, m_Time_reserve[i]));
+			}
+			output_message.append(wxT("\n"));
+		}
+		
+		if (m_search_critical_path)
+		{
+			output_message.append(wxT("Critical path:"));
+			for (size_t i = 0; i < m_crit_path.size(); i++)
+			{
+				output_message.append(wxString::Format(" %i,", m_crit_path[i]->index));
+			}
+			output_message.erase(output_message.end() - 1);
+			//output_message.append(wxT("\n"));
+		}
+
 	}
 
 

@@ -21,6 +21,7 @@ public:
 private:
 	Graph* m_graph_ptr = nullptr;
     OutputDestination m_output_destination_type = OutputDestination::DRAWING_AREA;
+    wxString output_message;
 
     // calculatoion data
     std::vector<int> m_T_early; 
