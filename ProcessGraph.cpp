@@ -89,6 +89,17 @@ void ProcessGraph::SetDrawCriticalPath(bool value)
 	m_search_critical_path = value;
 }
 
+wxString ProcessGraph::GetOutputMessage()
+{
+	wxString output_message;
+
+
+
+
+
+	return output_message;
+}
+
 void ProcessGraph::CalculateEarlyEventDate()
 {
 	for (size_t i = 0; i < m_T_early.size(); i++)
@@ -185,14 +196,21 @@ void ProcessGraph::SearchCritPath()
 
 void ProcessGraph::OutputResults()
 {
-	// modifing nodes
-	for (size_t i = 0; i < m_graph_ptr->GetNodeAmount(); i++)
+
+	if (m_output_destination_type==OutputDestination::DRAWING_AREA)
 	{
-		Node* curr_node = m_graph_ptr->GetNode(i);
-		if (m_calculate_t_early)curr_node->early_event_deadline = m_T_early[i];
-		if (m_calculate_t_late)curr_node->late_event_deadline = m_T_late[i];
-		if (m_calculate_R)curr_node->time_reserve = m_Time_reserve[i];
+		// modifing nodes
+		for (size_t i = 0; i < m_graph_ptr->GetNodeAmount(); i++)
+		{
+			Node* curr_node = m_graph_ptr->GetNode(i);
+			if (m_calculate_t_early)curr_node->early_event_deadline = m_T_early[i];
+			if (m_calculate_t_late)curr_node->late_event_deadline = m_T_late[i];
+			if (m_calculate_R)curr_node->time_reserve = m_Time_reserve[i];
+		}
+		// output ctirical path
+		// set edges as critical by their index in array
 	}
+
 
 
 }

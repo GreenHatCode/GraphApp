@@ -16,6 +16,7 @@ public:
     void SetCalculateLateEventDate(bool value);
     void SetCalculateEvenTimeReserne(bool value);
     void SetDrawCriticalPath(bool value);
+    wxString GetOutputMessage();
 
 private:
 	Graph* m_graph_ptr = nullptr;
@@ -25,6 +26,7 @@ private:
     std::vector<int>m_T_early; 
     std::vector<int>m_T_late; 
     std::vector<int> m_Time_reserve;
+
 
     // module 1, DM lab4
     bool m_calculate_t_early = false; // ID_EARLY_EVENT_DATE
