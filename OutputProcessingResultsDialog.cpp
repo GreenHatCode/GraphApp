@@ -5,7 +5,12 @@ enum
     ID_TEXT
 };
 
+BEGIN_EVENT_TABLE(OutputProcessingResultsDialog, wxDialog)
+    EVT_BUTTON(wxID_COPY, OutputProcessingResultsDialog::OnCopy)
+END_EVENT_TABLE()
+
 OutputProcessingResultsDialog::OutputProcessingResultsDialog(wxWindow* parent, wxWindowID id, const wxString& title, const wxPoint& pos, const wxSize& size, long style, const wxString& name)
+    :wxDialog(parent, id, title, pos, size, style, name)
 {
     wxBoxSizer* topSizer = new wxBoxSizer(wxVERTICAL);
 
@@ -15,7 +20,7 @@ OutputProcessingResultsDialog::OutputProcessingResultsDialog(wxWindow* parent, w
 
     wxBoxSizer* buttons_sizer = new wxBoxSizer(wxHORIZONTAL);
 
-    topSizer->Add(buttons_sizer, 0, wxALL | wxEXPAND | wxALIGN_RIGHT, 5);
+    topSizer->Add(buttons_sizer, 0, wxALL | wxEXPAND, 5);
 
     wxButton* m_button_ok = new wxButton(this, wxID_OK, _("OK"), wxDefaultPosition, wxDLG_UNIT(this, wxSize(-1, -1)), 0);
 
@@ -25,10 +30,9 @@ OutputProcessingResultsDialog::OutputProcessingResultsDialog(wxWindow* parent, w
 
     buttons_sizer->Add(m_button_copy, 0, wxALL, 5);
 
-    SetName(wxT("ProcessingResultsDialog"));
-    SetMinClientSize(wxSize(500, 370));
-    SetSize(wxDLG_UNIT(this, wxSize(500, 370)));
     SetSizerAndFit(topSizer);
+    SetSize(wxSize(500, 370));
+    SetName(wxT("ProcessingResultsDialog"));
 }
 
 void OutputProcessingResultsDialog::SetOutputMessage(const wxString& message)
@@ -48,4 +52,19 @@ void OutputProcessingResultsDialog::OnOK(wxCommandEvent& evt)
         SetReturnCode(wxID_OK);
         this->Show(false); // if modeless
     }
+}
+
+void OutputProcessingResultsDialog::OnCopy(wxCommandEvent& evt)
+{
+    wxTextCtrl* textCtrl = (wxTextCtrl*)FindWindow(ID_TEXT);
+    wxClipboard* clip = new wxClipboard();
+    if (clip->Open())
+    {
+        clip->Clear();
+        clip->SetData(new wxTextDataObject(textCtrl->GetValue()));
+        clip->Flush();
+        clip->Close();
+    }
+    else wxMessageBox("The clipboard copy failed", "Error", wxICON_ERROR | wxCENTRE);
+    delete clip;
 }

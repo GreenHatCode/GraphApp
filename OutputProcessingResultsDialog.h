@@ -1,6 +1,6 @@
 #pragma once
 #include "wx/wx.h"
-
+#include "wx/clipbrd.h"
 
 class OutputProcessingResultsDialog: 
 	public wxDialog
@@ -12,10 +12,11 @@ public:
         const wxSize& size = wxDefaultSize,
         long style = wxDEFAULT_DIALOG_STYLE,
         const wxString& name = wxASCII_STR(wxDialogNameStr));
-    ~OutputProcessingResultsDialog();
 
     void SetOutputMessage(const wxString& message);
     void OnOK(wxCommandEvent& evt);
+    void OnCopy(wxCommandEvent& evt);
 
+    DECLARE_EVENT_TABLE();
 };
 
