@@ -433,7 +433,7 @@ void DrawingPanel::DrawEdge(const Edge* edge)
 	points->Insert(&triangle_base_B);
 
 	dc.DrawPolygon(points); // drawing triangle
-
+	delete points;
 
 	// drawing edge weight
 	wxPoint midpoint = ((*(edge->from)).coords + (*(edge->to)).coords) / 2;
