@@ -84,7 +84,7 @@ void QuickPrint::OnBeginPrinting()
 	float large_side_cm = large_side / 10.0f;
 	float small_side_cm = small_side / 10.0f;
 
-	if (m_orient = wxPORTRAIT)
+	if (m_orient == wxPORTRAIT)
 	{
 		float ratio = float(large_side - m_margin_top - m_margin_bottom) /
 			float(small_side - m_margin_left - m_margin_right);
