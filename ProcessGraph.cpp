@@ -89,6 +89,11 @@ void ProcessGraph::SetDrawCriticalPath(bool value)
 	m_search_critical_path = value;
 }
 
+wxString ProcessGraph::GetOutputMessage()
+{
+	return output_message;
+}
+
 void ProcessGraph::CalculateEarlyEventDate()
 {
 	for (size_t i = 0; i < m_T_early.size(); i++)
@@ -154,45 +159,87 @@ void ProcessGraph::SearchCritPath()
 	}
 
 	// find all cirtical nodes
-	std::map<int,int> critical_nodes_indexes; // stores key: node_index(node number), value: time_reserve_index_in_array
 	for (int i = 0; i < m_Time_reserve.size(); i++)
 	{
-		if (m_Time_reserve[i] == 0)critical_nodes_indexes.emplace(std::make_pair(m_graph_ptr->GetNode(i)->index, i));
-	}
-
-	// mark edge as critical if it is a part of critical path
-	for (const auto& [node_index, critical_time_in_array_index] : critical_nodes_indexes)
-	{
-		std::vector<Edge*>incoming_edges = m_graph_ptr->GetIncomingEdges(m_graph_ptr->GetNode(critical_time_in_array_index));
-		if (incoming_edges.empty())continue;
-
-		for (std::vector<Edge*>::iterator iter = incoming_edges.begin(); iter != incoming_edges.end();)
-		{
-			if (nodes_time_reserves[(*iter)->from->index] != 0)iter = incoming_edges.erase(iter);
-			else iter++;
-		}
-
-		Edge* crit_edge = incoming_edges[0];
-		for (int k = 1; k < incoming_edges.size(); k++)
-		{
-			// a critical edge is an edge that connects two critical nodes (time_reserve == 0)
-			// and the difference between the indices of these nodes (node.index) is minimal
-			if (crit_edge->from->index < incoming_edges[k]->from->index)crit_edge = incoming_edges[k]; 
-		}
-		crit_edge->critical_path_edge = true;
+		if (m_Time_reserve[i] == 0)	m_crit_path.push_back(m_graph_ptr->GetNode(i));
 	}
 }
 
 void ProcessGraph::OutputResults()
 {
-	// modifing nodes
-	for (size_t i = 0; i < m_graph_ptr->GetNodeAmount(); i++)
+
+	if (m_output_destination_type == OutputDestination::DRAWING_AREA)
 	{
-		Node* curr_node = m_graph_ptr->GetNode(i);
-		if (m_calculate_t_early)curr_node->early_event_deadline = m_T_early[i];
-		if (m_calculate_t_late)curr_node->late_event_deadline = m_T_late[i];
-		if (m_calculate_R)curr_node->time_reserve = m_Time_reserve[i];
+		// modifing nodes
+		for (size_t i = 0; i < m_graph_ptr->GetNodeAmount(); i++)
+		{
+			Node* curr_node = m_graph_ptr->GetNode(i);
+			if (m_calculate_t_early)curr_node->early_event_deadline = m_T_early[i];
+			if (m_calculate_t_late)curr_node->late_event_deadline = m_T_late[i];
+			if (m_calculate_R)curr_node->time_reserve = m_Time_reserve[i];
+		}
+
+		if (m_search_critical_path)
+		{
+			// output ctirical path
+			// marks edges as critical
+			for (size_t i = 0; i < m_crit_path.size() - 1; i++)
+			{
+				for (size_t k = i + 1; k < m_crit_path.size(); k++)
+				{
+					Edge* crit_edge = m_graph_ptr->GetEdge(m_crit_path[i], m_crit_path[k]);
+					if (crit_edge != nullptr)
+					{
+						crit_edge->critical_path_edge = true;
+						break;
+					}
+				}
+			}
+		}
+
 	}
+	else if (m_output_destination_type == OutputDestination::SEPARATE_WINDOW)
+	{
+		if (m_calculate_t_early)
+		{
+			for (size_t i = 0; i < m_T_early.size(); i++)
+			{
+				output_message.append(wxString::Format("Node%i early event deadline: %i\n", i, m_T_early[i]));
+			}
+			output_message.append(wxT("\n"));
+		}
+
+		if (m_calculate_t_late)
+		{
+			for (size_t i = 0; i < m_T_late.size(); i++)
+			{
+				output_message.append(wxString::Format("Node%i late event deadline: %i\n", i, m_T_late[i]));
+			}
+			output_message.append(wxT("\n"));
+		}
+		
+		if (m_calculate_R)
+		{
+			for (size_t i = 0; i < m_Time_reserve.size(); i++)
+			{
+				output_message.append(wxString::Format("Node%i event time reserve: %i\n", i, m_Time_reserve[i]));
+			}
+			output_message.append(wxT("\n"));
+		}
+		
+		if (m_search_critical_path)
+		{
+			output_message.append(wxT("Critical path:"));
+			for (size_t i = 0; i < m_crit_path.size(); i++)
+			{
+				output_message.append(wxString::Format(" %i,", m_crit_path[i]->index));
+			}
+			output_message.erase(output_message.end() - 1);
+			//output_message.append(wxT("\n"));
+		}
+
+	}
+
 
 
 }

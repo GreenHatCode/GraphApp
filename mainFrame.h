@@ -9,6 +9,7 @@
 #include "QuickPrint.h"
 #include "ProcessGraphDialog.h"
 #include "ProcessGraph.h"
+#include "OutputProcessingResultsDialog.h"
 
 // toolbar images
 #include "res/cursor24.xpm"

@@ -187,7 +187,27 @@ void mainFrame::OnProcessGraph(wxCommandEvent& evt)
 		}
 		if (process_graph.DoProcess())
 		{
-			Refresh();
+			// depends on output_destination in ProcessGraphDialog
+			if (dlg->GetOutputDestination() == OutputDestination::DRAWING_AREA)
+			{
+				Refresh(); // move to the end
+			}
+			else if (dlg->GetOutputDestination() == OutputDestination::SEPARATE_WINDOW)
+			{
+				// create a new window and show there a message
+				OutputProcessingResultsDialog* dialog = new OutputProcessingResultsDialog(this, wxID_ANY, wxT(""));
+				dialog->SetOutputMessage(process_graph.GetOutputMessage());
+				dialog->ShowModal();
+				dialog->Destroy();
+			}
+			else
+			{
+				// output to txt file
+			}
+
+
+
+			
 		}
 		else wxLogError("Unable to process the graph.");
 		
