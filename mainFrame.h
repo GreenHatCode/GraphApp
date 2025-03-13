@@ -10,6 +10,7 @@
 #include "ProcessGraphDialog.h"
 #include "ProcessGraph.h"
 #include "OutputProcessingResultsDialog.h"
+#include "wx/wfstream.h"
 
 // toolbar images
 #include "res/cursor24.xpm"
