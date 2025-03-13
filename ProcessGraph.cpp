@@ -198,7 +198,7 @@ void ProcessGraph::OutputResults()
 		}
 
 	}
-	else if (m_output_destination_type == OutputDestination::SEPARATE_WINDOW)
+	else if (m_output_destination_type == OutputDestination::SEPARATE_WINDOW || m_output_destination_type == OutputDestination::TXT_FILE)
 	{
 		if (m_calculate_t_early)
 		{

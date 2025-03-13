@@ -203,6 +203,25 @@ void mainFrame::OnProcessGraph(wxCommandEvent& evt)
 			else
 			{
 				// output to txt file
+				wxFileDialog* save_file_dialog = new wxFileDialog(this, wxT("Save Results"), "", "",
+					wxT("Plain Text (*.txt)|*.txt"), wxFD_SAVE|wxFD_OVERWRITE_PROMPT);
+				if (save_file_dialog->ShowModal() == wxID_OK)
+				{
+					wxFileOutputStream output_stream(save_file_dialog->GetPath());
+					if (!output_stream.IsOk())
+					{
+						wxLogError("Cannot save current contents in file '%s'.", save_file_dialog->GetPath());
+						return;
+					}
+
+					if (!output_stream.WriteAll(process_graph.GetOutputMessage(), process_graph.GetOutputMessage().size()))
+					{
+						wxLogError("Cannot write data in the file '%s'.", save_file_dialog->GetPath());
+					}
+
+					output_stream.Close();
+
+				}
 			}
 
 
