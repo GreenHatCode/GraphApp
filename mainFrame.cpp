@@ -203,6 +203,12 @@ void mainFrame::OnProcessGraph(wxCommandEvent& evt)
 			else
 			{
 				// output to txt file
+				wxFileDialog* save_file_dialog = new wxFileDialog(this, wxT("Save Results"), "", "",
+					wxT("Plain Text (*.txt)|*.txt"), wxFD_SAVE|wxFD_OVERWRITE_PROMPT);
+				if (save_file_dialog->ShowModal() == wxID_OK)
+				{
+					
+				}
 			}
 
 
