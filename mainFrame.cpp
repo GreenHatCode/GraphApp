@@ -13,6 +13,9 @@ BEGIN_EVENT_TABLE(mainFrame, wxFrame)
 	EVT_MENU(wxID_HELP, mainFrame::OnHelp)
 	EVT_MENU(wxID_CLEAR, mainFrame::OnClear)
 	EVT_MENU(wxID_PRINT, mainFrame::OnPrint)
+	EVT_MENU(wxID_OPEN, mainFrame::OnOpen)
+	EVT_MENU(wxID_SAVE, mainFrame::OnSave)
+	EVT_MENU(wxID_SAVEAS, mainFrame::OnSaveAs)
 	EVT_MENU(wxID_PREFERENCES, mainFrame::OnPreferences)
 	EVT_TOOL(ID_PROCESS_GRAPH, mainFrame::OnProcessGraph)
 	EVT_TOOL_RANGE(ID_MODE_NORMAL, ID_MODE_DELETE, mainFrame::SetEditingRegime)
@@ -69,8 +72,8 @@ mainFrame::mainFrame(const wxString& title)
 	wxBoxSizer* top_sizer = new wxBoxSizer(wxVERTICAL);
 	top_sizer->Add(drawingPanel, 1, wxALL | wxEXPAND);
 
-
-
+	// file class
+	m_graph_file = new GraphFile(wxT("untitled.graph"), drawingPanel->GetGraph());
 
 
 
@@ -82,6 +85,45 @@ mainFrame::mainFrame(const wxString& title)
 	SetIcon(wxIcon(wxT("res/Pictogrammers-Material-Graph-outline.ico"), wxBITMAP_TYPE_ICO));
 
 	SetPreferences();
+}
+
+void mainFrame::OnOpen(wxCommandEvent& evt)
+{
+	wxFileDialog* load_file_dialog = new wxFileDialog(this, wxT("Load Graph"), "", "",
+		wxT("Graph (*.graph)|*.graph"), wxFD_OPEN);
+	if (load_file_dialog->ShowModal() == wxID_OK)
+	{
+		if (m_graph_file->LoadGraph(load_file_dialog->GetPath()) == nullptr)
+		{
+			wxLogError("Cannot load graph in file '%s'.", load_file_dialog->GetPath());
+			return;
+		}
+		drawingPanel->SetGraph(m_graph_file->LoadGraph(load_file_dialog->GetPath()));
+	}
+}
+
+void mainFrame::OnSave(wxCommandEvent& evt)
+{
+	if (!m_graph_file->SaveToFile())
+	{
+		// the user has not previously saved a graph to a file  
+		OnSaveAs(evt);
+	}
+}
+
+void mainFrame::OnSaveAs(wxCommandEvent& evt)
+{
+	// get a new save file location
+	wxFileDialog* save_file_dialog = new wxFileDialog(this, wxT("Save Graph"), "", m_graph_file->GetCurrSaveFilename(),
+		wxT("Graph (*.graph)|*.graph"), wxFD_SAVE);
+	if (save_file_dialog->ShowModal() == wxID_OK)
+	{
+		if (!m_graph_file->SaveAsToFile(save_file_dialog->GetPath()))
+		{
+			wxLogError("Cannot save graph in file '%s'.", save_file_dialog->GetPath());
+			return;
+		}
+	}
 }
 
 void mainFrame::OnPrint(wxCommandEvent& evt)
