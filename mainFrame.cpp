@@ -14,6 +14,7 @@ BEGIN_EVENT_TABLE(mainFrame, wxFrame)
 	EVT_MENU(wxID_CLEAR, mainFrame::OnClear)
 	EVT_MENU(wxID_PRINT, mainFrame::OnPrint)
 	EVT_MENU(wxID_NEW, mainFrame::OnNew)
+	EVT_MENU(wxID_ABOUT, mainFrame::OnAbout)
 	EVT_MENU(wxID_OPEN, mainFrame::OnOpen)
 	EVT_MENU(wxID_SAVE, mainFrame::OnSave)
 	EVT_MENU(wxID_SAVEAS, mainFrame::OnSaveAs)
@@ -194,6 +195,11 @@ void mainFrame::OnHelp(wxCommandEvent& evt)
 {
 	// Shows tool tips
 	ShowToolTip();
+}
+
+void mainFrame::OnAbout(wxCommandEvent& evt)
+{
+	wxLaunchDefaultBrowser(wxT("https://github.com/GreenHatCode/GraphApp"), wxBROWSER_NEW_WINDOW);
 }
 
 void mainFrame::SetEditingRegime(wxCommandEvent& evt)

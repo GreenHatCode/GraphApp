@@ -12,6 +12,7 @@
 #include "OutputProcessingResultsDialog.h"
 #include "wx/wfstream.h"
 #include "GraphFile.h"
+#include <wx/utils.h> 
 
 // toolbar images
 #include "res/cursor24.xpm"
