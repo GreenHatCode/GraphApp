@@ -162,3 +162,8 @@ wxString GraphFile::GetCurrSaveFilename()
 {
 	return m_curr_save_file;
 }
+
+void GraphFile::SetCurrSaveFilename(const wxString& file_name)
+{
+	m_curr_save_file = file_name;
+}

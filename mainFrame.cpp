@@ -13,6 +13,8 @@ BEGIN_EVENT_TABLE(mainFrame, wxFrame)
 	EVT_MENU(wxID_HELP, mainFrame::OnHelp)
 	EVT_MENU(wxID_CLEAR, mainFrame::OnClear)
 	EVT_MENU(wxID_PRINT, mainFrame::OnPrint)
+	EVT_MENU(wxID_NEW, mainFrame::OnNew)
+	EVT_MENU(wxID_ABOUT, mainFrame::OnAbout)
 	EVT_MENU(wxID_OPEN, mainFrame::OnOpen)
 	EVT_MENU(wxID_SAVE, mainFrame::OnSave)
 	EVT_MENU(wxID_SAVEAS, mainFrame::OnSaveAs)
@@ -28,10 +30,10 @@ mainFrame::mainFrame(const wxString& title)
 {
 	// menus and menuBar
 	wxMenu* fileMenu = new wxMenu;
-	fileMenu->Append(wxID_NEW); // todo: creates new project file
-	fileMenu->Append(wxID_OPEN); // todo: openss new project file
-	fileMenu->Append(wxID_SAVE); // todo: saves project file
-	fileMenu->Append(wxID_SAVEAS); // todo: saves project file in specific location
+	fileMenu->Append(wxID_NEW);
+	fileMenu->Append(wxID_OPEN);
+	fileMenu->Append(wxID_SAVE); 
+	fileMenu->Append(wxID_SAVEAS); 
 	fileMenu->AppendSeparator();
 	fileMenu->Append(wxID_PRINT);
 	fileMenu->AppendSeparator();
@@ -45,7 +47,7 @@ mainFrame::mainFrame(const wxString& title)
 
 	wxMenu* helpMenu = new wxMenu;
 	helpMenu->Append(wxID_HELP);
-	helpMenu->Append(wxID_ABOUT); // todo: add ref to github page
+	helpMenu->Append(wxID_ABOUT); // redirects to project github repository
 
 	wxMenuBar* menuBar = new wxMenuBar;
 	menuBar->Append(fileMenu, wxT("&File"));
@@ -85,6 +87,14 @@ mainFrame::mainFrame(const wxString& title)
 	SetIcon(wxIcon(wxT("res/Pictogrammers-Material-Graph-outline.ico"), wxBITMAP_TYPE_ICO));
 
 	SetPreferences();
+}
+
+void mainFrame::OnNew(wxCommandEvent& evt)
+{
+	drawingPanel->GetGraph()->Clear();
+	drawingPanel->Refresh();
+	m_graph_file->SetCurrSaveFilename(wxT(""));
+	this->SetTitle(wxT("Graph App"));
 }
 
 void mainFrame::OnOpen(wxCommandEvent& evt)
@@ -185,6 +195,11 @@ void mainFrame::OnHelp(wxCommandEvent& evt)
 {
 	// Shows tool tips
 	ShowToolTip();
+}
+
+void mainFrame::OnAbout(wxCommandEvent& evt)
+{
+	wxLaunchDefaultBrowser(wxT("https://github.com/GreenHatCode/GraphApp"), wxBROWSER_NEW_WINDOW);
 }
 
 void mainFrame::SetEditingRegime(wxCommandEvent& evt)

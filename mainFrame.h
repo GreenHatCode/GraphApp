@@ -12,6 +12,7 @@
 #include "OutputProcessingResultsDialog.h"
 #include "wx/wfstream.h"
 #include "GraphFile.h"
+#include <wx/utils.h> 
 
 // toolbar images
 #include "res/cursor24.xpm"
@@ -37,7 +38,7 @@ private:
     GraphFile* m_graph_file;
 
     // menu bar functions
-    void OnNew(wxCommandEvent& evt);
+    void OnNew(wxCommandEvent& evt); // clears all data
     void OnOpen(wxCommandEvent& evt); // loads graph from file
     void OnSave(wxCommandEvent& evt); // save graph to current save file
     void OnSaveAs(wxCommandEvent& evt); // save graph to a new file

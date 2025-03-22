@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Graph>
+  <node>
+    <index>0</index>
+    <coords_x>66</coords_x>
+    <coords_y>106</coords_y>
+    <early_event_deadline>0</early_event_deadline>
+    <late_event_deadline>0</late_event_deadline>
+    <time_reserve>0</time_reserve>
+  </node>
+  <node>
+    <index>1</index>
+    <coords_x>358</coords_x>
+    <coords_y>53</coords_y>
+    <early_event_deadline>8</early_event_deadline>
+    <late_event_deadline>8</late_event_deadline>
+    <time_reserve>0</time_reserve>
+  </node>
+  <node>
+    <index>2</index>
+    <coords_x>299</coords_x>
+    <coords_y>196</coords_y>
+    <early_event_deadline>15</early_event_deadline>
+    <late_event_deadline>15</late_event_deadline>
+    <time_reserve>0</time_reserve>
+  </node>
+  <edge>
+    <node_from_index>0</node_from_index>
+    <node_to_index>2</node_to_index>
+    <edge_weight>0</edge_weight>
+    <critical_path_edge>0</critical_path_edge>
+  </edge>
+  <edge>
+    <node_from_index>1</node_from_index>
+    <node_to_index>2</node_to_index>
+    <edge_weight>7</edge_weight>
+    <critical_path_edge>1</critical_path_edge>
+  </edge>
+  <edge>
+    <node_from_index>0</node_from_index>
+    <node_to_index>1</node_to_index>
+    <edge_weight>8</edge_weight>
+    <critical_path_edge>1</critical_path_edge>
+  </edge>
+</Graph>

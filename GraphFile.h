@@ -11,7 +11,7 @@ public:
 	bool SaveAsToFile(const wxString& file); // saves graph to a new file
 	Graph* LoadGraph(const wxString& file); // constructs new graph using data from save file
 	wxString GetCurrSaveFilename();
-
+	void SetCurrSaveFilename(const wxString& file_name);
 
 private:
 	wxString m_curr_save_file;

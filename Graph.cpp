@@ -82,11 +82,6 @@ void Graph::Erase(const wxPoint& coords)
 	}
 }
 
-void Graph::Erase(const Node* from, const Node* to)
-{
-	// todo: erase edge by begin node and end node
-}
-
 Node* Graph::GetNode(const wxPoint& node_coords)
 {
 	for (std::vector<Node*>::iterator iter = nodes.begin(); iter != nodes.end(); iter++)
