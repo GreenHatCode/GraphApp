@@ -13,6 +13,7 @@ BEGIN_EVENT_TABLE(mainFrame, wxFrame)
 	EVT_MENU(wxID_HELP, mainFrame::OnHelp)
 	EVT_MENU(wxID_CLEAR, mainFrame::OnClear)
 	EVT_MENU(wxID_PRINT, mainFrame::OnPrint)
+	EVT_MENU(wxID_NEW, mainFrame::OnNew)
 	EVT_MENU(wxID_OPEN, mainFrame::OnOpen)
 	EVT_MENU(wxID_SAVE, mainFrame::OnSave)
 	EVT_MENU(wxID_SAVEAS, mainFrame::OnSaveAs)
@@ -85,6 +86,14 @@ mainFrame::mainFrame(const wxString& title)
 	SetIcon(wxIcon(wxT("res/Pictogrammers-Material-Graph-outline.ico"), wxBITMAP_TYPE_ICO));
 
 	SetPreferences();
+}
+
+void mainFrame::OnNew(wxCommandEvent& evt)
+{
+	drawingPanel->GetGraph()->Clear();
+	drawingPanel->Refresh();
+	m_graph_file->SetCurrSaveFilename(wxT(""));
+	this->SetTitle(wxT("Graph App"));
 }
 
 void mainFrame::OnOpen(wxCommandEvent& evt)
