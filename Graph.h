@@ -40,9 +40,10 @@ struct Edge
 class Graph
 {
 public:
-	void AddNode(const wxPoint& coords, int index);
+	//void AddNode(const wxPoint& coords, int index);
+	void AddNode(const wxPoint& coords, int index, int early_event_deadline = -1, int late_event_deadline = -1, int time_reserve = -1);
 	void EditNode(const wxPoint& node_coords);
-	void AddEdge(const Node* from, const Node* to, int weight = 0);
+	void AddEdge(const Node* from, const Node* to, int weight = 0, bool critical_path = false);
 	void Erase(const wxPoint& coords); // erase node
 	void Erase(const Node* from, const Node* to); // erase edge
 	Node* GetNode(const wxPoint& node_coords);

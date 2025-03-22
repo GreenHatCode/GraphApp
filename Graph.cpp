@@ -1,10 +1,13 @@
 #include "Graph.h"
 
-void Graph::AddNode(const wxPoint& coords, int index)
+void Graph::AddNode(const wxPoint& coords, int index, int early_event_deadline, int late_event_deadline, int time_reserve)
 {
-	Node *new_node = new Node;
+	Node* new_node = new Node;
 	new_node->coords = coords;
 	new_node->index = index;
+	new_node->early_event_deadline = early_event_deadline;
+	new_node->late_event_deadline = late_event_deadline;
+	new_node->time_reserve = time_reserve;
 	nodes.push_back(new_node);
 	Rank();
 }
@@ -21,12 +24,13 @@ void Graph::EditNode(const wxPoint& node_coords)
 	Rank();
 }
 
-void Graph::AddEdge(const Node* from, const Node* to, int weight)
+void Graph::AddEdge(const Node* from, const Node* to, int weight, bool critical_path)
 {
 	Edge* new_edge = new Edge;
 	new_edge->from = from;
 	new_edge->to = to;
 	new_edge->weight = weight;
+	new_edge->critical_path_edge = critical_path;
 	
 	// preventing duplication
 	for (size_t i = 0; i < edges.size(); i++)
