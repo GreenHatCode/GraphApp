@@ -11,6 +11,7 @@
 #include "ProcessGraph.h"
 #include "OutputProcessingResultsDialog.h"
 #include "wx/wfstream.h"
+#include "GraphFile.h"
 
 // toolbar images
 #include "res/cursor24.xpm"
@@ -33,12 +34,13 @@ private:
     bool m_showTipAtStartup = true;
     DrawingPanel* drawingPanel;
     AppPreferences m_app_preferences{ "files/global.ini" };
+    GraphFile* m_graph_file;
 
     // menu bar functions
     void OnNew(wxCommandEvent& evt);
-    void OnOpen(wxCommandEvent& evt);
-    void OnSave(wxCommandEvent& evt);
-    void OnSaveAs(wxCommandEvent& evt);
+    void OnOpen(wxCommandEvent& evt); // loads graph from file
+    void OnSave(wxCommandEvent& evt); // save graph to current save file
+    void OnSaveAs(wxCommandEvent& evt); // save graph to a new file
     void OnPrint(wxCommandEvent& evt);
     void OnQuit(wxCommandEvent& evt);
     void OnClear(wxCommandEvent& evt);

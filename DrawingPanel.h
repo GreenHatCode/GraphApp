@@ -25,8 +25,9 @@ public:
     void ShowNodeDuplicationWarning(bool show);
     void Print(wxDC& dc, int pageNum, wxSize dc_size);
     Graph* GetGraph();
+    void SetGraph(Graph* graph_ptr);
 private:
-    Graph m_graph;
+    Graph* m_graph;
     DrawingRegimes m_drawing_regime = STANDARD_CURSOR;
     Node* m_selected_begin_node = nullptr;
     ColourSchemes m_colour_scheme = ColourSchemes::COLOURED;

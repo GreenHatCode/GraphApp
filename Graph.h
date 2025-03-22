@@ -40,22 +40,26 @@ struct Edge
 class Graph
 {
 public:
-	void AddNode(const wxPoint& coords, int index);
+	//void AddNode(const wxPoint& coords, int index);
+	void AddNode(const wxPoint& coords, int index, int early_event_deadline = -1, int late_event_deadline = -1, int time_reserve = -1);
 	void EditNode(const wxPoint& node_coords);
-	void AddEdge(const Node* from, const Node* to, int weight = 0);
+	void AddEdge(const Node* from, const Node* to, int weight = 0, bool critical_path = false);
 	void Erase(const wxPoint& coords); // erase node
 	void Erase(const Node* from, const Node* to); // erase edge
 	Node* GetNode(const wxPoint& node_coords);
 	Node* GetNode(size_t index);
+	Node* GetEdgeByNodeIndex(int index); // get node by its number (not index in vector)
+	const Node* GetNode(size_t index) const;
 	Edge* GetEdge(const Node* from, const Node* to);
 	Edge* GetEdge(size_t index);
+	const Edge* GetEdge(size_t index) const;
 	std::vector<Edge*> GetIncomingEdges(const Node* in);
 	void SetEdgeWeight(const Node* from, const Node* to, int weight);
 	bool Empty();
 	void Rank(); // changes the order of the nodes in the array according to their idexes
 
-	size_t GetNodeAmount();
-	size_t GetEdgeAmount();
+	size_t GetNodeAmount() const;
+	size_t GetEdgeAmount() const;
 	void Clear(); // clears all the graph
 	bool Contain(int node_index); // searches for node with given index, if it exists return true
 	int MaxNodeIndex();
