@@ -73,7 +73,7 @@ mainFrame::mainFrame(const wxString& title)
 	top_sizer->Add(drawingPanel, 1, wxALL | wxEXPAND);
 
 	// file class
-	m_graph_file = new GraphFile(wxT("untitled.graph"), drawingPanel->GetGraph());
+	m_graph_file = new GraphFile(wxT(""), drawingPanel->GetGraph());
 
 
 

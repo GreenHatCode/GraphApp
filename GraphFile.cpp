@@ -8,8 +8,8 @@ GraphFile::GraphFile(const wxString& file, const Graph* graph)
 
 bool GraphFile::SaveToFile()
 {
-	//if curr save file is empty, that means the user have not saved the file previously
-	return false;
+	if (m_curr_save_file.empty())return false;
+	return SaveAsToFile(m_curr_save_file);
 }
 
 bool GraphFile::SaveAsToFile(const wxString& file)
@@ -70,9 +70,20 @@ bool GraphFile::SaveAsToFile(const wxString& file)
 	}
 
 
+
+
+
+
+
 	//add root node
 	xml_file.SetRoot(XmlGraph);
-	return xml_file.Save(file);
+	if (xml_file.Save(file))
+	{
+		m_curr_save_file = file;
+		return true;
+	}
+
+	return false;
 }
 
 Graph* GraphFile::LoadGraph(const wxString& file)
