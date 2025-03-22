@@ -16,8 +16,6 @@ bool GraphFile::SaveAsToFile(const wxString& file)
 {
 	wxXmlDocument xml_file;
 	wxXmlNode* XmlGraph = new wxXmlNode(wxXML_ELEMENT_NODE, wxT("Graph"));
-	wxXmlNode* XmlGraphInfo = new wxXmlNode(wxXML_ELEMENT_NODE, wxT("graph_info"));
-	XmlGraph->AddChild(XmlGraphInfo);
 
 	// adding nodes
 	for (size_t i = 0; i < m_graph_ptr->GetNodeAmount(); i++)
@@ -32,7 +30,6 @@ bool GraphFile::SaveAsToFile(const wxString& file)
 		node_index->AddChild(node_index_value);
 		
 		// coords
-		wxXmlNode* node_coords = new wxXmlNode(wxXML_ELEMENT_NODE, wxT("coords"));
 		wxXmlNode* node_coords_x = new wxXmlNode(wxXML_ELEMENT_NODE, wxT("coords_x"));
 		wxXmlNode* node_coords_y = new wxXmlNode(wxXML_ELEMENT_NODE, wxT("coords_y"));
 		
@@ -40,9 +37,6 @@ bool GraphFile::SaveAsToFile(const wxString& file)
 		node_coords_x->AddChild(node_coords_x_value);
 		wxXmlNode* node_coords_y_value = new wxXmlNode(wxXML_TEXT_NODE, wxT("y"), wxString::Format(wxT("%i"), node->coords.y));
 		node_coords_y->AddChild(node_coords_y_value);
-
-		node_coords->AddChild(node_coords_x);
-		node_coords->AddChild(node_coords_y);
 
 		// early_event_deadline
 		wxXmlNode* node_early_event_deadline = new wxXmlNode(wxXML_ELEMENT_NODE, wxT("early_event_deadline"));
@@ -61,12 +55,13 @@ bool GraphFile::SaveAsToFile(const wxString& file)
 
 
 		XmlGraphNode->AddChild(node_index);
-		XmlGraphNode->AddChild(node_coords);
+		XmlGraphNode->AddChild(node_coords_x);
+		XmlGraphNode->AddChild(node_coords_y);
 		XmlGraphNode->AddChild(node_early_event_deadline);
 		XmlGraphNode->AddChild(node_late_event_deadline);
 		XmlGraphNode->AddChild(node_time_reserve);
 
-		XmlGraphInfo->AddChild(XmlGraphNode);
+		XmlGraph->AddChild(XmlGraphNode);
 	}
 
 	// adding edges
@@ -77,7 +72,6 @@ bool GraphFile::SaveAsToFile(const wxString& file)
 		const Edge* edge = m_graph_ptr->GetEdge(i);
 
 		// edge_node_from, edge_node_to
-		wxXmlNode* edge_path = new wxXmlNode(wxXML_ELEMENT_NODE, wxT("edge_path"));
 		wxXmlNode* node_from_index = new wxXmlNode(wxXML_ELEMENT_NODE, wxT("node_from_index"));
 		wxXmlNode* node_to_index = new wxXmlNode(wxXML_ELEMENT_NODE, wxT("node_to_index"));
 
@@ -85,9 +79,6 @@ bool GraphFile::SaveAsToFile(const wxString& file)
 		node_from_index->AddChild(node_from_index_value);
 		wxXmlNode* node_to_index_value = new wxXmlNode(wxXML_TEXT_NODE, wxT("node_to_index"), wxString::Format(wxT("%i"), edge->to->index));
 		node_to_index->AddChild(node_to_index_value);
-
-		edge_path->AddChild(node_from_index);
-		edge_path->AddChild(node_to_index);
 
 		// edge weight
 		wxXmlNode* edge_weight = new wxXmlNode(wxXML_ELEMENT_NODE, wxT("edge_weight"));
@@ -100,11 +91,12 @@ bool GraphFile::SaveAsToFile(const wxString& file)
 		wxXmlNode* critical_path_edge_value = new wxXmlNode(wxXML_TEXT_NODE, wxT("critical_path_edge"), wxString::Format(wxT("%i"), edge->critical_path_edge));
 		critical_path_edge->AddChild(critical_path_edge_value);
 
-		XmlGraphEdge->AddChild(edge_path);
+		XmlGraphEdge->AddChild(node_from_index);
+		XmlGraphEdge->AddChild(node_to_index);
 		XmlGraphEdge->AddChild(edge_weight);
 		XmlGraphEdge->AddChild(critical_path_edge);
 
-		XmlGraphInfo->AddChild(XmlGraphEdge);
+		XmlGraph->AddChild(XmlGraphEdge);
 	}
 
 	//add root node
@@ -120,7 +112,28 @@ bool GraphFile::SaveAsToFile(const wxString& file)
 
 Graph* GraphFile::LoadGraph(const wxString& file)
 {
-	return nullptr;
+	wxXmlDocument xml_file;
+	if (!xml_file.Load(file))return nullptr;
+	if (xml_file.GetRoot()->GetName() != "Graph")return nullptr;
+
+	wxXmlNode* root = xml_file.GetRoot();
+
+	Graph* new_graph = new Graph();
+
+	// load nodes
+	wxXmlNode* curr_xml_node = root->GetChildren();
+	while (curr_xml_node!=NULL)
+	{
+		wxXmlNode* curr_children = curr_xml_node->GetChildren();
+
+		curr_xml_node->GetNext();
+	}
+
+
+
+
+
+	return new_graph;
 }
 
 wxString GraphFile::GetCurrSaveFilename()
