@@ -105,6 +105,18 @@ Node* Graph::GetNode(size_t index)
 	else return nodes[index];
 }
 
+Node* Graph::GetNode(int index)
+{
+	if (nodes.empty() || index >= nodes.size())return nullptr;
+	else
+	{
+		std::find(nodes.begin(), nodes.end(), 
+			[=](Node* node) {
+				return node->index == index;
+			})
+	}
+}
+
 const Node* Graph::GetNode(size_t index) const
 {
 	if (nodes.empty() || index >= nodes.size())return nullptr;

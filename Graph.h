@@ -48,6 +48,7 @@ public:
 	void Erase(const Node* from, const Node* to); // erase edge
 	Node* GetNode(const wxPoint& node_coords);
 	Node* GetNode(size_t index);
+	Node* GetNode(int index); // get node by its number (not index in vector)
 	const Node* GetNode(size_t index) const;
 	Edge* GetEdge(const Node* from, const Node* to);
 	Edge* GetEdge(size_t index);
