@@ -44,12 +44,27 @@ bool GraphFile::SaveAsToFile(const wxString& file)
 		node_coords->AddChild(node_coords_x);
 		node_coords->AddChild(node_coords_y);
 
+		// early_event_deadline
+		wxXmlNode* node_early_event_deadline = new wxXmlNode(wxXML_ELEMENT_NODE, wxT("early_event_deadline"));
+		wxXmlNode* early_event_deadline_value = new wxXmlNode(wxXML_TEXT_NODE, wxT("early_event_deadline"), wxString::Format(wxT("%i"), node->early_event_deadline));
+		node_early_event_deadline->AddChild(early_event_deadline_value);
 
+		// late_event_deadline
+		wxXmlNode* node_late_event_deadline = new wxXmlNode(wxXML_ELEMENT_NODE, wxT("late_event_deadline"));
+		wxXmlNode* late_event_deadline_value = new wxXmlNode(wxXML_TEXT_NODE, wxT("late_event_deadline"), wxString::Format(wxT("%i"), node->late_event_deadline));
+		node_late_event_deadline->AddChild(late_event_deadline_value);
+
+		// late_event_deadline
+		wxXmlNode* node_time_reserve = new wxXmlNode(wxXML_ELEMENT_NODE, wxT("time_reserve"));
+		wxXmlNode* time_reserve_value = new wxXmlNode(wxXML_TEXT_NODE, wxT("time_reserve"), wxString::Format(wxT("%i"), node->time_reserve));
+		node_time_reserve->AddChild(time_reserve_value);
 
 
 		XmlGraphNode->AddChild(node_index);
 		XmlGraphNode->AddChild(node_coords);
-
+		XmlGraphNode->AddChild(node_early_event_deadline);
+		XmlGraphNode->AddChild(node_late_event_deadline);
+		XmlGraphNode->AddChild(node_time_reserve);
 
 		XmlGraphInfo->AddChild(XmlGraphNode);
 	}
