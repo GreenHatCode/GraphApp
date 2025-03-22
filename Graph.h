@@ -50,6 +50,7 @@ public:
 	const Node* GetNode(size_t index) const;
 	Edge* GetEdge(const Node* from, const Node* to);
 	Edge* GetEdge(size_t index);
+	const Edge* GetEdge(size_t index) const;
 	std::vector<Edge*> GetIncomingEdges(const Node* in);
 	void SetEdgeWeight(const Node* from, const Node* to, int weight);
 	bool Empty();

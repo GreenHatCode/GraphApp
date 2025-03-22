@@ -127,6 +127,13 @@ Edge* Graph::GetEdge(size_t index)
 	else throw "Index out of range";
 }
 
+const Edge* Graph::GetEdge(size_t index) const
+{
+	if (edges.empty() || index >= edges.size()) return nullptr;
+	if (index < edges.size())return edges[index];
+	else throw "Index out of range";
+}
+
 std::vector<Edge*> Graph::GetIncomingEdges(const Node* in)
 {
 	std::vector<Edge*> result;
