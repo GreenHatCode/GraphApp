@@ -60,7 +60,6 @@ bool GraphFile::SaveAsToFile(const wxString& file)
 		XmlGraphNode->AddChild(node_early_event_deadline);
 		XmlGraphNode->AddChild(node_late_event_deadline);
 		XmlGraphNode->AddChild(node_time_reserve);
-
 		XmlGraph->AddChild(XmlGraphNode);
 	}
 
@@ -107,6 +106,8 @@ bool GraphFile::SaveAsToFile(const wxString& file)
 		return true;
 	}
 
+	delete XmlGraph;
+
 	return false;
 }
 
@@ -122,17 +123,38 @@ Graph* GraphFile::LoadGraph(const wxString& file)
 
 	// load nodes
 	wxXmlNode* curr_xml_node = root->GetChildren();
-	while (curr_xml_node!=NULL)
+	
+	while (curr_xml_node != NULL)
 	{
-		wxXmlNode* curr_children = curr_xml_node->GetChildren();
+		wxXmlNode* child = curr_xml_node->GetChildren();
+		std::vector<int> data;
+		for (int i = 0; child != NULL; i++)
+		{
+			data.push_back(0);
+			child->GetNodeContent().ToInt(&data.back());
+			child = child->GetNext();
 
-		curr_xml_node->GetNext();
+		}
+
+		// in the graph:
+		// the node has 6 attributes (2 coords and 4 other)
+		// the edge has 4 attributes (node_from, node_to, weight and crit path marker)
+		if (data.size() == 6)
+		{
+			// it's a node
+			new_graph->AddNode(wxPoint(data[1], data[2]), data[0], data[3], data[4], data[5]);
+		}
+		else if (data.size() == 4)
+		{
+			// it's an edge
+			new_graph->AddEdge(new_graph->GetEdgeByNodeIndex(data[0]), new_graph->GetEdgeByNodeIndex(data[1]), data[2], data[3]);
+		}
+		else return nullptr; // error
+
+		curr_xml_node = curr_xml_node->GetNext();
 	}
 
-
-
-
-
+	m_graph_ptr = new_graph;
 	return new_graph;
 }
 

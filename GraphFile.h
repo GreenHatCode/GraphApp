@@ -1,7 +1,7 @@
 #pragma once
 #include "Graph.h"
 #include "wx/xml/xml.h"
-
+#include <vector>
 
 class GraphFile
 {
