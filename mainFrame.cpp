@@ -30,10 +30,10 @@ mainFrame::mainFrame(const wxString& title)
 {
 	// menus and menuBar
 	wxMenu* fileMenu = new wxMenu;
-	fileMenu->Append(wxID_NEW); // todo: creates new project file
-	fileMenu->Append(wxID_OPEN); // todo: openss new project file
-	fileMenu->Append(wxID_SAVE); // todo: saves project file
-	fileMenu->Append(wxID_SAVEAS); // todo: saves project file in specific location
+	fileMenu->Append(wxID_NEW);
+	fileMenu->Append(wxID_OPEN);
+	fileMenu->Append(wxID_SAVE); 
+	fileMenu->Append(wxID_SAVEAS); 
 	fileMenu->AppendSeparator();
 	fileMenu->Append(wxID_PRINT);
 	fileMenu->AppendSeparator();
@@ -47,7 +47,7 @@ mainFrame::mainFrame(const wxString& title)
 
 	wxMenu* helpMenu = new wxMenu;
 	helpMenu->Append(wxID_HELP);
-	helpMenu->Append(wxID_ABOUT); // todo: add ref to github page
+	helpMenu->Append(wxID_ABOUT); // redirects to project github repository
 
 	wxMenuBar* menuBar = new wxMenuBar;
 	menuBar->Append(fileMenu, wxT("&File"));

@@ -45,7 +45,6 @@ public:
 	void EditNode(const wxPoint& node_coords);
 	void AddEdge(const Node* from, const Node* to, int weight = 0, bool critical_path = false);
 	void Erase(const wxPoint& coords); // erase node
-	void Erase(const Node* from, const Node* to); // erase edge
 	Node* GetNode(const wxPoint& node_coords);
 	Node* GetNode(size_t index);
 	Node* GetEdgeByNodeIndex(int index); // get node by its number (not index in vector)
