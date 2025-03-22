@@ -47,6 +47,7 @@ public:
 	void Erase(const Node* from, const Node* to); // erase edge
 	Node* GetNode(const wxPoint& node_coords);
 	Node* GetNode(size_t index);
+	const Node* GetNode(size_t index) const;
 	Edge* GetEdge(const Node* from, const Node* to);
 	Edge* GetEdge(size_t index);
 	std::vector<Edge*> GetIncomingEdges(const Node* in);
@@ -54,8 +55,8 @@ public:
 	bool Empty();
 	void Rank(); // changes the order of the nodes in the array according to their idexes
 
-	size_t GetNodeAmount();
-	size_t GetEdgeAmount();
+	size_t GetNodeAmount() const;
+	size_t GetEdgeAmount() const;
 	void Clear(); // clears all the graph
 	bool Contain(int node_index); // searches for node with given index, if it exists return true
 	int MaxNodeIndex();

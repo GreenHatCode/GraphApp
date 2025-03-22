@@ -101,6 +101,12 @@ Node* Graph::GetNode(size_t index)
 	else return nodes[index];
 }
 
+const Node* Graph::GetNode(size_t index) const
+{
+	if (nodes.empty() || index >= nodes.size())return nullptr;
+	else return nodes[index];
+}
+
 Edge* Graph::GetEdge(const Node* from, const Node* to)
 {
 	
@@ -156,12 +162,12 @@ void Graph::Rank()
 	);
 }
 
-size_t Graph::GetNodeAmount()
+size_t Graph::GetNodeAmount() const
 {
 	return nodes.size();
 }
 
-size_t Graph::GetEdgeAmount()
+size_t Graph::GetEdgeAmount() const
 {
 	return edges.size();
 }
