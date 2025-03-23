@@ -91,7 +91,7 @@ void PreferenceDialog::SetUpTabPanel()
 	// setups the inital tab for wxpanel, the inital tab is 'General'
 	// general panel layout
 	wxBoxSizer* top_sizer = new wxBoxSizer(wxVERTICAL);
-	wxCheckBox* dupl_warning_check = new wxCheckBox(m_main_panel, ID_DUPL_WARNING_CHECK, wxT("Show warning when a new node with existing index is added."));
+	wxCheckBox* dupl_warning_check = new wxCheckBox(m_main_panel, ID_DUPL_WARNING_CHECK, wxT("Show warning when \na new node with existing index is added."));
 	top_sizer->Add(dupl_warning_check, 0, wxALL, 5);
 	wxCheckBox* tip_check = new wxCheckBox(m_main_panel, ID_TIP_CHECK, wxT("Show tip of the day at start."));
 	top_sizer->Add(tip_check, 0, wxALL, 5);
