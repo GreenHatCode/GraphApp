@@ -1,5 +1,7 @@
-tip1
-tip2
-tip3
-tip4
-tip5
+Remember to always save your work before closing the application. Just press Ctrl+S or go to File->Save/Save As.
+Take regular breaks to keep your mind fresh and productive!
+If you have problems with the app, it's best to reinstall it.
+To add a new node: select the propper drawing mode (circle button); double-click the drawing area (click where you want to place the node); select the node index and press Enter.
+To add an edge: select the add edge mode (line button); double-click on the start node (it will turn pink after clicking), then double-click on the end node; type the weight of the edge and press Enter.
+To delete a node or an edge: select the delete mode (cross button); double-click on the node or edge you want to delete. Remember that when you delete a node, all edges that are connected to that node will be deleted as well.
+To process the graph, click on the button with two green lines (the rightmost one). If your graph contains errors, the application will display a warning message.
