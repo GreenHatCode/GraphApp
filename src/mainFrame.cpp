@@ -294,7 +294,7 @@ void mainFrame::OnProcessGraph(wxCommandEvent& evt)
 
 bool mainFrame::ShowToolTip()
 {
-	wxTipProvider* tipProvider = wxCreateFileTipProvider(wxT("files/tool_tips.txt"), 0);
+	wxTipProvider* tipProvider = wxCreateFileTipProvider(wxT("res/files/tool_tips.txt"), 0);
 	bool showAtStartup = wxShowTip(this, tipProvider, true);
 	delete tipProvider;
 	return showAtStartup;
