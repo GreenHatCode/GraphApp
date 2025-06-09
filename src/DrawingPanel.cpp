@@ -23,14 +23,17 @@ void DrawingPanel::OnLeftDClick(wxMouseEvent& evt)
 		break;
 	case DrawingPanel::ADD_NODE:
 	{
+		// on windows it works normally with std::numeric_limits<int>
+		// but on linux, it doesn't render spin buttons
+		// if the max number is longer than 5 chars (inluding '-')
 		wxNumberEntryDialog* dlg = new wxNumberEntryDialog(
 			this,
 			wxT("Set the index of the node. Remember that \nthe node index is unique number."), 
 			wxT("Enter a number:"),
 			wxT("Set node index"), 
 			m_graph->MaxNodeIndex() + 1, 
-			std::numeric_limits<int>::min(),
-			std::numeric_limits<int>::max());
+			-9999,
+			99999);
 
 		if (dlg->ShowModal() == wxID_OK)
 		{
@@ -59,14 +62,17 @@ void DrawingPanel::OnLeftDClick(wxMouseEvent& evt)
 		{
 			if (m_graph->GetNode(evt.GetPosition()) != m_selected_begin_node)// preventing chosing the same node
 			{
+				// on windows it works normally with std::numeric_limits<int>
+				// but on linux, it doesn't render spin buttons
+				// if the max number is longer than 5 chars (inluding '-')				
 				wxNumberEntryDialog* dlg = new wxNumberEntryDialog(
 				this,
 					wxT("Set the weight of the edge. Remember that \nthe edge weight can be only integer."),
 					wxT("Enter a number:"),
 					wxT("Set edge weight"),
 					0,
-					std::numeric_limits<int>::min(),
-					std::numeric_limits<int>::max());
+					-9999,
+					99999);
 
 				if (dlg->ShowModal() == wxID_OK)
 				{
