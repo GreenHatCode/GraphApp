@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 4.0)
+cmake_minimum_required(VERSION 3.2...4.0)
 project(GraphApp)
 
 # Add source files
@@ -37,7 +37,7 @@ add_custom_target(copy_resources ALL
  		$<TARGET_FILE_DIR:${PROJECT_NAME}>/res
         COMMENT "Copying resources into binary directory")
 
-add_dependencies(${PROJECT_NAME} copy_resources)
+#add_dependencies(${PROJECT_NAME} copy_resources)
 
 
 # Define the link libraries
