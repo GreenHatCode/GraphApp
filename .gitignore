@@ -1,6 +1,9 @@
 
 # Created by https://www.gitignore.io/api/cmake,visualstudio
 
+# IDE - VSCode
+.vscode/
+
 ### CMake ###
 CMakeCache.txt
 CMakeFiles
@@ -306,6 +309,3 @@ __pycache__/
 ### VisualStudio Patch ###
 # By default, sensitive information, such as encrypted password
 # should be stored in the .pubxml.user file.
-
-
-# End of https://www.gitignore.io/api/c++,cmake,visualstudio
