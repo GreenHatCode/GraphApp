@@ -202,7 +202,7 @@ void ProcessGraph::OutputResults()
 	{
 		if (m_calculate_t_early)
 		{
-			for (size_t i = 0; i < m_T_early.size(); i++)
+			for (int i = 0; i < m_T_early.size(); i++)
 			{
 				output_message.append(wxString::Format("Node%i early event deadline: %i\n", i, m_T_early[i]));
 			}
@@ -211,7 +211,7 @@ void ProcessGraph::OutputResults()
 
 		if (m_calculate_t_late)
 		{
-			for (size_t i = 0; i < m_T_late.size(); i++)
+			for (int i = 0; i < m_T_late.size(); i++)
 			{
 				output_message.append(wxString::Format("Node%i late event deadline: %i\n", i, m_T_late[i]));
 			}
@@ -220,7 +220,7 @@ void ProcessGraph::OutputResults()
 		
 		if (m_calculate_R)
 		{
-			for (size_t i = 0; i < m_Time_reserve.size(); i++)
+			for (int i = 0; i < m_Time_reserve.size(); i++)
 			{
 				output_message.append(wxString::Format("Node%i event time reserve: %i\n", i, m_Time_reserve[i]));
 			}
@@ -230,12 +230,11 @@ void ProcessGraph::OutputResults()
 		if (m_search_critical_path)
 		{
 			output_message.append(wxT("Critical path:"));
-			for (size_t i = 0; i < m_crit_path.size(); i++)
+			for (int i = 0; i < m_crit_path.size(); i++)
 			{
 				output_message.append(wxString::Format(" %i,", m_crit_path[i]->index));
 			}
 			output_message.erase(output_message.end() - 1);
-			//output_message.append(wxT("\n"));
 		}
 
 	}
