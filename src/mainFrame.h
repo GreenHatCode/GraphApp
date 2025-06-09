@@ -1,5 +1,5 @@
 #pragma once
-#include "wx\wx.h"
+#include "wx/wx.h"
 #include "wx/tipdlg.h"
 #include "wx/file.h"
 #include "DrawingPanel.h"
@@ -15,12 +15,12 @@
 #include <wx/utils.h> 
 
 // toolbar images
-#include "res/cursor24.xpm"
-#include "res/delete.xpm"
-#include "res/node24.xpm"
-#include "res/edge24.xpm"
-#include "res/process24color.xpm"
-#include "res/help.xpm"
+#include "toolbar_icons/cursor24.xpm"
+#include "toolbar_icons/delete.xpm"
+#include "toolbar_icons/node24.xpm"
+#include "toolbar_icons/edge24.xpm"
+#include "toolbar_icons/process24color.xpm"
+#include "toolbar_icons/help.xpm"
 
 
 class mainFrame :
@@ -34,7 +34,7 @@ private:
     // settings variables
     bool m_showTipAtStartup = true;
     DrawingPanel* drawingPanel;
-    AppPreferences m_app_preferences{ "files/global.ini" };
+    AppPreferences m_app_preferences{ "res/files/global.ini" };
     GraphFile* m_graph_file;
 
     // menu bar functions
