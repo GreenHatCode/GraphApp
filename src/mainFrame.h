@@ -1,5 +1,5 @@
 #pragma once
-#include "wx\wx.h"
+#include "wx/wx.h"
 #include "wx/tipdlg.h"
 #include "wx/file.h"
 #include "DrawingPanel.h"
