@@ -1,6 +1,8 @@
 cmake_minimum_required(VERSION 3.2...4.0)
 project(GraphApp)
 
+
+
 # Add source files
 file(GLOB_RECURSE SOURCE_FILES 
 	${CMAKE_SOURCE_DIR}/src/*.c
@@ -9,9 +11,17 @@ file(GLOB_RECURSE SOURCE_FILES
 # Add header files
 file(GLOB_RECURSE HEADER_FILES 
 	${CMAKE_SOURCE_DIR}/src/*.h
-	${CMAKE_SOURCE_DIR}/src/*.hpp)
+	${CMAKE_SOURCE_DIR}/src/*.hpp
+	)
 
-add_executable(${PROJECT_NAME} WIN32 ${HEADER_FILES} ${SOURCE_FILES})
+
+
+
+add_executable(${PROJECT_NAME} WIN32 
+	${HEADER_FILES} 
+	${SOURCE_FILES}
+	${CMAKE_SOURCE_DIR}/favicon.rc # add an icon to final executable for windows
+	)
 
 # We need a CMAKE_DIR with some code to find external dependencies
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake/")
