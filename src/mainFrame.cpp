@@ -84,7 +84,9 @@ mainFrame::mainFrame(const wxString& title)
 	SetSizerAndFit(top_sizer);
 	SetToolBar(toolBar);
 	SetMenuBar(menuBar);
-	SetIcon(wxIcon(wxT("res/Pictogrammers-Material-Graph-outline.ico"), wxBITMAP_TYPE_ICO));
+	//SetIcon(wxIcon(wxT("res/Pictogrammers-Material-Graph-outline.ico"), wxBITMAP_TYPE_ICO));
+
+	SetIcon(wxIcon(wxT("res/favicon.ico"), wxBITMAP_TYPE_ICO));
 
 	SetPreferences();
 }
