@@ -45,7 +45,7 @@ add_custom_target(copy_resources ALL
         COMMAND ${CMAKE_COMMAND} -E copy_directory
         "${PROJECT_SOURCE_DIR}/res"
  		$<TARGET_FILE_DIR:${PROJECT_NAME}>/res
-        COMMENT "Copying resources into binary directory")
+        COMMENT "Copying resources from ${PROJECT_SOURCE_DIR}/res into $<TARGET_FILE_DIR:${PROJECT_NAME}>")
 
 #add_dependencies(${PROJECT_NAME} copy_resources)
 
