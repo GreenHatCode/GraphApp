@@ -214,8 +214,7 @@ void DrawingPanel::OnEditNode(wxCommandEvent &evt)
 		}
 		else 
 		{
-			// add overloading EditNode to graph to change node params except coords
-			wxMessageBox("Success!");
+			m_graph->EditNode(context_menu_click_coords, dlg->GetValue());
 			Refresh();
 		}
 	}
