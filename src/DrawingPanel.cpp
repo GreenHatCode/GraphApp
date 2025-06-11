@@ -16,6 +16,7 @@ BEGIN_EVENT_TABLE(DrawingPanel, wxPanel)
 	EVT_LEFT_UP(DrawingPanel::OnLeftUp)
 	EVT_MOTION(DrawingPanel::OnMove)
 	EVT_MENU(ID_EDIT_NODE, DrawingPanel::OnEditNode)
+	EVT_MENU(ID_DELETE_NODE, DrawingPanel::OnDeleteNode)
 END_EVENT_TABLE()
 
 
@@ -218,6 +219,12 @@ void DrawingPanel::OnEditNode(wxCommandEvent &evt)
 			Refresh();
 		}
 	}
+}
+
+void DrawingPanel::OnDeleteNode(wxCommandEvent &evt)
+{
+	m_graph->Erase(context_menu_click_coords);
+	Refresh();
 }
 
 void DrawingPanel::OnClear()
