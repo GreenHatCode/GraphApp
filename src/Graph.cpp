@@ -24,6 +24,24 @@ void Graph::EditNode(const wxPoint& node_coords)
 	Rank();
 }
 
+void Graph::EditNode(const wxPoint &node_coords, int index, int early_event_deadline, int late_event_deadline, int time_reserve)
+{
+	Node* node = GetNode(node_coords);
+
+	node->index = index;
+
+	if(early_event_deadline != -1)
+		node->early_event_deadline = early_event_deadline;
+	
+	if(late_event_deadline != -1)
+		node->late_event_deadline = late_event_deadline;
+
+	if(time_reserve != -1)
+		node->time_reserve = time_reserve;
+
+
+}
+
 void Graph::AddEdge(const Node* from, const Node* to, int weight, bool critical_path)
 {
 	Edge* new_edge = new Edge;
