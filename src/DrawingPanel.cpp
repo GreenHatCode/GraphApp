@@ -2,7 +2,7 @@
 
 BEGIN_EVENT_TABLE(DrawingPanel, wxPanel)
 	EVT_PAINT(DrawingPanel::OnPaint)
-	EVT_LEFT_DCLICK(DrawingPanel::OnLeftDClick)
+	EVT_LEFT_UP(DrawingPanel::OnLeftUp)
 	EVT_MOTION(DrawingPanel::OnMove)
 END_EVENT_TABLE()
 
@@ -14,7 +14,7 @@ DrawingPanel::DrawingPanel(wxWindow* parent, wxWindowID winid)
 	m_graph = new Graph();
 }
 
-void DrawingPanel::OnLeftDClick(wxMouseEvent& evt)
+void DrawingPanel::OnLeftUp(wxMouseEvent& evt)
 {
 	switch (m_drawing_regime)
 	{

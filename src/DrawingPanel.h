@@ -38,8 +38,8 @@ private:
     bool m_dupl_warning = true;
 
 
-
-    void OnLeftDClick(wxMouseEvent& evt); // general drawing
+    
+    void OnLeftUp(wxMouseEvent& evt); // add/delete node or edge
     void OnPaint(wxPaintEvent& evt); // calls after Refresh()
     void DrawNode(const Node* node); // adds and draw a new node
     void DrawEdge(const Edge* edge);
