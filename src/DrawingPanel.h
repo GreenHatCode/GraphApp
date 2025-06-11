@@ -38,7 +38,7 @@ private:
     bool m_dupl_warning = true;
 
 
-    
+    void OnRightUp(wxMouseEvent& evt); // context menu
     void OnLeftUp(wxMouseEvent& evt); // add/delete node or edge
     void OnPaint(wxPaintEvent& evt); // calls after Refresh()
     void DrawNode(const Node* node); // adds and draw a new node

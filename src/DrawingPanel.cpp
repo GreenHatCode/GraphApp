@@ -2,6 +2,7 @@
 
 BEGIN_EVENT_TABLE(DrawingPanel, wxPanel)
 	EVT_PAINT(DrawingPanel::OnPaint)
+	EVT_RIGHT_UP(DrawingPanel::OnRightUp)
 	EVT_LEFT_UP(DrawingPanel::OnLeftUp)
 	EVT_MOTION(DrawingPanel::OnMove)
 END_EVENT_TABLE()
@@ -14,7 +15,35 @@ DrawingPanel::DrawingPanel(wxWindow* parent, wxWindowID winid)
 	m_graph = new Graph();
 }
 
-void DrawingPanel::OnLeftUp(wxMouseEvent& evt)
+void DrawingPanel::OnRightUp(wxMouseEvent &evt)
+{
+	wxMenu* m_context_menu = nullptr;
+	m_context_menu = new wxMenu();
+
+	if(m_graph->IsInsideNode(evt.GetPosition()))
+	{
+		// node
+		m_context_menu->Append(wxID_ANY, "Edit node");
+		m_context_menu->Append(wxID_ANY, "Delete node");
+	}
+	else if (m_graph->IsOnEdge(evt.GetPosition()))
+	{
+		// edge
+		m_context_menu->Append(wxID_ANY, "Edit edge");
+		m_context_menu->Append(wxID_ANY, "Turn around");
+		m_context_menu->Append(wxID_ANY, "Delete node");
+	}
+	else
+	{
+		// empty area
+		m_context_menu->Append(wxID_ANY, "Add node");
+		m_context_menu->Append(wxID_ANY, "Add edge");	
+	}
+
+	PopupMenu(m_context_menu, evt.GetPosition());
+}
+
+void DrawingPanel::OnLeftUp(wxMouseEvent &evt)
 {
 	switch (m_drawing_regime)
 	{
@@ -143,8 +172,8 @@ void DrawingPanel::OnMove(wxMouseEvent& evt)
 	}
 	else if ((m_graph->IsOnEdge(evt.GetPosition()) || m_graph->IsInsideNode(evt.GetPosition())) && m_drawing_regime == DrawingPanel::DELETE_NODE_OR_EDGE)
 	{
-	// changing cursor in delete mode
-	SetCursor(wxCURSOR_HAND);
+		// changing cursor in delete mode
+		SetCursor(wxCURSOR_HAND);
 	}
 	else SetCursor(wxCURSOR_DEFAULT);
 }
