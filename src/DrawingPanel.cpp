@@ -1,10 +1,21 @@
 #include "DrawingPanel.h"
 
+enum {
+	ID_EDIT_NODE,
+	ID_DELETE_NODE,
+	ID_EDIT_EDGE,
+	ID_TURN_AROUND_EDGE,
+	ID_DELETE_EDGE,
+	ID_ADD_NODE, 
+	ID_ADD_EDGE
+};
+
 BEGIN_EVENT_TABLE(DrawingPanel, wxPanel)
 	EVT_PAINT(DrawingPanel::OnPaint)
 	EVT_RIGHT_UP(DrawingPanel::OnRightUp)
 	EVT_LEFT_UP(DrawingPanel::OnLeftUp)
 	EVT_MOTION(DrawingPanel::OnMove)
+	EVT_MENU(ID_EDIT_NODE, DrawingPanel::OnEditNode)
 END_EVENT_TABLE()
 
 
@@ -23,23 +34,24 @@ void DrawingPanel::OnRightUp(wxMouseEvent &evt)
 	if(m_graph->IsInsideNode(evt.GetPosition()))
 	{
 		// node
-		m_context_menu->Append(wxID_ANY, "Edit node");
-		m_context_menu->Append(wxID_ANY, "Delete node");
+		m_context_menu->Append(ID_EDIT_NODE, "Edit node");
+		m_context_menu->Append(ID_DELETE_NODE, "Delete node");
 	}
 	else if (m_graph->IsOnEdge(evt.GetPosition()))
 	{
 		// edge
-		m_context_menu->Append(wxID_ANY, "Edit edge");
-		m_context_menu->Append(wxID_ANY, "Turn around");
-		m_context_menu->Append(wxID_ANY, "Delete node");
+		m_context_menu->Append(ID_EDIT_EDGE, "Edit edge");
+		m_context_menu->Append(ID_TURN_AROUND_EDGE, "Turn around"); // swap begin and end nodes in the edge
+		m_context_menu->Append(ID_DELETE_EDGE, "Delete edge");
 	}
 	else
 	{
 		// empty area
-		m_context_menu->Append(wxID_ANY, "Add node");
-		m_context_menu->Append(wxID_ANY, "Add edge");	
+		m_context_menu->Append(ID_ADD_NODE, "Add node");
+		m_context_menu->Append(ID_ADD_EDGE, "Add edge");	
 	}
 
+	context_menu_click_coords = evt.GetPosition();
 	PopupMenu(m_context_menu, evt.GetPosition());
 }
 
@@ -176,6 +188,37 @@ void DrawingPanel::OnMove(wxMouseEvent& evt)
 		SetCursor(wxCURSOR_HAND);
 	}
 	else SetCursor(wxCURSOR_DEFAULT);
+}
+
+void DrawingPanel::OnEditNode(wxCommandEvent &evt)
+{
+	// on windows it works normally with std::numeric_limits<int>
+	// but on linux, it doesn't render spin buttons
+	// if the max number is longer than 5 chars (inluding '-')
+	wxNumberEntryDialog* dlg = new wxNumberEntryDialog(
+		this,
+		wxT("Edit the index of the node. Remember that \nthe node index is unique number."), 
+		wxT("Enter a number:"),
+		wxT("Set node index"), 
+		m_graph->GetNode(context_menu_click_coords)->index,
+		//m_graph->MaxNodeIndex() + 1, // todo: curr node index
+		-9999,
+		99999);
+
+	if (dlg->ShowModal() == wxID_OK)
+	{
+		if (m_graph->Contain(dlg->GetValue()))
+		{
+			if(m_dupl_warning)
+				wxLogWarning("You cannot set such index %i because a node with such index already exists.", dlg->GetValue());
+		}
+		else 
+		{
+			// add overloading EditNode to graph to change node params except coords
+			wxMessageBox("Success!");
+			Refresh();
+		}
+	}
 }
 
 void DrawingPanel::OnClear()
