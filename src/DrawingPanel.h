@@ -38,7 +38,7 @@ public:
     bool m_dupl_warning = true;
 
     // temp variables
-    wxPoint context_menu_click_coords;
+    wxPoint m_context_menu_click_coords;
 
 
     void OnRightUp(wxMouseEvent& evt); // context menu

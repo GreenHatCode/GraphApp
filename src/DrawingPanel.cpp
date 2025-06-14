@@ -55,7 +55,7 @@ void DrawingPanel::OnRightUp(wxMouseEvent &evt)
 		m_context_menu->Append(ID_ADD_EDGE, "Add edge");	
 	}
 
-	context_menu_click_coords = evt.GetPosition();
+	m_context_menu_click_coords = evt.GetPosition();
 	PopupMenu(m_context_menu, evt.GetPosition());
 }
 
@@ -204,7 +204,7 @@ void DrawingPanel::OnEditNode(wxCommandEvent &evt)
 		wxT("Edit the index of the node. Remember that \nthe node index is unique number."), 
 		wxT("Enter a number:"),
 		wxT("Set node index"), 
-		m_graph->GetNode(context_menu_click_coords)->index,
+		m_graph->GetNode(m_context_menu_click_coords)->index,
 		-9999,
 		99999);
 
@@ -217,7 +217,7 @@ void DrawingPanel::OnEditNode(wxCommandEvent &evt)
 		}
 		else 
 		{
-			m_graph->EditNode(context_menu_click_coords, dlg->GetValue());
+			m_graph->EditNode(m_context_menu_click_coords, dlg->GetValue());
 			Refresh();
 		}
 	}
@@ -225,7 +225,7 @@ void DrawingPanel::OnEditNode(wxCommandEvent &evt)
 
 void DrawingPanel::OnDeleteNode(wxCommandEvent &evt)
 {
-	m_graph->Erase(context_menu_click_coords);
+	m_graph->Erase(m_context_menu_click_coords);
 	Refresh();
 }
 
@@ -239,19 +239,21 @@ void DrawingPanel::OnEditEdge(wxCommandEvent &evt)
 		wxT("Edit the weight of the edge.  Remember that \nthe edge weight can be only integer."), 
 		wxT("Enter a number:"),
 		wxT("Set edge weight"), 
-		m_graph->GetEdge(context_menu_click_coords)->weight,
+		m_graph->GetEdge(m_context_menu_click_coords)->weight,
 		-9999,
 		99999);
 
 	if (dlg->ShowModal() == wxID_OK)
 	{
-		m_graph->GetEdge(context_menu_click_coords)->weight = dlg->GetValue();
+		m_graph->GetEdge(m_context_menu_click_coords)->weight = dlg->GetValue();
 		Refresh();
 	}
 }
 
 void DrawingPanel::OnTurnAroundEdge(wxCommandEvent &evt)
 {
+	m_graph->TurnAroundEdge(m_context_menu_click_coords);
+	Refresh();
 }
 
 void DrawingPanel::OnDeleteEdge(wxCommandEvent &evt)
