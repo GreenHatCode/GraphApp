@@ -100,6 +100,18 @@ void Graph::Erase(const wxPoint& coords)
 	}
 }
 
+void Graph::TurnAroundEdge(const wxPoint &coords)
+{
+	for (std::vector<Edge*>::iterator iter = edges.begin(); iter != edges.end(); iter++)
+	{
+		if (IsEdge(coords, iter))
+		{
+			std::swap((*iter)->from, (*iter)->to);
+			return;
+		}
+	}
+}
+
 Node* Graph::GetNode(const wxPoint& node_coords)
 {
 	for (std::vector<Node*>::iterator iter = nodes.begin(); iter != nodes.end(); iter++)
