@@ -258,6 +258,8 @@ void DrawingPanel::OnTurnAroundEdge(wxCommandEvent &evt)
 
 void DrawingPanel::OnDeleteEdge(wxCommandEvent &evt)
 {
+	m_graph->Erase(m_context_menu_click_coords);
+	Refresh();
 }
 
 void DrawingPanel::OnClear()
