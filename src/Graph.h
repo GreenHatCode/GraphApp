@@ -57,7 +57,6 @@ public:
 	Edge* GetEdge(const wxPoint& coords);
 	const Edge* GetEdge(size_t index) const;
 	std::vector<Edge*> GetIncomingEdges(const Node* in);
-	void SetEdgeWeight(const Node* from, const Node* to, int weight);
 	
 	bool Empty();
 	void Rank(); // changes the order of the nodes in the array according to their idexes

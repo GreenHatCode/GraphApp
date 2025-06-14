@@ -200,11 +200,6 @@ std::vector<Edge*> Graph::GetIncomingEdges(const Node* in)
 	return result;
 }
 
-void Graph::SetEdgeWeight(const Node* from, const Node* to, int weight)
-{
-
-}
-
 bool Graph::Empty()
 {
 	if (nodes.empty())
