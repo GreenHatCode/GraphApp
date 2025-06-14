@@ -26,27 +26,38 @@ public:
     void Print(wxDC& dc, int pageNum, wxSize dc_size);
     Graph* GetGraph();
     void SetGraph(Graph* graph_ptr);
-private:
+
+    private:
     Graph* m_graph;
     DrawingRegimes m_drawing_regime = STANDARD_CURSOR;
     Node* m_selected_begin_node = nullptr;
     ColourSchemes m_colour_scheme = ColourSchemes::COLOURED;
 
     // settings
-
     // show warning message if the user tries to add node with existing index
     bool m_dupl_warning = true;
 
+    // temp variables
+    wxPoint m_context_menu_click_coords;
 
+    void AddNewNode(const wxPoint& node_coords);
+    void AddNewEdge(const Node* node_from, const Node* node_to);
 
-    void OnLeftDClick(wxMouseEvent& evt); // general drawing
+    void OnRightUp(wxMouseEvent& evt); // context menu
+    void OnLeftUp(wxMouseEvent& evt); // add/delete node or edge
     void OnPaint(wxPaintEvent& evt); // calls after Refresh()
     void DrawNode(const Node* node); // adds and draw a new node
     void DrawEdge(const Edge* edge);
     void OnMove(wxMouseEvent& evt);
     
+    // context menu buttons handlers
+    void OnEditNode(wxCommandEvent& evt);
+    void OnDeleteNode(wxCommandEvent& evt);
+    void OnEditEdge(wxCommandEvent& evt);
+    void OnTurnAroundEdge(wxCommandEvent& evt);
+    void OnDeleteEdge(wxCommandEvent& evt);
+    void OnAddNewNode(wxCommandEvent& evt);
     
-
     DECLARE_EVENT_TABLE();
 };
 

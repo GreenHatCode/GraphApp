@@ -1,9 +1,25 @@
 #include "DrawingPanel.h"
 
+enum {
+	ID_EDIT_NODE,
+	ID_DELETE_NODE,
+	ID_EDIT_EDGE,
+	ID_TURN_AROUND_EDGE,
+	ID_DELETE_EDGE,
+	ID_ADD_NEW_NODE,
+};
+
 BEGIN_EVENT_TABLE(DrawingPanel, wxPanel)
 	EVT_PAINT(DrawingPanel::OnPaint)
-	EVT_LEFT_DCLICK(DrawingPanel::OnLeftDClick)
+	EVT_RIGHT_UP(DrawingPanel::OnRightUp)
+	EVT_LEFT_UP(DrawingPanel::OnLeftUp)
 	EVT_MOTION(DrawingPanel::OnMove)
+	EVT_MENU(ID_EDIT_NODE, DrawingPanel::OnEditNode)
+	EVT_MENU(ID_DELETE_NODE, DrawingPanel::OnDeleteNode)
+	EVT_MENU(ID_EDIT_EDGE, DrawingPanel::OnEditEdge)
+	EVT_MENU(ID_TURN_AROUND_EDGE, DrawingPanel::OnTurnAroundEdge)
+	EVT_MENU(ID_DELETE_EDGE, DrawingPanel::OnDeleteEdge)
+	EVT_MENU(ID_ADD_NEW_NODE, DrawingPanel::OnAddNewNode)
 END_EVENT_TABLE()
 
 
@@ -14,7 +30,85 @@ DrawingPanel::DrawingPanel(wxWindow* parent, wxWindowID winid)
 	m_graph = new Graph();
 }
 
-void DrawingPanel::OnLeftDClick(wxMouseEvent& evt)
+void DrawingPanel::AddNewNode(const wxPoint &node_coords)
+{
+	// on windows it works normally with std::numeric_limits<int>
+	// but on linux, it doesn't render spin buttons
+	// if the max number is longer than 5 chars (inluding '-')
+	wxNumberEntryDialog* dlg = new wxNumberEntryDialog(
+		this,
+		wxT("Set the index of the node. Remember that \nthe node index is unique number."), 
+		wxT("Enter a number:"),
+		wxT("Set node index"), 
+		m_graph->MaxNodeIndex() + 1, 
+		-9999,
+		99999);
+
+	if (dlg->ShowModal() == wxID_OK)
+	{
+		if (m_graph->Contain(dlg->GetValue()))
+		{
+			if(m_dupl_warning)wxLogWarning("You can't add node with index %i, because it is already exist.", dlg->GetValue());
+		}
+		else 
+		{
+			m_graph->AddNode(node_coords, dlg->GetValue());
+			Refresh();
+		}
+	}
+}
+
+void DrawingPanel::AddNewEdge(const Node* node_from, const Node* node_to)
+{
+	// on windows it works normally with std::numeric_limits<int>
+	// but on linux, it doesn't render spin buttons
+	// if the max number is longer than 5 chars (inluding '-')		
+	wxNumberEntryDialog* dlg = new wxNumberEntryDialog(
+	this,
+		wxT("Set the weight of the edge. Remember that \nthe edge weight can be only integer."),
+		wxT("Enter a number:"),
+		wxT("Set edge weight"),
+		0,
+		-9999,
+		99999);
+
+	if (dlg->ShowModal() == wxID_OK)
+	{
+		m_graph->AddEdge(node_from, node_to, dlg->GetValue());
+		m_selected_begin_node = nullptr;
+		Refresh();
+	}
+}
+
+void DrawingPanel::OnRightUp(wxMouseEvent &evt)
+{
+	wxMenu* m_context_menu = nullptr;
+	m_context_menu = new wxMenu();
+
+	if(m_graph->IsInsideNode(evt.GetPosition()))
+	{
+		// node
+		m_context_menu->Append(ID_EDIT_NODE, "Edit node");
+		m_context_menu->Append(ID_DELETE_NODE, "Delete node");
+	}
+	else if (m_graph->IsOnEdge(evt.GetPosition()))
+	{
+		// edge
+		m_context_menu->Append(ID_EDIT_EDGE, "Edit edge");
+		m_context_menu->Append(ID_TURN_AROUND_EDGE, "Turn around"); // swap begin and end nodes in the edge
+		m_context_menu->Append(ID_DELETE_EDGE, "Delete edge");
+	}
+	else
+	{
+		// empty area
+		m_context_menu->Append(ID_ADD_NEW_NODE, "Add node");	
+	}
+
+	m_context_menu_click_coords = evt.GetPosition();
+	PopupMenu(m_context_menu, evt.GetPosition());
+}
+
+void DrawingPanel::OnLeftUp(wxMouseEvent &evt)
 {
 	switch (m_drawing_regime)
 	{
@@ -23,30 +117,7 @@ void DrawingPanel::OnLeftDClick(wxMouseEvent& evt)
 		break;
 	case DrawingPanel::ADD_NODE:
 	{
-		// on windows it works normally with std::numeric_limits<int>
-		// but on linux, it doesn't render spin buttons
-		// if the max number is longer than 5 chars (inluding '-')
-		wxNumberEntryDialog* dlg = new wxNumberEntryDialog(
-			this,
-			wxT("Set the index of the node. Remember that \nthe node index is unique number."), 
-			wxT("Enter a number:"),
-			wxT("Set node index"), 
-			m_graph->MaxNodeIndex() + 1, 
-			-9999,
-			99999);
-
-		if (dlg->ShowModal() == wxID_OK)
-		{
-			if (m_graph->Contain(dlg->GetValue()))
-			{
-				if(m_dupl_warning)wxLogWarning("You can't add node with index %i, because it is already exist.", dlg->GetValue());
-			}
-			else 
-			{
-				m_graph->AddNode(evt.GetPosition(), dlg->GetValue());
-				Refresh();
-			}
-		}
+		AddNewNode(evt.GetPosition());
 	}
 		break;
 	case DrawingPanel::ADD_EDGE:
@@ -62,24 +133,7 @@ void DrawingPanel::OnLeftDClick(wxMouseEvent& evt)
 		{
 			if (m_graph->GetNode(evt.GetPosition()) != m_selected_begin_node)// preventing chosing the same node
 			{
-				// on windows it works normally with std::numeric_limits<int>
-				// but on linux, it doesn't render spin buttons
-				// if the max number is longer than 5 chars (inluding '-')				
-				wxNumberEntryDialog* dlg = new wxNumberEntryDialog(
-				this,
-					wxT("Set the weight of the edge. Remember that \nthe edge weight can be only integer."),
-					wxT("Enter a number:"),
-					wxT("Set edge weight"),
-					0,
-					-9999,
-					99999);
-
-				if (dlg->ShowModal() == wxID_OK)
-				{
-					m_graph->AddEdge(m_selected_begin_node, m_graph->GetNode(evt.GetPosition()), dlg->GetValue());
-					m_selected_begin_node = nullptr;
-					Refresh();
-				}
+				AddNewEdge(m_selected_begin_node, m_graph->GetNode(evt.GetPosition()));
 			}
 		}
 		break;
@@ -143,10 +197,83 @@ void DrawingPanel::OnMove(wxMouseEvent& evt)
 	}
 	else if ((m_graph->IsOnEdge(evt.GetPosition()) || m_graph->IsInsideNode(evt.GetPosition())) && m_drawing_regime == DrawingPanel::DELETE_NODE_OR_EDGE)
 	{
-	// changing cursor in delete mode
-	SetCursor(wxCURSOR_HAND);
+		// changing cursor in delete mode
+		SetCursor(wxCURSOR_HAND);
 	}
 	else SetCursor(wxCURSOR_DEFAULT);
+}
+
+void DrawingPanel::OnEditNode(wxCommandEvent &evt)
+{
+	// on windows it works normally with std::numeric_limits<int>
+	// but on linux, it doesn't render spin buttons
+	// if the max number is longer than 5 chars (inluding '-')
+	wxNumberEntryDialog* dlg = new wxNumberEntryDialog(
+		this,
+		wxT("Edit the index of the node. Remember that \nthe node index is unique number."), 
+		wxT("Enter a number:"),
+		wxT("Set node index"), 
+		m_graph->GetNode(m_context_menu_click_coords)->index,
+		-9999,
+		99999);
+
+	if (dlg->ShowModal() == wxID_OK)
+	{
+		if (m_graph->Contain(dlg->GetValue()))
+		{
+			if(m_dupl_warning)
+				wxLogWarning("You cannot set such index %i because a node with such index already exists.", dlg->GetValue());
+		}
+		else 
+		{
+			m_graph->EditNode(m_context_menu_click_coords, dlg->GetValue());
+			Refresh();
+		}
+	}
+}
+
+void DrawingPanel::OnDeleteNode(wxCommandEvent &evt)
+{
+	m_graph->Erase(m_context_menu_click_coords);
+	Refresh();
+}
+
+void DrawingPanel::OnEditEdge(wxCommandEvent &evt)
+{
+	// on windows it works normally with std::numeric_limits<int>
+	// but on linux, it doesn't render spin buttons
+	// if the max number is longer than 5 chars (inluding '-')
+	wxNumberEntryDialog* dlg = new wxNumberEntryDialog(
+		this,
+		wxT("Edit the weight of the edge.  Remember that \nthe edge weight can be only integer."), 
+		wxT("Enter a number:"),
+		wxT("Set edge weight"), 
+		m_graph->GetEdge(m_context_menu_click_coords)->weight,
+		-9999,
+		99999);
+
+	if (dlg->ShowModal() == wxID_OK)
+	{
+		m_graph->GetEdge(m_context_menu_click_coords)->weight = dlg->GetValue();
+		Refresh();
+	}
+}
+
+void DrawingPanel::OnTurnAroundEdge(wxCommandEvent &evt)
+{
+	m_graph->TurnAroundEdge(m_context_menu_click_coords);
+	Refresh();
+}
+
+void DrawingPanel::OnDeleteEdge(wxCommandEvent &evt)
+{
+	m_graph->Erase(m_context_menu_click_coords);
+	Refresh();
+}
+
+void DrawingPanel::OnAddNewNode(wxCommandEvent &evt)
+{
+	AddNewNode(m_context_menu_click_coords);
 }
 
 void DrawingPanel::OnClear()

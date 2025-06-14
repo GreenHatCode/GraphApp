@@ -24,6 +24,24 @@ void Graph::EditNode(const wxPoint& node_coords)
 	Rank();
 }
 
+void Graph::EditNode(const wxPoint &node_coords, int index, int early_event_deadline, int late_event_deadline, int time_reserve)
+{
+	Node* node = GetNode(node_coords);
+
+	node->index = index;
+
+	if(early_event_deadline != -1)
+		node->early_event_deadline = early_event_deadline;
+	
+	if(late_event_deadline != -1)
+		node->late_event_deadline = late_event_deadline;
+
+	if(time_reserve != -1)
+		node->time_reserve = time_reserve;
+
+
+}
+
 void Graph::AddEdge(const Node* from, const Node* to, int weight, bool critical_path)
 {
 	Edge* new_edge = new Edge;
@@ -77,6 +95,18 @@ void Graph::Erase(const wxPoint& coords)
 		{
 			delete (*iter);
 			edges.erase(iter);
+			return;
+		}
+	}
+}
+
+void Graph::TurnAroundEdge(const wxPoint &coords)
+{
+	for (std::vector<Edge*>::iterator iter = edges.begin(); iter != edges.end(); iter++)
+	{
+		if (IsEdge(coords, iter))
+		{
+			std::swap((*iter)->from, (*iter)->to);
 			return;
 		}
 	}
@@ -143,6 +173,15 @@ Edge* Graph::GetEdge(size_t index)
 	else throw "Index out of range";
 }
 
+Edge *Graph::GetEdge(const wxPoint &coords)
+{
+    for (std::vector<Edge*>::iterator iter = edges.begin(); iter != edges.end(); iter++)
+	{
+		if (IsEdge(coords, iter)) return (*iter);
+	}
+	return nullptr;
+}
+
 const Edge* Graph::GetEdge(size_t index) const
 {
 	if (edges.empty() || index >= edges.size()) return nullptr;
@@ -159,11 +198,6 @@ std::vector<Edge*> Graph::GetIncomingEdges(const Node* in)
 	}
 
 	return result;
-}
-
-void Graph::SetEdgeWeight(const Node* from, const Node* to, int weight)
-{
-
 }
 
 bool Graph::Empty()
