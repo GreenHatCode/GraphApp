@@ -50,10 +50,11 @@ public:
 
 	Node* GetNode(const wxPoint& node_coords);
 	Node* GetNode(size_t index);
-	Node* GetEdgeByNodeIndex(int index); // get node by its number (not index in vector)
 	const Node* GetNode(size_t index) const;
+	Node* GetEdgeByNodeIndex(int index); // get node by its number (not index in vector)
 	Edge* GetEdge(const Node* from, const Node* to);
 	Edge* GetEdge(size_t index);
+	Edge* GetEdge(const wxPoint& coords);
 	const Edge* GetEdge(size_t index) const;
 	std::vector<Edge*> GetIncomingEdges(const Node* in);
 	void SetEdgeWeight(const Node* from, const Node* to, int weight);

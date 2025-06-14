@@ -173,6 +173,15 @@ Edge* Graph::GetEdge(size_t index)
 	else throw "Index out of range";
 }
 
+Edge *Graph::GetEdge(const wxPoint &coords)
+{
+    for (std::vector<Edge*>::iterator iter = edges.begin(); iter != edges.end(); iter++)
+	{
+		if (IsEdge(coords, iter)) return (*iter);
+	}
+	return nullptr;
+}
+
 const Edge* Graph::GetEdge(size_t index) const
 {
 	if (edges.empty() || index >= edges.size()) return nullptr;
