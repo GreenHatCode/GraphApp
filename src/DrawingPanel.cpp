@@ -17,6 +17,9 @@ BEGIN_EVENT_TABLE(DrawingPanel, wxPanel)
 	EVT_MOTION(DrawingPanel::OnMove)
 	EVT_MENU(ID_EDIT_NODE, DrawingPanel::OnEditNode)
 	EVT_MENU(ID_DELETE_NODE, DrawingPanel::OnDeleteNode)
+	EVT_MENU(ID_EDIT_EDGE, DrawingPanel::OnEditEdge)
+	EVT_MENU(ID_TURN_AROUND_EDGE, DrawingPanel::OnTurnAroundEdge)
+	EVT_MENU(ID_DELETE_EDGE, DrawingPanel::OnDeleteEdge)
 END_EVENT_TABLE()
 
 
@@ -202,7 +205,6 @@ void DrawingPanel::OnEditNode(wxCommandEvent &evt)
 		wxT("Enter a number:"),
 		wxT("Set node index"), 
 		m_graph->GetNode(context_menu_click_coords)->index,
-		//m_graph->MaxNodeIndex() + 1, // todo: curr node index
 		-9999,
 		99999);
 
@@ -225,6 +227,35 @@ void DrawingPanel::OnDeleteNode(wxCommandEvent &evt)
 {
 	m_graph->Erase(context_menu_click_coords);
 	Refresh();
+}
+
+void DrawingPanel::OnEditEdge(wxCommandEvent &evt)
+{
+	// on windows it works normally with std::numeric_limits<int>
+	// but on linux, it doesn't render spin buttons
+	// if the max number is longer than 5 chars (inluding '-')
+	wxNumberEntryDialog* dlg = new wxNumberEntryDialog(
+		this,
+		wxT("Edit the weight of the edge.  Remember that \nthe edge weight can be only integer."), 
+		wxT("Enter a number:"),
+		wxT("Set edge weight"), 
+		m_graph->GetEdge(context_menu_click_coords)->weight,
+		-9999,
+		99999);
+
+	if (dlg->ShowModal() == wxID_OK)
+	{
+		m_graph->GetEdge(context_menu_click_coords)->weight = dlg->GetValue();
+		Refresh();
+	}
+}
+
+void DrawingPanel::OnTurnAroundEdge(wxCommandEvent &evt)
+{
+}
+
+void DrawingPanel::OnDeleteEdge(wxCommandEvent &evt)
+{
 }
 
 void DrawingPanel::OnClear()

@@ -51,7 +51,10 @@ public:
     // context menu buttons handlers
     void OnEditNode(wxCommandEvent& evt);
     void OnDeleteNode(wxCommandEvent& evt);
-
+    void OnEditEdge(wxCommandEvent& evt);
+    void OnTurnAroundEdge(wxCommandEvent& evt);
+    void OnDeleteEdge(wxCommandEvent& evt);
+    
     DECLARE_EVENT_TABLE();
 };
 
