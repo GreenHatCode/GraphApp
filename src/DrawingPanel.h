@@ -40,6 +40,8 @@ public:
     // temp variables
     wxPoint m_context_menu_click_coords;
 
+    void AddNewNode(const wxPoint& node_coords);
+    void AddNewEdge(const Node* node_from, const Node* node_to);
 
     void OnRightUp(wxMouseEvent& evt); // context menu
     void OnLeftUp(wxMouseEvent& evt); // add/delete node or edge
