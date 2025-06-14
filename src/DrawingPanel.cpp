@@ -6,7 +6,7 @@ enum {
 	ID_EDIT_EDGE,
 	ID_TURN_AROUND_EDGE,
 	ID_DELETE_EDGE,
-	ID_ADD_NODE,
+	ID_ADD_NEW_NODE,
 };
 
 BEGIN_EVENT_TABLE(DrawingPanel, wxPanel)
@@ -19,7 +19,7 @@ BEGIN_EVENT_TABLE(DrawingPanel, wxPanel)
 	EVT_MENU(ID_EDIT_EDGE, DrawingPanel::OnEditEdge)
 	EVT_MENU(ID_TURN_AROUND_EDGE, DrawingPanel::OnTurnAroundEdge)
 	EVT_MENU(ID_DELETE_EDGE, DrawingPanel::OnDeleteEdge)
-	EVT_MENU(ID_ADD_NODE, DrawingPanel::OnDeleteEdge)
+	EVT_MENU(ID_ADD_NEW_NODE, DrawingPanel::OnAddNewNode)
 END_EVENT_TABLE()
 
 
@@ -101,7 +101,7 @@ void DrawingPanel::OnRightUp(wxMouseEvent &evt)
 	else
 	{
 		// empty area
-		m_context_menu->Append(ID_ADD_NODE, "Add node");	
+		m_context_menu->Append(ID_ADD_NEW_NODE, "Add node");	
 	}
 
 	m_context_menu_click_coords = evt.GetPosition();
@@ -269,6 +269,11 @@ void DrawingPanel::OnDeleteEdge(wxCommandEvent &evt)
 {
 	m_graph->Erase(m_context_menu_click_coords);
 	Refresh();
+}
+
+void DrawingPanel::OnAddNewNode(wxCommandEvent &evt)
+{
+	AddNewNode(m_context_menu_click_coords);
 }
 
 void DrawingPanel::OnClear()

@@ -56,6 +56,7 @@ public:
     void OnEditEdge(wxCommandEvent& evt);
     void OnTurnAroundEdge(wxCommandEvent& evt);
     void OnDeleteEdge(wxCommandEvent& evt);
+    void OnAddNewNode(wxCommandEvent& evt);
     
     DECLARE_EVENT_TABLE();
 };
