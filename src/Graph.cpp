@@ -153,6 +153,16 @@ const Node* Graph::GetNode(size_t index) const
 	else return nodes[index];
 }
 
+const std::vector<int> Graph::GetNodeIndices() const
+{
+	std::vector<int> indices;
+	for (std::vector<Node*>::const_iterator iter = nodes.begin(); iter != nodes.end(); iter++)
+	{
+		indices.push_back((*iter)->index);
+	}
+    return indices;
+}
+
 Edge* Graph::GetEdge(const Node* from, const Node* to)
 {
 	
