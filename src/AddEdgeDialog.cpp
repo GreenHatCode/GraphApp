@@ -1,7 +1,20 @@
 #include "AddEdgeDialog.h"
 
+enum {
+    ID_NODE_FROM,
+    ID_NODE_TO,
+    ID_EDGE_WEIGHT
+};
 
-AddEdgeDialog::AddEdgeDialog(wxWindow* parent, wxWindowID id, const wxString& title, const wxPoint& pos, const wxSize& size, long style, const wxString& name)
+AddEdgeDialog::AddEdgeDialog(
+    wxWindow* parent, 
+    wxWindowID id, 
+    const wxString& title, 
+    const wxPoint& pos, 
+    const wxSize& size, 
+    long style, 
+    const wxString& name
+)
     :wxDialog(parent, id, title, pos, size, style, name)
 {
     wxBoxSizer* topSizer = new wxBoxSizer(wxVERTICAL);
@@ -16,7 +29,7 @@ AddEdgeDialog::AddEdgeDialog(wxWindow* parent, wxWindowID id, const wxString& ti
     topSizer->Add(edge_nodes_sizer, 1, wxALL|wxALIGN_CENTER, 1);
     
     wxArrayString nodes_from_choiceArr;
-    wxChoice* nodes_from_choice = new wxChoice(this, wxID_ANY, wxDefaultPosition, wxDLG_UNIT(this, wxSize(-1,-1)), nodes_from_choiceArr, 0);
+    wxChoice* nodes_from_choice = new wxChoice(this, ID_NODE_FROM, wxDefaultPosition, wxDLG_UNIT(this, wxSize(-1,-1)), nodes_from_choiceArr, 0);
     
     edge_nodes_sizer->Add(nodes_from_choice, 0, wxALL, 5);
     
@@ -25,7 +38,7 @@ AddEdgeDialog::AddEdgeDialog(wxWindow* parent, wxWindowID id, const wxString& ti
     edge_nodes_sizer->Add(row_bitmap, 0, wxALL, 5);
     
     wxArrayString nodes_to_choiceArr;
-    wxChoice* nodes_to_choice = new wxChoice(this, wxID_ANY, wxDefaultPosition, wxDLG_UNIT(this, wxSize(-1,-1)), nodes_to_choiceArr, 0);
+    wxChoice* nodes_to_choice = new wxChoice(this, ID_NODE_TO, wxDefaultPosition, wxDLG_UNIT(this, wxSize(-1,-1)), nodes_to_choiceArr, 0);
     
     edge_nodes_sizer->Add(nodes_to_choice, 0, wxALL, 5);
     
@@ -33,17 +46,21 @@ AddEdgeDialog::AddEdgeDialog(wxWindow* parent, wxWindowID id, const wxString& ti
     
     topSizer->Add(edge_weight_sizer, 1, wxALL|wxALIGN_CENTER, 1);
     
-    wxSpinCtrl* edge_weight_spinCtrl = new wxSpinCtrl(this, wxID_ANY, wxT("0"), wxDefaultPosition, wxDLG_UNIT(this, wxSize(-1,-1)), wxSP_ARROW_KEYS);
+    wxSpinCtrl* edge_weight_spinCtrl = new wxSpinCtrl(this, ID_EDGE_WEIGHT, wxT("0"), wxDefaultPosition, wxDLG_UNIT(this, wxSize(-1,-1)), wxSP_ARROW_KEYS);
     edge_weight_spinCtrl->SetRange(-9999, 99999);
     edge_weight_spinCtrl->SetValue(0);
     
     edge_weight_sizer->Add(edge_weight_spinCtrl, 0, wxALL|wxALIGN_CENTER, 5);
     edge_weight_spinCtrl->SetMinSize(wxSize(100,-1));
     
-    wxButton* add_edge_button = new wxButton(this, wxID_ANY, _("Add edge"), wxDefaultPosition, wxDLG_UNIT(this, wxSize(-1,-1)), 0);
-    
-    topSizer->Add(add_edge_button, 0, wxALL|wxEXPAND, 5);
-    
+    wxBoxSizer *buttons_sizer = new wxBoxSizer(wxHORIZONTAL);
+    wxButton* add_edge_button = new wxButton(this, wxID_OK, _("Add edge"), wxDefaultPosition, wxDLG_UNIT(this, wxSize(-1,-1)), 0);
+    wxButton* cancel_button = new wxButton(this, wxID_CANCEL, _("Cancel"), wxDefaultPosition, wxDLG_UNIT(this, wxSize(-1,-1)), 0);
+
+    buttons_sizer->Add(add_edge_button, 0, wxALL|wxEXPAND, 5);
+    buttons_sizer->Add(cancel_button, 0, wxALL|wxEXPAND, 5);
+
+    topSizer->Add(buttons_sizer, 1, wxALL|wxALIGN_RIGHT, 1);
     SetName(wxT("AddEdgeDialog"));
     SetSize(500, 200);
 
