@@ -5,13 +5,15 @@ enum {
 	ID_MODE_ADD_NODE, // the user can add new node
 	ID_MODE_ADD_EDGE, // the user can add new edge
 	ID_MODE_DELETE, // the use can delete either node or edge
-	ID_PROCESS_GRAPH // the app process the graph
+	ID_PROCESS_GRAPH, // the app process the graph
+	ID_ADD_EDGE_DIALOG
 };
 
 BEGIN_EVENT_TABLE(mainFrame, wxFrame)
 	EVT_MENU(wxID_EXIT, mainFrame::OnQuit)
 	EVT_MENU(wxID_HELP, mainFrame::OnHelp)
 	EVT_MENU(wxID_CLEAR, mainFrame::OnClear)
+	EVT_MENU(ID_ADD_EDGE_DIALOG, mainFrame::OnInvokeAddEdgeDialog)
 	EVT_MENU(wxID_PRINT, mainFrame::OnPrint)
 	EVT_MENU(wxID_NEW, mainFrame::OnNew)
 	EVT_MENU(wxID_ABOUT, mainFrame::OnAbout)
@@ -41,6 +43,7 @@ mainFrame::mainFrame(const wxString& title)
 
 	wxMenu* editMenu = new wxMenu;
 	editMenu->Append(wxID_CLEAR, wxT("&Clear"), wxT("Clears drawing area"));
+	editMenu->Append(ID_ADD_EDGE_DIALOG, wxT("Add edge"), wxT("Adds a new edge via dialog"));
 
 	wxMenu* prefMenu = new wxMenu;
 	prefMenu->Append(wxID_PREFERENCES);
@@ -174,6 +177,22 @@ void mainFrame::OnQuit(wxCommandEvent& evt)
 void mainFrame::OnClear(wxCommandEvent& evt)
 {
 	drawingPanel->OnClear();
+}
+
+void mainFrame::OnInvokeAddEdgeDialog(wxCommandEvent &evt)
+{
+	AddEdgeDialog* dlg = new AddEdgeDialog(this, wxID_ANY, wxT("Preferences"));
+	if (dlg->ShowModal() == wxID_OK)
+	{
+		wxMessageBox("Success");
+	}
+	else
+	{
+		// the user could use apply button to save setting, so we need to load file again
+		wxMessageBox("Canceled");
+	}
+	dlg->Destroy();
+	// drawingPanel->Refresh();
 }
 
 void mainFrame::OnPreferences(wxCommandEvent& evt)
