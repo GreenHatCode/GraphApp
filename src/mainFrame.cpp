@@ -181,18 +181,21 @@ void mainFrame::OnClear(wxCommandEvent& evt)
 
 void mainFrame::OnInvokeAddEdgeDialog(wxCommandEvent &evt)
 {
-	AddEdgeDialog* dlg = new AddEdgeDialog(this, wxID_ANY, wxT("Add edge"));
+	AddEdgeDialog* dlg = new AddEdgeDialog(this, wxID_ANY, wxT("Add edge"), drawingPanel->GetGraph()->GetNodeIndices());
 	if (dlg->ShowModal() == wxID_OK)
 	{
+		// add edge to the graph
+		// drawingPanel->Refresh();
 		wxMessageBox("Success");
 	}
 	else
 	{
+		// do nothing
 		// the user could use apply button to save setting, so we need to load file again
 		wxMessageBox("Canceled");
 	}
 	dlg->Destroy();
-	// drawingPanel->Refresh();
+	
 }
 
 void mainFrame::OnPreferences(wxCommandEvent& evt)
