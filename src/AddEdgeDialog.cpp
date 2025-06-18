@@ -9,13 +9,14 @@ enum {
 AddEdgeDialog::AddEdgeDialog(
     wxWindow* parent, 
     wxWindowID id, 
-    const wxString& title, 
+    const wxString& title,
+    const std::vector<int>& node_indices_list, 
     const wxPoint& pos, 
     const wxSize& size, 
     long style, 
     const wxString& name
 )
-    :wxDialog(parent, id, title, pos, size, style, name)
+    :m_node_indices_list{node_indices_list} ,wxDialog(parent, id, title, pos, size, style, name)
 {
     wxBoxSizer* topSizer = new wxBoxSizer(wxVERTICAL);
     this->SetSizer(topSizer);
@@ -28,8 +29,8 @@ AddEdgeDialog::AddEdgeDialog(
     
     topSizer->Add(edge_nodes_sizer, 1, wxALL|wxALIGN_CENTER, 1);
     
-    wxArrayString nodes_from_choiceArr;
-    wxChoice* nodes_from_choice = new wxChoice(this, ID_NODE_FROM, wxDefaultPosition, wxDLG_UNIT(this, wxSize(-1,-1)), nodes_from_choiceArr, 0);
+    
+    wxChoice* nodes_from_choice = new wxChoice(this, ID_NODE_FROM, wxDefaultPosition, wxDLG_UNIT(this, wxSize(-1,-1)), m_nodes_from_choiceArr, 0);
     
     edge_nodes_sizer->Add(nodes_from_choice, 0, wxALL, 5);
     
@@ -37,8 +38,7 @@ AddEdgeDialog::AddEdgeDialog(
     
     edge_nodes_sizer->Add(row_bitmap, 0, wxALL, 5);
     
-    wxArrayString nodes_to_choiceArr;
-    wxChoice* nodes_to_choice = new wxChoice(this, ID_NODE_TO, wxDefaultPosition, wxDLG_UNIT(this, wxSize(-1,-1)), nodes_to_choiceArr, 0);
+    wxChoice* nodes_to_choice = new wxChoice(this, ID_NODE_TO, wxDefaultPosition, wxDLG_UNIT(this, wxSize(-1,-1)), m_nodes_to_choiceArr, 0);
     
     edge_nodes_sizer->Add(nodes_to_choice, 0, wxALL, 5);
     
@@ -64,9 +64,40 @@ AddEdgeDialog::AddEdgeDialog(
     SetName(wxT("AddEdgeDialog"));
     SetSize(500, 200);
 
-
+    InitializeNodesLists();
+    if(!TransferDataToWindow())
+        wxLogError(wxT("Unable to transfer data to window"));
 }
 
 AddEdgeDialog::~AddEdgeDialog()
 {
+}
+
+bool AddEdgeDialog::TransferDataFromWindow()
+{
+
+    return true;
+}
+
+bool AddEdgeDialog::TransferDataToWindow()
+{
+    wxChoice* node_from_choice = (wxChoice*)FindWindow(ID_NODE_FROM);
+    wxChoice* node_to_choice = (wxChoice*)FindWindow(ID_NODE_TO);
+
+    if(m_nodes_from_choiceArr.IsEmpty() || m_nodes_to_choiceArr.IsEmpty()) return false;
+    
+    node_from_choice->Set(m_nodes_from_choiceArr);
+    node_to_choice->Set(m_nodes_to_choiceArr);
+
+
+    return true;
+}
+
+void AddEdgeDialog::InitializeNodesLists()
+{
+    for(std::vector<int>::const_iterator iter = m_node_indices_list.begin(); iter != m_node_indices_list.end(); iter++)
+    {
+        m_nodes_from_choiceArr.Add(wxString::Format("%d", *iter));
+    }
+    m_nodes_to_choiceArr = m_nodes_from_choiceArr;
 }
