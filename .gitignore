@@ -3,6 +3,8 @@
 
 # user specified
 documentation-not-for-git/
+wxCrafter/*
+!wxCrafter/*.wxcp
 
 # IDE - VSCode
 .vscode/
