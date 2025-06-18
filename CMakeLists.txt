@@ -1,27 +1,23 @@
 cmake_minimum_required(VERSION 3.2...4.0)
 project(GraphApp)
 
-
-
 # Add source files
 file(GLOB_RECURSE SOURCE_FILES 
 	${CMAKE_SOURCE_DIR}/src/*.c
-	${CMAKE_SOURCE_DIR}/src/*.cpp)
+	${CMAKE_SOURCE_DIR}/src/*.cpp
+)
 	
 # Add header files
 file(GLOB_RECURSE HEADER_FILES 
 	${CMAKE_SOURCE_DIR}/src/*.h
 	${CMAKE_SOURCE_DIR}/src/*.hpp
-	)
-
-
-
+)
 
 add_executable(${PROJECT_NAME} WIN32 
 	${HEADER_FILES} 
 	${SOURCE_FILES}
 	${CMAKE_SOURCE_DIR}/favicon.rc # add an icon to final executable for windows
-	)
+)
 
 # We need a CMAKE_DIR with some code to find external dependencies
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake/")
@@ -45,12 +41,8 @@ add_custom_target(copy_resources ALL
         COMMAND ${CMAKE_COMMAND} -E copy_directory
         "${PROJECT_SOURCE_DIR}/res"
  		$<TARGET_FILE_DIR:${PROJECT_NAME}>/res
-        COMMENT "Copying resources from ${PROJECT_SOURCE_DIR}/res into $<TARGET_FILE_DIR:${PROJECT_NAME}>")
-
-#add_dependencies(${PROJECT_NAME} copy_resources)
-
+        COMMENT "Copying resources from ${PROJECT_SOURCE_DIR}/res into $<TARGET_FILE_DIR:${PROJECT_NAME}>"
+)
 
 # Define the link libraries
 target_link_libraries(${PROJECT_NAME} ${LIBS})
-
-
