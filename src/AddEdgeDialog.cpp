@@ -6,6 +6,10 @@ enum {
     ID_EDGE_WEIGHT
 };
 
+BEGIN_EVENT_TABLE(AddEdgeDialog, wxDialog)
+    EVT_BUTTON(wxID_OK, AddEdgeDialog::OnOK)
+END_EVENT_TABLE()
+
 AddEdgeDialog::AddEdgeDialog(
     wxWindow* parent, 
     wxWindowID id, 
@@ -73,14 +77,31 @@ AddEdgeDialog::~AddEdgeDialog()
 {
 }
 
+void AddEdgeDialog::OnOK(wxCommandEvent& evt)
+{
+    if (Validate() && TransferDataFromWindow())
+	{
+        if (IsModal())
+        {
+            EndModal(wxID_OK);
+        }
+        else
+        {
+            SetReturnCode(wxID_OK);
+            this->Show(false);
+        }
+	}
+	else wxMessageBox(wxT("You didn't pass the validation or the data wasn't transfered from window."));
+}
+
 bool AddEdgeDialog::TransferDataFromWindow()
 {
     wxChoice* node_from_choice = (wxChoice*)FindWindow(ID_NODE_FROM);
     wxChoice* node_to_choice = (wxChoice*)FindWindow(ID_NODE_TO);
     wxSpinCtrl* edge_weight_ctrl = (wxSpinCtrl*)FindWindow(ID_EDGE_WEIGHT);
 
-    if(!m_nodes_from_choiceArr[node_from_choice->GetSelection()].ToInt(&node_from_index)) return false;
-    if(!m_nodes_to_choiceArr[node_to_choice->GetSelection()].ToInt(&node_to_index)) return false;
+    if (!m_nodes_from_choiceArr[node_from_choice->GetSelection()].ToInt(&node_from_index)) return false;
+    if (!m_nodes_to_choiceArr[node_to_choice->GetSelection()].ToInt(&node_to_index)) return false;
     edge_weight = edge_weight_ctrl->GetValue();
 
     return true;
@@ -91,7 +112,7 @@ bool AddEdgeDialog::TransferDataToWindow()
     wxChoice* node_from_choice = (wxChoice*)FindWindow(ID_NODE_FROM);
     wxChoice* node_to_choice = (wxChoice*)FindWindow(ID_NODE_TO);
 
-    if(m_nodes_from_choiceArr.IsEmpty() || m_nodes_to_choiceArr.IsEmpty()) return false;
+    if (m_nodes_from_choiceArr.IsEmpty() || m_nodes_to_choiceArr.IsEmpty()) return false;
     
     node_from_choice->Set(m_nodes_from_choiceArr);
     node_to_choice->Set(m_nodes_to_choiceArr);
@@ -102,7 +123,7 @@ bool AddEdgeDialog::TransferDataToWindow()
 
 void AddEdgeDialog::InitializeNodesLists()
 {
-    for(std::vector<int>::const_iterator iter = m_node_indices_list.begin(); iter != m_node_indices_list.end(); iter++)
+    for (std::vector<int>::const_iterator iter = m_node_indices_list.begin(); iter != m_node_indices_list.end(); iter++)
     {
         m_nodes_from_choiceArr.Add(wxString::Format("%d", *iter));
     }

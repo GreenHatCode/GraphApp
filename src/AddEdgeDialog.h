@@ -35,9 +35,10 @@ private:
     int node_from_index = 0;
     int node_to_index = 0;
 
-
+    void OnOK(wxCommandEvent& evt);
     bool TransferDataFromWindow();
     bool TransferDataToWindow();
     void InitializeNodesLists(); // fills up drop-down lists during the dialog creation
 
+    DECLARE_EVENT_TABLE();
 };
