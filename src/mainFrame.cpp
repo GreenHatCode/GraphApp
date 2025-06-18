@@ -181,7 +181,7 @@ void mainFrame::OnClear(wxCommandEvent& evt)
 
 void mainFrame::OnInvokeAddEdgeDialog(wxCommandEvent &evt)
 {
-	AddEdgeDialog* dlg = new AddEdgeDialog(this, wxID_ANY, wxT("Preferences"));
+	AddEdgeDialog* dlg = new AddEdgeDialog(this, wxID_ANY, wxT("Add edge"));
 	if (dlg->ShowModal() == wxID_OK)
 	{
 		wxMessageBox("Success");
