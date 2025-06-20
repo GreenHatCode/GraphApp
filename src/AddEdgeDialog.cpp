@@ -128,9 +128,9 @@ bool AddEdgeDialog::TransferDataFromWindow()
     wxChoice* node_to_choice = (wxChoice*)FindWindow(ID_NODE_TO);
     wxSpinCtrl* edge_weight_ctrl = (wxSpinCtrl*)FindWindow(ID_EDGE_WEIGHT);
 
-    if (node_from_choice->GetSelection() < 0 || node_to_choice->GetSelection() < 0) return false;
-    if (!m_node_indices_string_list[node_from_choice->GetSelection()].ToInt(&node_from_index)) return false;
-    if (!m_node_indices_string_list[node_to_choice->GetSelection()].ToInt(&node_to_index)) return false;
+    if (node_from_choice->GetSelection() == wxNOT_FOUND || node_to_choice->GetSelection() == wxNOT_FOUND) return false;
+    if (!node_from_choice->GetStringSelection().ToInt(&node_from_index)) return false;
+    if (!node_to_choice->GetStringSelection().ToInt(&node_to_index)) return false;
     edge_weight = edge_weight_ctrl->GetValue();
 
     return true;

@@ -21,9 +21,9 @@ public:
 
     ~AddEdgeDialog();
 
-    int GetEdgeWeight();
-    int GetNodeFromIndex();
-    int GetNodeToIndex();
+    int GetEdgeWeight() { return edge_weight; };
+    int GetNodeFromIndex() { return node_from_index; };
+    int GetNodeToIndex() { return node_to_index; };
 
 private:
     const std::vector<int> m_node_indices_list;
