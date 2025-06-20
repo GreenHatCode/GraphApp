@@ -501,6 +501,12 @@ void DrawingPanel::SetGraph(Graph* graph_ptr)
 	Refresh();
 }
 
+void DrawingPanel::AddNewEdge(int node_from_index, int node_to_index, int weight)
+{
+	m_graph->AddEdge(m_graph->GetNode(node_from_index), m_graph->GetNode(node_to_index), weight);
+	Refresh();
+}
+
 void DrawingPanel::DrawNode(const Node* node)
 {
 	wxClientDC dc(this);

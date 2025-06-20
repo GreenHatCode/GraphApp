@@ -12,6 +12,7 @@
 #include "OutputProcessingResultsDialog.h"
 #include "wx/wfstream.h"
 #include "GraphFile.h"
+#include "AddEdgeDialog.h"
 #include <wx/utils.h> 
 
 // toolbar images
@@ -45,6 +46,7 @@ private:
     void OnPrint(wxCommandEvent& evt);
     void OnQuit(wxCommandEvent& evt);
     void OnClear(wxCommandEvent& evt);
+    void OnInvokeAddEdgeDialog(wxCommandEvent& evt);
     void OnPreferences(wxCommandEvent& evt);
     void OnHelp(wxCommandEvent& evt); // shows tool tip
     void OnAbout(wxCommandEvent& evt);
