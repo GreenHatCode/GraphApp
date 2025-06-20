@@ -98,28 +98,31 @@ void AddEdgeDialog::OnOK(wxCommandEvent& evt)
 
 void AddEdgeDialog::UpdateDrowDownLists(wxCommandEvent &evt)
 {
-    if (evt.GetSelection() < 0) 
+    wxChoice* node_to_update;
+    
+    // if the user has selected a node from the drop-down list
+    // change another one
+    if(evt.GetId() == ID_NODE_FROM) node_to_update = (wxChoice*)FindWindow(ID_NODE_TO);
+    else node_to_update = (wxChoice*)FindWindow(ID_NODE_FROM);
+    
+    // there isn't selected item in the updated drop-down list
+    if (node_to_update->GetSelection() == wxNOT_FOUND) 
     {
-        wxLogError(wxT("Incorrect selection index"));
+        node_to_update->Clear();
+        node_to_update->Set(m_node_indices_string_list);
+        node_to_update->Delete(node_to_update->FindString(evt.GetString()));
         return;
     }
 
-    // if the user has selected a node from the drop-down list
-    // change another one
-    wxChoice* choice;
-    wxString selected_node;
-    if (evt.GetId() == ID_NODE_FROM) choice = (wxChoice*)FindWindow(ID_NODE_TO);
-    else choice = (wxChoice*)FindWindow(ID_NODE_FROM);
+    // there is selected item in the updated drop-down list
+    wxString tmp = node_to_update->GetString(node_to_update->GetSelection());
+    node_to_update->Clear();
+    node_to_update->Set(m_node_indices_string_list);
+    node_to_update->Delete(node_to_update->FindString(evt.GetString()));
+    node_to_update->SetSelection(node_to_update->FindString(tmp));
 
-    if (choice->GetSelection() >= 0)
-        selected_node = choice->GetString(choice->GetSelection()); // stores item selected in this wxchoice
     
-    choice->Clear(); // clear list
-    choice->Set(m_node_indices_string_list); // append all items
-    choice->Delete(evt.GetSelection()); // delete item selected in another wxchoice 
-    
-    if (!selected_node.IsEmpty())
-        choice->SetSelection(choice->FindString(selected_node));
+
 
 }
 
