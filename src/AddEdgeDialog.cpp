@@ -120,10 +120,6 @@ void AddEdgeDialog::UpdateDrowDownLists(wxCommandEvent &evt)
     node_to_update->Set(m_node_indices_string_list);
     node_to_update->Delete(node_to_update->FindString(evt.GetString()));
     node_to_update->SetSelection(node_to_update->FindString(tmp));
-
-    
-
-
 }
 
 bool AddEdgeDialog::TransferDataFromWindow()
