@@ -27,8 +27,7 @@ public:
 
 private:
     const std::vector<int> m_node_indices_list;
-    wxArrayString m_nodes_from_choiceArr;
-    wxArrayString m_nodes_to_choiceArr;
+    wxArrayString m_node_indices_string_list;
 
     // edge params setted by the user
     int edge_weight = 0;
@@ -36,9 +35,10 @@ private:
     int node_to_index = 0;
 
     void OnOK(wxCommandEvent& evt);
+    void UpdateDrowDownLists(wxCommandEvent& evt);
     bool TransferDataFromWindow();
     bool TransferDataToWindow();
-    void InitializeNodesLists(); // fills up drop-down lists during the dialog creation
+    void InitializeNodesList(); // convert int indices to arraystring
 
     DECLARE_EVENT_TABLE();
 };
