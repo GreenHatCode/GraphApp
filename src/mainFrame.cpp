@@ -185,14 +185,7 @@ void mainFrame::OnInvokeAddEdgeDialog(wxCommandEvent &evt)
 	if (dlg->ShowModal() == wxID_OK)
 	{
 		// add edge to the graph
-		// drawingPanel->Refresh();
-		wxMessageBox("Success");
-	}
-	else
-	{
-		// do nothing
-		// the user could use apply button to save setting, so we need to load file again
-		wxMessageBox("Canceled");
+		drawingPanel->AddNewEdge(dlg->GetNodeFromIndex(), dlg->GetNodeToIndex(), dlg->GetEdgeWeight());
 	}
 	dlg->Destroy();
 	
