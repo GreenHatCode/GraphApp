@@ -51,6 +51,7 @@ public:
 	Node* GetNode(const wxPoint& node_coords);
 	Node* GetNode(size_t index);
 	const Node* GetNode(size_t index) const;
+	const std::vector<int> GetNodeIndices() const;
 	Node* GetEdgeByNodeIndex(int index); // get node by its number (not index in vector)
 	Edge* GetEdge(const Node* from, const Node* to);
 	Edge* GetEdge(size_t index);

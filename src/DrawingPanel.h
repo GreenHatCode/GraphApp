@@ -26,8 +26,9 @@ public:
     void Print(wxDC& dc, int pageNum, wxSize dc_size);
     Graph* GetGraph();
     void SetGraph(Graph* graph_ptr);
+    void AddNewEdge(int node_from_index, int node_to_index, int weight);
 
-    private:
+private:
     Graph* m_graph;
     DrawingRegimes m_drawing_regime = STANDARD_CURSOR;
     Node* m_selected_begin_node = nullptr;
