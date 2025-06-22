@@ -57,7 +57,7 @@ AddEdgeDialog::AddEdgeDialog(
     edge_weight_spinCtrl->SetValue(0);
     
     edge_weight_sizer->Add(edge_weight_spinCtrl, 0, wxALL|wxALIGN_CENTER, 5);
-    edge_weight_spinCtrl->SetMinSize(wxSize(100,-1));
+    edge_weight_spinCtrl->SetMinSize(wxSize(150,-1));
     
     wxBoxSizer *buttons_sizer = new wxBoxSizer(wxHORIZONTAL);
     wxButton* add_edge_button = new wxButton(this, wxID_OK, _("Add edge"), wxDefaultPosition, wxDLG_UNIT(this, wxSize(-1,-1)), 0);
