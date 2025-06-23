@@ -14,6 +14,7 @@ BEGIN_EVENT_TABLE(mainFrame, wxFrame)
 	EVT_MENU(wxID_EXIT, mainFrame::OnQuit)
 	EVT_MENU(wxID_HELP, mainFrame::OnHelp)
 	EVT_MENU(wxID_CLEAR, mainFrame::OnClear)
+	EVT_MENU(ID_CLEAR_CALCULATION_PARAMETERS, mainFrame::OnClearCalculationParameters)
 	EVT_MENU(ID_ADD_EDGE_DIALOG, mainFrame::OnInvokeAddEdgeDialog)
 	EVT_MENU(wxID_PRINT, mainFrame::OnPrint)
 	EVT_MENU(wxID_NEW, mainFrame::OnNew)
@@ -44,8 +45,8 @@ mainFrame::mainFrame(const wxString& title)
 
 	wxMenu* editMenu = new wxMenu;
 	editMenu->Append(wxID_CLEAR, wxT("&Clear"), wxT("Clears drawing area"));
-	editMenu->Append(ID_ADD_EDGE_DIALOG, wxT("&Add edge"), wxT("Adds a new edge via dialog"));
 	editMenu->Append(ID_CLEAR_CALCULATION_PARAMETERS, wxT("Clear calculation results"), wxT("Clears node parameters and unpaints edges"));
+	editMenu->Append(ID_ADD_EDGE_DIALOG, wxT("&Add edge"), wxT("Adds a new edge via dialog"));
 
 	wxMenu* prefMenu = new wxMenu;
 	prefMenu->Append(wxID_PREFERENCES);
@@ -179,6 +180,11 @@ void mainFrame::OnQuit(wxCommandEvent& evt)
 void mainFrame::OnClear(wxCommandEvent& evt)
 {
 	drawingPanel->OnClear();
+}
+
+void mainFrame::OnClearCalculationParameters(wxCommandEvent &evt)
+{
+	wxMessageBox("Success!");
 }
 
 void mainFrame::OnInvokeAddEdgeDialog(wxCommandEvent &evt)
