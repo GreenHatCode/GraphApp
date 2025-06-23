@@ -6,7 +6,8 @@ enum {
 	ID_MODE_ADD_EDGE, // the user can add new edge
 	ID_MODE_DELETE, // the use can delete either node or edge
 	ID_PROCESS_GRAPH, // the app process the graph
-	ID_ADD_EDGE_DIALOG
+	ID_ADD_EDGE_DIALOG,
+	ID_CLEAR_CALCULATION_PARAMETERS
 };
 
 BEGIN_EVENT_TABLE(mainFrame, wxFrame)
@@ -44,6 +45,7 @@ mainFrame::mainFrame(const wxString& title)
 	wxMenu* editMenu = new wxMenu;
 	editMenu->Append(wxID_CLEAR, wxT("&Clear"), wxT("Clears drawing area"));
 	editMenu->Append(ID_ADD_EDGE_DIALOG, wxT("&Add edge"), wxT("Adds a new edge via dialog"));
+	editMenu->Append(ID_CLEAR_CALCULATION_PARAMETERS, wxT("Clear calculation results"), wxT("Clears node parameters and unpaints edges"));
 
 	wxMenu* prefMenu = new wxMenu;
 	prefMenu->Append(wxID_PREFERENCES);
