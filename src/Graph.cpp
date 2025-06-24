@@ -229,6 +229,24 @@ void Graph::Rank()
 	);
 }
 
+void Graph::SetNodeParametersToDefault()
+{
+	for (std::vector<Node*>::iterator iter = nodes.begin(); iter != nodes.end(); iter++)
+	{
+		(*iter)->early_event_deadline = -1;
+		(*iter)->late_event_deadline = -1;
+		(*iter)->time_reserve = -1;
+	}
+}
+
+void Graph::SetEdgeParametersToDefault()
+{
+	for (std::vector<Edge*>::iterator iter = edges.begin(); iter != edges.end(); iter++)
+	{
+		(*iter)->critical_path_edge = false;
+	}
+}
+
 size_t Graph::GetNodeAmount() const
 {
 	return nodes.size();
