@@ -83,10 +83,6 @@ mainFrame::mainFrame(const wxString& title)
 	// file class
 	m_graph_file = new GraphFile(wxT(""), drawingPanel->GetGraph());
 
-
-
-
-
 	SetSizerAndFit(top_sizer);
 	SetToolBar(toolBar);
 	SetMenuBar(menuBar);
@@ -184,7 +180,9 @@ void mainFrame::OnClear(wxCommandEvent& evt)
 
 void mainFrame::OnClearCalculationParameters(wxCommandEvent &evt)
 {
-	wxMessageBox("Success!");
+	drawingPanel->GetGraph()->SetNodeParametersToDefault();
+	drawingPanel->GetGraph()->SetEdgeParametersToDefault();
+	drawingPanel->Refresh();
 }
 
 void mainFrame::OnInvokeAddEdgeDialog(wxCommandEvent &evt)
