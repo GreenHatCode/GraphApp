@@ -46,6 +46,7 @@ private:
     void OnPrint(wxCommandEvent& evt);
     void OnQuit(wxCommandEvent& evt);
     void OnClear(wxCommandEvent& evt);
+    void OnClearCalculationParameters(wxCommandEvent& evt);
     void OnInvokeAddEdgeDialog(wxCommandEvent& evt);
     void OnPreferences(wxCommandEvent& evt);
     void OnHelp(wxCommandEvent& evt); // shows tool tip

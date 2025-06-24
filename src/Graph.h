@@ -61,6 +61,8 @@ public:
 	
 	bool Empty();
 	void Rank(); // changes the order of the nodes in the array according to their idexes
+	void SetNodeParametersToDefault(); // sets calculation params for all nodes to default values
+	void SetEdgeParametersToDefault(); // sets calculation params for all nodes to default values
 
 	size_t GetNodeAmount() const;
 	size_t GetEdgeAmount() const;
