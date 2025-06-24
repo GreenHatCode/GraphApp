@@ -45,7 +45,7 @@ mainFrame::mainFrame(const wxString& title)
 
 	wxMenu* editMenu = new wxMenu;
 	editMenu->Append(wxID_CLEAR, wxT("&Clear"), wxT("Clears drawing area"));
-	editMenu->Append(ID_CLEAR_CALCULATION_PARAMETERS, wxT("Clear calculation results"), wxT("Clears node parameters and unpaints edges"));
+	editMenu->Append(ID_CLEAR_CALCULATION_PARAMETERS, wxT("Clear calculation &results"), wxT("Clears node parameters and unpaints edges"));
 	editMenu->Append(ID_ADD_EDGE_DIALOG, wxT("&Add edge"), wxT("Adds a new edge via dialog"));
 
 	wxMenu* prefMenu = new wxMenu;
