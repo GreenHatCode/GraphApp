@@ -8,7 +8,7 @@ ProcessGraph::ProcessGraph(Graph *ptr, wxWindow *dialog_parent_window)
 
 }
 
-bool ProcessGraph::DoProcess()
+bool ProcessGraph::DoProcess(bool show_dialog)
 {
 	if(m_dialog_parent_window == nullptr)return false;
 	if (m_graph_ptr->Empty())
@@ -23,6 +23,9 @@ bool ProcessGraph::DoProcess()
 	}
 
 	// call dialog and get processing params
+	// if we don't call the dialog
+	// the app will use processing params from the previous 
+	// dialog call
 	
 
 

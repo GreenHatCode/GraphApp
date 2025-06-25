@@ -9,7 +9,7 @@ class ProcessGraph
 {
 public:
 	ProcessGraph(Graph* ptr, wxWindow* dialog_parent_window);
-	bool DoProcess(); // executes graph porcessig, returns false if processing is failed
+	bool DoProcess(bool show_dialog = true); // executes graph porcessig, returns false if processing is failed
     bool Validate(); // searches for mistakes in graph construction
     
 
