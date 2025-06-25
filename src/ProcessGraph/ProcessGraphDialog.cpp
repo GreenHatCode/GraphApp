@@ -8,11 +8,17 @@ enum {
     ID_OUTPUTTYPE_DESTINATION
 };
 
-
-
-
-ProcessGraphDialog::ProcessGraphDialog(wxWindow* parent, wxWindowID id, const wxString& title, const wxPoint& pos, const wxSize& size, long style, const wxString& name)
-    :wxDialog(parent, id, title, pos, size, style, name)
+ProcessGraphDialog::ProcessGraphDialog(
+    wxWindow* parent, 
+    wxWindowID id, 
+    const wxString& title, 
+    const wxPoint& pos, 
+    const wxSize& size, 
+    ProcessGraphSettings& process_settings,
+    long style, 
+    const wxString& name
+)
+    :m_process_settings{process_settings},wxDialog(parent, id, title, pos, size, style, name)
 {
 
     wxBoxSizer* top_sizer = new wxBoxSizer(wxVERTICAL);

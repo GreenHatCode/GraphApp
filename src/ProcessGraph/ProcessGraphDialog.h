@@ -1,5 +1,6 @@
 #pragma once
 #include "wx/wx.h"
+#include "ProcessGraph/ProcessGraphSettings.h"
 
 // dialog description
 // This dialog is used to select what the app will do with graph
@@ -19,8 +20,6 @@ enum OutputDestination
     TXT_FILE
 };
 
-
-
 class ProcessGraphDialog :
     public wxDialog
 {
@@ -29,30 +28,13 @@ public:
         const wxString& title,
         const wxPoint& pos = wxDefaultPosition,
         const wxSize& size = wxDefaultSize,
+        ProcessGraphSettings& process_settings,
         long style = wxDEFAULT_DIALOG_STYLE,
         const wxString& name = wxASCII_STR(wxDialogNameStr));
 
     ~ProcessGraphDialog();
-
-    bool GetCalculateEarlyEventDate();
-    bool GetCalculateLateEventDate();
-    bool GetCalculateEvenTimeReserne();
-    bool GetDrawCriticalPath();
-    OutputDestination GetOutputDestination();
-
-
 private:
-    // calculate
-    bool m_calculate_t_early = false;
-    bool m_calculate_t_late = false;
-    bool m_calculate_R = false;
-
-    // draw
-    bool m_draw_critical_path = false;
-
-    // output destination
-    OutputDestination m_output_destination = OutputDestination::DRAWING_AREA; // 0 - Drawing area, 1 - Separate window, 2 - .txt file 
-
+    ProcessGraphSettings& m_process_settings;
     void OnOK(wxCommandEvent& evt);
 
     bool TransferDataFromWindow();
