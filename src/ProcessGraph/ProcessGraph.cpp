@@ -24,6 +24,6 @@ bool ProcessGraph::Validate()
 		Edge* curr_edge = m_graph_ptr->GetEdge(i);
 		if (curr_edge->from->index > curr_edge->to->index)return false;
 	}
-
+	
 	return true;
 }
