@@ -26,9 +26,9 @@ class ProcessGraphDialog :
 public:
     ProcessGraphDialog(wxWindow* parent, wxWindowID id,
         const wxString& title,
+        ProcessGraphSettings& process_settings,
         const wxPoint& pos = wxDefaultPosition,
         const wxSize& size = wxDefaultSize,
-        ProcessGraphSettings& process_settings,
         long style = wxDEFAULT_DIALOG_STYLE,
         const wxString& name = wxASCII_STR(wxDialogNameStr));
 

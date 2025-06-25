@@ -12,9 +12,9 @@ ProcessGraphDialog::ProcessGraphDialog(
     wxWindow* parent, 
     wxWindowID id, 
     const wxString& title, 
+    ProcessGraphSettings& process_settings,
     const wxPoint& pos, 
     const wxSize& size, 
-    ProcessGraphSettings& process_settings,
     long style, 
     const wxString& name
 )
