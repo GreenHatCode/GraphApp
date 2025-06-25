@@ -13,13 +13,6 @@
 // 4) add the necessary code to TransferDataFromWindow and TransferDataToWindow
 //
 
-enum OutputDestination
-{
-    DRAWING_AREA,
-    SEPARATE_WINDOW,
-    TXT_FILE
-};
-
 class ProcessGraphDialog :
     public wxDialog
 {

@@ -14,6 +14,7 @@ bool ProcessGraph::DoProcess(bool show_dialog)
 	if (m_graph_ptr->Empty())
 	{
 		wxLogError("Your graph is empty. It can't be processed.");
+		return false;
 	}
 
 	if (!Validate())
@@ -28,7 +29,7 @@ bool ProcessGraph::DoProcess(bool show_dialog)
 	// dialog call
 	if (show_dialog)
 	{
-		if(ShowModalDialog)return false; // the user cancelled the processing of the graph
+		if(ShowModalDialog())return false; // the user cancelled the processing of the graph
 	}
 
 	// do processing (before get params from storage class)

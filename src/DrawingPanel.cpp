@@ -29,6 +29,7 @@ DrawingPanel::DrawingPanel(wxWindow* parent, wxWindowID winid)
 {
 	SetDoubleBuffered(true);
 	m_graph = new Graph();
+	m_graph_processor = new ProcessGraph(m_graph, this);
 }
 
 void DrawingPanel::AddNewNode(const wxPoint &node_coords)
@@ -277,6 +278,12 @@ void DrawingPanel::OnAddNewNode(wxCommandEvent &evt)
 	AddNewNode(m_context_menu_click_coords);
 }
 
+DrawingPanel::~DrawingPanel()
+{
+	delete m_graph;
+	delete m_graph_processor;
+}
+
 void DrawingPanel::OnClear()
 {
 	m_graph->Clear();
@@ -510,7 +517,7 @@ void DrawingPanel::AddNewEdge(int node_from_index, int node_to_index, int weight
 
 bool DrawingPanel::ProcessCurrentGraph()
 {
-    return false; // create an object of ProcessGraph and process the graph
+    return m_graph_processor->DoProcess(); // create an object of ProcessGraph and process the graph
 }
 
 void DrawingPanel::DrawNode(const Node* node)
