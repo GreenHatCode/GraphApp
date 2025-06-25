@@ -13,13 +13,13 @@ bool ProcessGraph::DoProcess(bool show_dialog)
 	if(m_dialog_parent_window == nullptr)return false;
 	if (m_graph_ptr->Empty())
 	{
-		wxLogError("Your graph is empty. It can't be processed.");
+		wxMessageBox("Your graph is empty. It can't be processed.", "Graph processing error", wxICON_ERROR);
 		return false;
 	}
 
 	if (!Validate())
 	{
-		wxLogError("You didn't pass the graph validation. Correct your net graph.");
+		wxMessageBox("You didn't pass the graph validation. Correct your net graph.", "Graph processing error", wxICON_ERROR);
 		return false;
 	}
 
