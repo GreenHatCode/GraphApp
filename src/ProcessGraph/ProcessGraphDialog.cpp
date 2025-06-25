@@ -110,11 +110,11 @@ bool ProcessGraphDialog::TransferDataFromWindow()
     wxCheckBox* critical_path_check = (wxCheckBox*)FindWindow(ID_CRITICAL_PATH);
     wxRadioBox* output_destination_selector = (wxRadioBox*)FindWindow(ID_OUTPUTTYPE_DESTINATION);
 
-    m_calculate_t_early = t_early_check->GetValue();
-    m_calculate_t_late = t_late_check->GetValue();
-    m_calculate_R = t_R_check->GetValue();
-    m_draw_critical_path = critical_path_check->GetValue();
-    m_output_destination = (OutputDestination)output_destination_selector->GetSelection();
+    m_process_settings.SetCalculateEarlyEventDate(t_early_check->GetValue());
+    m_process_settings.SetCalculateLateEventDate(t_late_check->GetValue());
+    m_process_settings.SetCalculateEvenTimeReserne(t_R_check->GetValue());
+    m_process_settings.SetDrawCriticalPath(critical_path_check->GetValue());
+    m_process_settings.SetOutputDestination((OutputDestination)output_destination_selector->GetSelection());
 
     return true;
 }
@@ -127,11 +127,11 @@ bool ProcessGraphDialog::TransferDataToWindow()
     wxCheckBox* critical_path_check = (wxCheckBox*)FindWindow(ID_CRITICAL_PATH);
     wxRadioBox* output_destination_selector = (wxRadioBox*)FindWindow(ID_OUTPUTTYPE_DESTINATION);
 
-    t_early_check->SetValue(m_calculate_t_early);
-    t_late_check->SetValue(m_calculate_t_late);
-    t_R_check->SetValue(m_calculate_R);
-    critical_path_check->SetValue(m_draw_critical_path);
-    output_destination_selector->SetSelection(m_output_destination);
+    t_early_check->SetValue(m_process_settings.GetCalculateEarlyEventDate());
+    t_late_check->SetValue(m_process_settings.GetCalculateLateEventDate());
+    t_R_check->SetValue(m_process_settings.GetCalculateEvenTimeReserne());
+    critical_path_check->SetValue(m_process_settings.GetDrawCriticalPath());
+    output_destination_selector->SetSelection(m_process_settings.GetOutputDestination());
 
     return true;
 }
