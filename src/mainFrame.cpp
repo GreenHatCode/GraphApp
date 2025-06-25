@@ -243,69 +243,7 @@ void mainFrame::SetEditingRegime(wxCommandEvent& evt)
 
 void mainFrame::OnProcessGraph(wxCommandEvent& evt)
 {
-	ProcessGraphDialog* dlg = new ProcessGraphDialog(this, wxID_ANY, wxT("Process graph options"));
-	if (dlg->ShowModal() == wxID_OK)
-	{
-
-		ProcessGraph process_graph(drawingPanel->GetGraph(), dlg->GetOutputDestination());
-		if (dlg->GetCalculateEarlyEventDate()) { process_graph.SetCalculateEarlyEventDate(true); }
-		if (dlg->GetCalculateLateEventDate()) { process_graph.SetCalculateLateEventDate(true); }
-		if (dlg->GetCalculateEvenTimeReserne()) { process_graph.SetCalculateEvenTimeReserne(true); }
-		if (dlg->GetDrawCriticalPath()) { process_graph.SetDrawCriticalPath(true); }
-
-		if (!process_graph.Validate())
-		{
-			wxLogError("You didn't pass the graph validation. Correct your net graph.");
-			return;
-		}
-		if (process_graph.DoProcess())
-		{
-			// depends on output_destination in ProcessGraphDialog
-			if (dlg->GetOutputDestination() == OutputDestination::DRAWING_AREA)
-			{
-				Refresh(); // move to the end
-			}
-			else if (dlg->GetOutputDestination() == OutputDestination::SEPARATE_WINDOW)
-			{
-				// create a new window and show there a message
-				OutputProcessingResultsDialog* dialog = new OutputProcessingResultsDialog(this, wxID_ANY, wxT(""));
-				dialog->SetOutputMessage(process_graph.GetOutputMessage());
-				dialog->ShowModal();
-				dialog->Destroy();
-			}
-			else
-			{
-				// output to txt file
-				wxFileDialog* save_file_dialog = new wxFileDialog(this, wxT("Save Results"), "", "",
-					wxT("Plain Text (*.txt)|*.txt"), wxFD_SAVE|wxFD_OVERWRITE_PROMPT);
-				if (save_file_dialog->ShowModal() == wxID_OK)
-				{
-					wxFileOutputStream output_stream(save_file_dialog->GetPath());
-					if (!output_stream.IsOk())
-					{
-						wxLogError("Cannot save current contents in file '%s'.", save_file_dialog->GetPath());
-						return;
-					}
-
-					if (!output_stream.WriteAll(process_graph.GetOutputMessage(), process_graph.GetOutputMessage().size()))
-					{
-						wxLogError("Cannot write data in the file '%s'.", save_file_dialog->GetPath());
-					}
-
-					output_stream.Close();
-
-				}
-			}
-
-
-
-			
-		}
-		else wxLogError("Unable to process the graph.");
-		
-	}
-
-	dlg->Destroy();
+	if(!drawingPanel->ProcessCurrentGraph()) wxLogError(wxT("Can't process the graph."));
 }
 
 bool mainFrame::ShowToolTip()

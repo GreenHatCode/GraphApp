@@ -27,6 +27,7 @@ public:
     Graph* GetGraph();
     void SetGraph(Graph* graph_ptr);
     void AddNewEdge(int node_from_index, int node_to_index, int weight);
+    bool ProcessCurrentGraph();
 
 private:
     Graph* m_graph;

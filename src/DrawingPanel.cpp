@@ -1,4 +1,5 @@
 #include "DrawingPanel.h"
+#include "ProcessGraph/ProcessGraphDialog.h"
 
 enum {
 	ID_EDIT_NODE,
@@ -505,6 +506,11 @@ void DrawingPanel::AddNewEdge(int node_from_index, int node_to_index, int weight
 {
 	m_graph->AddEdge(m_graph->GetNode(node_from_index), m_graph->GetNode(node_to_index), weight);
 	Refresh();
+}
+
+bool DrawingPanel::ProcessCurrentGraph()
+{
+    return false; // create an object of ProcessGraph and process the graph
 }
 
 void DrawingPanel::DrawNode(const Node* node)
