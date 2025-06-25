@@ -10,14 +10,25 @@ ProcessGraph::ProcessGraph(Graph *ptr, wxWindow *dialog_parent_window)
 
 bool ProcessGraph::DoProcess()
 {
-	if (m_graph_ptr->Empty() || m_dialog_parent_window == nullptr)return false;
+	if(m_dialog_parent_window == nullptr)return false;
+	if (m_graph_ptr->Empty())
+	{
+		wxLogError("Your graph is empty. It can't be processed.");
+	}
+
 	if (!Validate())
 	{
 		wxLogError("You didn't pass the graph validation. Correct your net graph.");
 		return false;
 	}
 
+	// call dialog and get processing params
+	
 
+
+	// transfer processing params to storage class
+
+	// do processing (before get params from storage class)
 
 
     return false;
