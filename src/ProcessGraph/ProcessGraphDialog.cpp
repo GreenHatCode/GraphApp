@@ -85,31 +85,6 @@ ProcessGraphDialog::~ProcessGraphDialog()
 {
 }
 
-bool ProcessGraphDialog::GetCalculateEarlyEventDate()
-{
-    return m_calculate_t_early;
-}
-
-bool ProcessGraphDialog::GetCalculateLateEventDate()
-{
-    return m_calculate_t_late;
-}
-
-bool ProcessGraphDialog::GetCalculateEvenTimeReserne()
-{
-    return m_calculate_R;
-}
-
-bool ProcessGraphDialog::GetDrawCriticalPath()
-{
-    return m_draw_critical_path;
-}
-
-OutputDestination ProcessGraphDialog::GetOutputDestination()
-{
-    return m_output_destination;
-}
-
 void ProcessGraphDialog::OnOK(wxCommandEvent& evt)
 {
     if (TransferDataFromWindow())
