@@ -1,6 +1,6 @@
 #pragma once
 #include "Graph.h"
-#include "ProcessGraphDialog.h"
+#include "ProcessGraph/ProcessGraphDialog.h"
 #include <map>
 
 // the class is used to process graph, calculate nodes' params etc.

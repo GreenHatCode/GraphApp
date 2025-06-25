@@ -1,4 +1,4 @@
-#include "ProcessGraphDialog.h"
+#include "ProcessGraph/ProcessGraphDialog.h"
 
 enum {
     ID_EARLY_EVENT_DATE,

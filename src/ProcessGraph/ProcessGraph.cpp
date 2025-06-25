@@ -1,4 +1,4 @@
-#include "ProcessGraph.h"
+#include "ProcessGraph/ProcessGraph.h"
 
 ProcessGraph::ProcessGraph(Graph* ptr, OutputDestination output_destination_type)
 {
