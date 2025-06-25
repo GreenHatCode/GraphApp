@@ -26,15 +26,15 @@ bool ProcessGraph::DoProcess(bool show_dialog)
 	// if we don't call the dialog
 	// the app will use processing params from the previous 
 	// dialog call
-	
-
-
-	// transfer processing params to storage class
+	if (show_dialog)
+	{
+		if(ShowMoalDialog)return false; // the user cancelled the processing of the graph
+	}
 
 	// do processing (before get params from storage class)
 
 
-    return false;
+    return true;
 }
 
 bool ProcessGraph::Validate()
@@ -47,4 +47,10 @@ bool ProcessGraph::Validate()
 	}
 
 	return true;
+}
+
+bool ProcessGraph::ShowMoalDialog()
+{
+    ProcessGraphDialog* dlg = new ProcessGraphDialog(m_dialog_parent_window, wxID_ANY, wxT("Process graph options"), m_process_settings);
+	return dlg->ShowModal();
 }
