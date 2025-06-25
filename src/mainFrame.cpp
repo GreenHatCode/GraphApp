@@ -243,7 +243,7 @@ void mainFrame::SetEditingRegime(wxCommandEvent& evt)
 
 void mainFrame::OnProcessGraph(wxCommandEvent& evt)
 {
-	if(!drawingPanel->ProcessCurrentGraph()) wxLogError(wxT("Can't process the graph."));
+	drawingPanel->ProcessCurrentGraph();
 }
 
 bool mainFrame::ShowToolTip()
