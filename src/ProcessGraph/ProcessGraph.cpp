@@ -28,7 +28,7 @@ bool ProcessGraph::DoProcess(bool show_dialog)
 	// dialog call
 	if (show_dialog)
 	{
-		if(ShowMoalDialog)return false; // the user cancelled the processing of the graph
+		if(ShowModalDialog)return false; // the user cancelled the processing of the graph
 	}
 
 	// do processing (before get params from storage class)
@@ -49,7 +49,7 @@ bool ProcessGraph::Validate()
 	return true;
 }
 
-bool ProcessGraph::ShowMoalDialog()
+bool ProcessGraph::ShowModalDialog()
 {
     ProcessGraphDialog* dlg = new ProcessGraphDialog(m_dialog_parent_window, wxID_ANY, wxT("Process graph options"), m_process_settings);
 	return dlg->ShowModal();

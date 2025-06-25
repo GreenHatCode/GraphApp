@@ -19,7 +19,7 @@ private:
     ProcessGraphSettings m_process_settings;
     
     
-    bool ShowMoalDialog();
+    bool ShowModalDialog();
 
 
 };
