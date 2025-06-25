@@ -8,27 +8,26 @@ public:
     ProcessGraphSettings();
     ~ProcessGraphSettings();
 
-    void SetCalculateEarlyEventDate(bool value);
-    void SetCalculateLateEventDate(bool value);
-    void SetCalculateEvenTimeReserne(bool value);
-    void SetDrawCriticalPath(bool value);
-    void SetOutputMessage(wxString message);
-    void SetOutputDestination(OutputDestination destination);
+    void SetCalculateEarlyEventDate(bool value) { m_calculate_t_early = value; }
+    void SetCalculateLateEventDate(bool value) { m_calculate_t_late = value; }
+    void SetCalculateEvenTimeReserne(bool value) { m_calculate_R = value; }
+    void SetDrawCriticalPath(bool value) { m_search_critical_path = value; }
+    void SetOutputMessage(wxString value) {m_output_message = value; }
+    void SetOutputDestination(OutputDestination value) {m_output_destination_type = value;}
 
-    bool GetCalculateEarlyEventDate();
-    bool GetCalculateLateEventDate();
-    bool GetCalculateEvenTimeReserne();
-    bool GetDrawCriticalPath();
-    wxString GetOutputMessage();
-    OutputDestination GetOutputDestination();
+    bool GetCalculateEarlyEventDate() {return m_calculate_t_early; }
+    bool GetCalculateLateEventDate() {return m_calculate_t_late; }
+    bool GetCalculateEvenTimeReserne() {return m_calculate_R; }
+    bool GetDrawCriticalPath() {return m_search_critical_path; }
+    wxString GetOutputMessage() {return m_output_message; }
+    OutputDestination GetOutputDestination() {return m_output_destination_type; }
 
 
 private:
-    OutputDestination m_output_destination_type = OutputDestination::DRAWING_AREA;
-    wxString output_message;
     bool m_calculate_t_early = false; // ID_EARLY_EVENT_DATE
     bool m_calculate_t_late = false; // ID_LATE_EVENT_DATE
     bool m_calculate_R = false; // ID_EVENT_TIME_RESERVE
     bool m_search_critical_path = false; // ID_CRITICAL_PATH
-
+    wxString m_output_message;
+    OutputDestination m_output_destination_type = OutputDestination::DRAWING_AREA;
 };
