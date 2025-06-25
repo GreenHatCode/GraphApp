@@ -38,6 +38,11 @@ bool ProcessGraph::DoProcess(bool show_dialog)
     return true;
 }
 
+void ProcessGraph::SetGraph(Graph* ptr)
+{
+	m_graph_ptr = ptr;
+}
+
 bool ProcessGraph::Validate()
 {
 	// searching for edges in which from->index > to->index

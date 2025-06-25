@@ -506,6 +506,7 @@ void DrawingPanel::SetGraph(Graph* graph_ptr)
 	m_graph->Clear();
 	delete m_graph;
 	m_graph = graph_ptr;
+	m_graph_processor->SetGraph(m_graph);
 	Refresh();
 }
 
