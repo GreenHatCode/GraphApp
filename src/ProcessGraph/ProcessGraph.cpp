@@ -11,7 +11,14 @@ ProcessGraph::ProcessGraph(Graph *ptr, wxWindow *dialog_parent_window)
 bool ProcessGraph::DoProcess()
 {
 	if (m_graph_ptr->Empty() || m_dialog_parent_window == nullptr)return false;
-	if (!Validate())return false;
+	if (!Validate())
+	{
+		wxLogError("You didn't pass the graph validation. Correct your net graph.");
+		return false;
+	}
+
+
+
 
     return false;
 }
@@ -24,6 +31,6 @@ bool ProcessGraph::Validate()
 		Edge* curr_edge = m_graph_ptr->GetEdge(i);
 		if (curr_edge->from->index > curr_edge->to->index)return false;
 	}
-	
+
 	return true;
 }
