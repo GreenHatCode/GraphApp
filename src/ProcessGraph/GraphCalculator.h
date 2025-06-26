@@ -1,5 +1,6 @@
 #pragma once
 #include "Graph.h"
+#include <map>
 
 // this class does only calculations
 // it returns arrays and strings 
