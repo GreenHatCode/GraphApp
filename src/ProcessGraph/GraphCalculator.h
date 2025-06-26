@@ -16,6 +16,11 @@ public:
     std::vector<int> GetEarlyEventDates() {return m_Time_reserve; };
     std::vector<Node*> GetCritPath() {return m_crit_path; };
 
+    // calculation methods
+    void CalculateEarlyEventDate();
+    void CalculateLateEventDate();
+    void CalculateTimeReserve();
+    void SearchCritPath();
 
 private:
     Graph* m_graph_ptr = nullptr;
@@ -26,10 +31,6 @@ private:
     std::vector<int> m_Time_reserve; // EVENT TIME RESERVE
     std::vector<Node*> m_crit_path; // stores nodes that create a critical path
 
-    // calculation methods
-    void CalculateEarlyEventDate();
-    void CalculateLateEventDate();
-    void CalculateTimeReserve();
-    void SearchCritPath();
+
 
 };
