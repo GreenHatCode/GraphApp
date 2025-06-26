@@ -4,6 +4,9 @@
 GraphCalculator::GraphCalculator(Graph *ptr)
 {
     m_graph_ptr = ptr;
+    m_T_early.resize(ptr->GetNodeAmount());
+	m_T_late.resize(ptr->GetNodeAmount());
+	m_Time_reserve.resize(ptr->GetNodeAmount());
 }
 void GraphCalculator::CalculateEarlyEventDate()
 {
