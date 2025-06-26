@@ -1,5 +1,4 @@
 #include "ProcessGraph/ProcessGraph.h"
-#include "ProcessGraph.h"
 
 ProcessGraph::ProcessGraph(Graph *ptr, wxWindow *dialog_parent_window)
 {
@@ -33,6 +32,11 @@ bool ProcessGraph::DoProcess(bool show_dialog)
 	}
 
 	// do processing (before get params from storage class)
+	GraphCalculator graph_calculator(m_graph_ptr);
+	if (m_process_settings.GetCalculateEarlyEventDate()) graph_calculator.CalculateEarlyEventDate();
+	if (m_process_settings.GetCalculateLateEventDate()) graph_calculator.CalculateEarlyEventDate();
+	if (m_process_settings.GetCalculateEvenTimeReserne()) graph_calculator.CalculateEarlyEventDate();
+	if (m_process_settings.GetDrawCriticalPath()) graph_calculator.CalculateEarlyEventDate();
 
 
     return true;

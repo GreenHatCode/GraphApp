@@ -2,6 +2,7 @@
 #include "Graph.h"
 #include "ProcessGraph/ProcessGraphDialog.h"
 #include "ProcessGraph/ProcessGraphSettings.h"
+#include "ProcessGraph/GraphCalculator.h"
 #include <map>
 
 // the class is used to process graph, calculate nodes' params etc.
