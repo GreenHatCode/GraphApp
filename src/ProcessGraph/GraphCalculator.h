@@ -12,8 +12,8 @@ public:
     GraphCalculator(Graph* ptr);
 
     std::vector<int> GetEarlyEventDates() {return m_T_early; };
-    std::vector<int> GetEarlyEventDates() {return m_T_late; };
-    std::vector<int> GetEarlyEventDates() {return m_Time_reserve; };
+    std::vector<int> GetLateEventDate() {return m_T_late; };
+    std::vector<int> GetTimeReserve() {return m_Time_reserve; };
     std::vector<Node*> GetCritPath() {return m_crit_path; };
 
     // calculation methods
