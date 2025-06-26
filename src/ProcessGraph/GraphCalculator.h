@@ -10,10 +10,10 @@ class GraphCalculator
 public:
     GraphCalculator(Graph* ptr);
 
-    std::vector<int> GetEarlyEventDates();
-    std::vector<int> GetEarlyEventDates();
-    std::vector<int> GetEarlyEventDates();
-    std::vector<Node*> GetCritPath();
+    std::vector<int> GetEarlyEventDates() {return m_T_early; };
+    std::vector<int> GetEarlyEventDates() {return m_T_late; };
+    std::vector<int> GetEarlyEventDates() {return m_Time_reserve; };
+    std::vector<Node*> GetCritPath() {return m_crit_path; };
 
 
 private:
