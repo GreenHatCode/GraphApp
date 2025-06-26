@@ -11,7 +11,7 @@ class ProcessGraph
 public:
 	ProcessGraph(Graph* ptr, wxWindow* dialog_parent_window);
 	bool DoProcess(bool show_dialog = true); // executes graph porcessig, returns false if processing is failed
-    void SetGraph(Graph* ptr); // sets a new graph
+    void SetGraph(Graph* ptr); // sets a new graph, delete the previous graph before set a new one
     
 
 private:
