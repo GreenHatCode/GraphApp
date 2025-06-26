@@ -59,19 +59,6 @@ void GraphCalculator::CalculateTimeReserve()
 void GraphCalculator::SearchCritPath()
 {
     CalculateTimeReserve();
-
-	// make all edges non-critical
-	for (size_t i = 0; i < m_graph_ptr->GetEdgeAmount(); i++)
-	{
-		m_graph_ptr->GetEdge(i)->critical_path_edge = false;
-	}
-
-	std::map<int, int> nodes_time_reserves;
-	for (size_t i = 0; i < m_Time_reserve.size(); i++)
-	{
-		nodes_time_reserves.emplace(m_graph_ptr->GetNode(i)->index, m_Time_reserve[i]);
-	}
-
 	// find all cirtical nodes
 	for (int i = 0; i < m_Time_reserve.size(); i++)
 	{
