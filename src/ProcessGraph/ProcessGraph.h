@@ -22,6 +22,7 @@ private:
     
     bool Validate();
     bool ShowModalDialog();
+    bool OutputResults(OutputDestination output_destination); // return false if can't output calculation results
 
 
 };

@@ -1,4 +1,5 @@
 #include "ProcessGraph/ProcessGraph.h"
+#include "ProcessGraph.h"
 
 ProcessGraph::ProcessGraph(Graph *ptr, wxWindow *dialog_parent_window)
 {
@@ -28,16 +29,21 @@ bool ProcessGraph::DoProcess(bool show_dialog)
 	// dialog call
 	if (show_dialog)
 	{
-		if(ShowModalDialog())return false; // the user cancelled the processing of the graph
+		if(!ShowModalDialog()) return false; // the user cancelled the processing of the graph
 	}
 
 	// do processing (before get params from storage class)
 	GraphCalculator graph_calculator(m_graph_ptr);
 	if (m_process_settings.GetCalculateEarlyEventDate()) graph_calculator.CalculateEarlyEventDate();
-	if (m_process_settings.GetCalculateLateEventDate()) graph_calculator.CalculateEarlyEventDate();
-	if (m_process_settings.GetCalculateEvenTimeReserne()) graph_calculator.CalculateEarlyEventDate();
-	if (m_process_settings.GetDrawCriticalPath()) graph_calculator.CalculateEarlyEventDate();
+	if (m_process_settings.GetCalculateLateEventDate()) graph_calculator.CalculateLateEventDate();
+	if (m_process_settings.GetCalculateEvenTimeReserne()) graph_calculator.CalculateTimeReserve();
+	if (m_process_settings.GetDrawCriticalPath()) graph_calculator.SearchCritPath();
 
+	if (!OutputResults(m_process_settings.GetOutputDestination()))
+	{
+		wxMessageBox("Can't output calculation results.", "Graph processing error", wxICON_ERROR);
+		return false;
+	}
 
     return true;
 }
@@ -63,4 +69,9 @@ bool ProcessGraph::ShowModalDialog()
 {
     ProcessGraphDialog* dlg = new ProcessGraphDialog(m_dialog_parent_window, wxID_ANY, wxT("Process graph options"), m_process_settings);
 	return dlg->ShowModal();
+}
+
+bool ProcessGraph::OutputResults(OutputDestination output_destination)
+{
+    return false;
 }
