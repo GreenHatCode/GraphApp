@@ -1,4 +1,4 @@
-#include "OutputProcessingResultsDialog.h"
+#include "ProcessGarph/OutputProcessingResultsDialog.h"
 
 enum 
 {
