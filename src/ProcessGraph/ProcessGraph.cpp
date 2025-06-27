@@ -157,17 +157,33 @@ bool ProcessGraph::OutputResults(OutputDestination output_destination, GraphCalc
 		if (m_process_settings.GetOutputDestination() == OutputDestination::SEPARATE_WINDOW)
 		{
 			// create a new window and show there a message
-				OutputProcessingResultsDialog* dialog = new OutputProcessingResultsDialog(m_dialog_parent_window, wxID_ANY, wxT("Processing results"), output_message);
-				dialog->ShowModal();
-				dialog->Destroy();
+			OutputProcessingResultsDialog* dialog = new OutputProcessingResultsDialog(m_dialog_parent_window, wxID_ANY, wxT("Processing results"), output_message);
+			dialog->ShowModal();
+			dialog->Destroy();
 		}
 		else
 		{
-
+			// output to txt file
+			wxFileDialog* save_file_dialog = new wxFileDialog(m_dialog_parent_window, wxT("Save Results"), "", "",
+				wxT("Plain Text (*.txt)|*.txt"), wxFD_SAVE|wxFD_OVERWRITE_PROMPT);
+			if (save_file_dialog->ShowModal() == wxID_OK)
+			{
+				wxFileOutputStream output_stream(save_file_dialog->GetPath());
+				if (!output_stream.IsOk())
+				{
+					wxLogError("Cannot save current contents in file '%s'.", save_file_dialog->GetPath());
+					return false;
+				}
+			
+				if (!output_stream.WriteAll(output_message, output_message.size()))
+				{
+					wxLogError("Cannot write data in the file '%s'.", save_file_dialog->GetPath());
+					return false;
+				}
+				output_stream.Close();
+			}
 		}
 	}
-
-
 
     return true;
 }
