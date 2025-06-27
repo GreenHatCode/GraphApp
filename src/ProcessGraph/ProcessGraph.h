@@ -3,6 +3,7 @@
 #include "ProcessGraph/ProcessGraphDialog.h"
 #include "ProcessGraph/ProcessGraphSettings.h"
 #include "ProcessGraph/GraphCalculator.h"
+#include "ProcessGraph/OutputProcessingResultsDialog.h"
 #include <map>
 
 // the class is used to process graph, calculate nodes' params etc.
@@ -22,7 +23,7 @@ private:
     
     bool Validate();
     bool ShowModalDialog();
-    bool OutputResults(OutputDestination output_destination); // return false if can't output calculation results
+    bool OutputResults(OutputDestination output_destination, GraphCalculator graph_calculator); // return false if can't output calculation results
 
 
 };
