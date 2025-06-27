@@ -1,4 +1,4 @@
-#include "ProcessGarph/OutputProcessingResultsDialog.h"
+#include "ProcessGraph/OutputProcessingResultsDialog.h"
 
 enum 
 {
@@ -9,12 +9,20 @@ BEGIN_EVENT_TABLE(OutputProcessingResultsDialog, wxDialog)
     EVT_BUTTON(wxID_COPY, OutputProcessingResultsDialog::OnCopy)
 END_EVENT_TABLE()
 
-OutputProcessingResultsDialog::OutputProcessingResultsDialog(wxWindow* parent, wxWindowID id, const wxString& title, const wxPoint& pos, const wxSize& size, long style, const wxString& name)
+OutputProcessingResultsDialog::OutputProcessingResultsDialog(
+    wxWindow* parent, 
+    wxWindowID id, 
+    const wxString& title,
+    const wxString& message,
+    const wxPoint& pos,
+    const wxSize& size, 
+    long style, 
+    const wxString& name)
     :wxDialog(parent, id, title, pos, size, style, name)
 {
     wxBoxSizer* topSizer = new wxBoxSizer(wxVERTICAL);
 
-    wxTextCtrl* m_textCtrl80 = new wxTextCtrl(this, ID_TEXT, wxT(""), wxDefaultPosition, wxDLG_UNIT(this, wxSize(-1, -1)), wxTE_READONLY | wxTE_MULTILINE);
+    wxTextCtrl* m_textCtrl80 = new wxTextCtrl(this, ID_TEXT, message, wxDefaultPosition, wxDLG_UNIT(this, wxSize(-1, -1)), wxTE_READONLY | wxTE_MULTILINE);
 
     topSizer->Add(m_textCtrl80, 3, wxALL | wxEXPAND, 5);
 
@@ -32,13 +40,6 @@ OutputProcessingResultsDialog::OutputProcessingResultsDialog(wxWindow* parent, w
 
     SetSizerAndFit(topSizer);
     SetSize(wxSize(500, 370));
-    SetName(wxT("ProcessingResultsDialog"));
-}
-
-void OutputProcessingResultsDialog::SetOutputMessage(const wxString& message)
-{
-    wxTextCtrl* textCtrl = (wxTextCtrl*)FindWindow(ID_TEXT);
-    textCtrl->SetValue(message);
 }
 
 void OutputProcessingResultsDialog::OnOK(wxCommandEvent& evt)
