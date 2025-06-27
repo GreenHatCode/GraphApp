@@ -70,7 +70,7 @@ mainFrame::mainFrame(const wxString& title)
 	toolBar->AddRadioTool(ID_MODE_DELETE, "", wxBitmap(delete_xpm), wxBitmapBundle(), wxT("Delete nodes and edges"));
 	toolBar->Realize();
 	toolBar->AddSeparator();
-	toolBar->AddTool(ID_PROCESS_GRAPH, "", wxBitmap(process_color_xpm), wxT("Calculate the graph"));
+	toolBar->AddTool(ID_PROCESS_GRAPH, "", wxBitmap(process_color_xpm), wxT("Process the graph"));
 	toolBar->Realize();
 
 	// creating controls
