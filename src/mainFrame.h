@@ -7,7 +7,6 @@
 #include "PreferenceDialog.h"
 #include "AppPreferences.h"
 #include "QuickPrint.h"
-#include "OutputProcessingResultsDialog.h"
 #include "wx/wfstream.h"
 #include "GraphFile.h"
 #include "AddEdgeDialog.h"
