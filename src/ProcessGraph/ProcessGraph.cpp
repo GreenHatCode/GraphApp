@@ -156,8 +156,7 @@ bool ProcessGraph::OutputResults(OutputDestination output_destination, GraphCalc
 		if (m_process_settings.GetOutputDestination() == OutputDestination::SEPARATE_WINDOW)
 		{
 			// create a new window and show there a message
-				OutputProcessingResultsDialog* dialog = new OutputProcessingResultsDialog(m_dialog_parent_window, wxID_ANY, wxT(""));
-				dialog->SetOutputMessage(output_message);
+				OutputProcessingResultsDialog* dialog = new OutputProcessingResultsDialog(m_dialog_parent_window, wxID_ANY, wxT("Processing results"), output_message);
 				dialog->ShowModal();
 				dialog->Destroy();
 		}
