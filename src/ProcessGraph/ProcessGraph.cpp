@@ -106,6 +106,7 @@ bool ProcessGraph::OutputResults(OutputDestination output_destination, GraphCalc
 			}
 		}
 		
+		m_dialog_parent_window->Refresh();
 	}
 	else 
 	{
