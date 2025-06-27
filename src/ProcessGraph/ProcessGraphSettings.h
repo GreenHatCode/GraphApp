@@ -18,14 +18,12 @@ public:
     void SetCalculateLateEventDate(bool value) { m_calculate_t_late = value; }
     void SetCalculateEvenTimeReserne(bool value) { m_calculate_R = value; }
     void SetDrawCriticalPath(bool value) { m_search_critical_path = value; }
-    void SetOutputMessage(wxString value) {m_output_message = value; }
     void SetOutputDestination(OutputDestination value)  { m_output_destination_type = value; }
 
     bool GetCalculateEarlyEventDate() {return m_calculate_t_early; }
     bool GetCalculateLateEventDate() {return m_calculate_t_late; }
     bool GetCalculateEvenTimeReserne() {return m_calculate_R; }
     bool GetDrawCriticalPath() {return m_search_critical_path; }
-    wxString GetOutputMessage() {return m_output_message; }
     OutputDestination GetOutputDestination() {return m_output_destination_type; }
 
 
@@ -34,6 +32,5 @@ private:
     bool m_calculate_t_late = false; // ID_LATE_EVENT_DATE
     bool m_calculate_R = false; // ID_EVENT_TIME_RESERVE
     bool m_search_critical_path = false; // ID_CRITICAL_PATH
-    wxString m_output_message;
     OutputDestination m_output_destination_type = OutputDestination::DRAWING_AREA;
 };
