@@ -1,4 +1,5 @@
 #include "DrawingPanel.h"
+#include "ProcessGraph/ProcessGraphDialog.h"
 
 enum {
 	ID_EDIT_NODE,
@@ -28,6 +29,7 @@ DrawingPanel::DrawingPanel(wxWindow* parent, wxWindowID winid)
 {
 	SetDoubleBuffered(true);
 	m_graph = new Graph();
+	m_graph_processor = new ProcessGraph(m_graph, this);
 }
 
 void DrawingPanel::AddNewNode(const wxPoint &node_coords)
@@ -276,6 +278,12 @@ void DrawingPanel::OnAddNewNode(wxCommandEvent &evt)
 	AddNewNode(m_context_menu_click_coords);
 }
 
+DrawingPanel::~DrawingPanel()
+{
+	delete m_graph;
+	delete m_graph_processor;
+}
+
 void DrawingPanel::OnClear()
 {
 	m_graph->Clear();
@@ -498,6 +506,7 @@ void DrawingPanel::SetGraph(Graph* graph_ptr)
 	m_graph->Clear();
 	delete m_graph;
 	m_graph = graph_ptr;
+	m_graph_processor->SetGraph(m_graph);
 	Refresh();
 }
 
@@ -505,6 +514,11 @@ void DrawingPanel::AddNewEdge(int node_from_index, int node_to_index, int weight
 {
 	m_graph->AddEdge(m_graph->GetNode(node_from_index), m_graph->GetNode(node_to_index), weight);
 	Refresh();
+}
+
+bool DrawingPanel::ProcessCurrentGraph()
+{
+    return m_graph_processor->DoProcess(); // create an object of ProcessGraph and process the graph
 }
 
 void DrawingPanel::DrawNode(const Node* node)

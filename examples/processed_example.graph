@@ -10,50 +10,50 @@
   </node>
   <node>
     <index>1</index>
-    <coords_x>145</coords_x>
-    <coords_y>52</coords_y>
+    <coords_x>161</coords_x>
+    <coords_y>61</coords_y>
     <early_event_deadline>6</early_event_deadline>
-    <late_event_deadline>16</late_event_deadline>
-    <time_reserve>10</time_reserve>
+    <late_event_deadline>6</late_event_deadline>
+    <time_reserve>0</time_reserve>
   </node>
   <node>
     <index>2</index>
     <coords_x>157</coords_x>
     <coords_y>210</coords_y>
-    <early_event_deadline>10</early_event_deadline>
-    <late_event_deadline>10</late_event_deadline>
+    <early_event_deadline>17</early_event_deadline>
+    <late_event_deadline>17</late_event_deadline>
     <time_reserve>0</time_reserve>
   </node>
   <node>
     <index>3</index>
     <coords_x>248</coords_x>
     <coords_y>115</coords_y>
-    <early_event_deadline>17</early_event_deadline>
-    <late_event_deadline>17</late_event_deadline>
+    <early_event_deadline>24</early_event_deadline>
+    <late_event_deadline>24</late_event_deadline>
     <time_reserve>0</time_reserve>
   </node>
   <node>
     <index>4</index>
     <coords_x>366</coords_x>
     <coords_y>32</coords_y>
-    <early_event_deadline>26</early_event_deadline>
-    <late_event_deadline>28</late_event_deadline>
+    <early_event_deadline>33</early_event_deadline>
+    <late_event_deadline>35</late_event_deadline>
     <time_reserve>2</time_reserve>
   </node>
   <node>
     <index>5</index>
     <coords_x>359</coords_x>
     <coords_y>209</coords_y>
-    <early_event_deadline>27</early_event_deadline>
-    <late_event_deadline>27</late_event_deadline>
+    <early_event_deadline>34</early_event_deadline>
+    <late_event_deadline>34</late_event_deadline>
     <time_reserve>0</time_reserve>
   </node>
   <node>
     <index>6</index>
     <coords_x>491</coords_x>
     <coords_y>133</coords_y>
-    <early_event_deadline>33</early_event_deadline>
-    <late_event_deadline>33</late_event_deadline>
+    <early_event_deadline>40</early_event_deadline>
+    <late_event_deadline>40</late_event_deadline>
     <time_reserve>0</time_reserve>
   </node>
   <edge>

@@ -40,13 +40,14 @@ struct Edge
 class Graph
 {
 public:
-	//void AddNode(const wxPoint& coords, int index);
+	// modify the graph
 	void AddNode(const wxPoint& coords, int index, int early_event_deadline = -1, int late_event_deadline = -1, int time_reserve = -1);
 	void EditNode(const wxPoint& node_coords);
 	void EditNode(const wxPoint& node_coords, int index, int early_event_deadline = -1, int late_event_deadline = -1, int time_reserve = -1);
 	void AddEdge(const Node* from, const Node* to, int weight = 0, bool critical_path = false);
 	void Erase(const wxPoint& coords);
 	void TurnAroundEdge(const wxPoint& coords);
+	void Clear(); // clears all the graph
 
 	Node* GetNode(const wxPoint& node_coords);
 	Node* GetNode(size_t index);
@@ -66,7 +67,7 @@ public:
 
 	size_t GetNodeAmount() const;
 	size_t GetEdgeAmount() const;
-	void Clear(); // clears all the graph
+	
 	bool Contain(int node_index); // searches for node with given index, if it exists return true
 	int MaxNodeIndex();
 
