@@ -284,14 +284,8 @@ void Graph::Clear()
 
 bool Graph::Contain(int node_index)
 {
-	// TODO: rewrite using std::find_if
-	for (size_t i = 0; i < nodes.size(); i++)
-	{
-		if (nodes[i]->index == node_index) return true;
-	}
-
-	return false;
-
+	if (std::find_if(nodes.begin(), nodes.end(), [&node_index](Node* curr_node){ return curr_node->index == node_index;}) == nodes.end()) return false;
+	else return true;
 }
 
 int Graph::MaxNodeIndex()
