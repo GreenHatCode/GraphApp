@@ -37,6 +37,9 @@ public:
 	void SetColourScheme(ColourSchemes value);
 	ColourSchemes GetColourScheme();
 
+	void SetDynamicGraphProcessing(bool value);
+	bool GetDynamicGraphProcessing();
+
 	bool SaveDataToFile();
 	bool LoadDataFromFile();
 
@@ -60,6 +63,8 @@ private:
 	bool m_show_tip;
 	// sets the colour scheme of the drawint area
 	ColourSchemes m_colour_scheme_type = ColourSchemes::COLOURED;
+	// process the graph after any change in it
+	bool m_dynamic_graph_processing;
 
 };
 
