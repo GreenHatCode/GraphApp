@@ -51,9 +51,9 @@ public:
 
 	Node* GetNode(const wxPoint& node_coords);
 	
-	Node* GetNodeByIndexInArray(size_t index);
-	const Node* GetNodeByIndexInArray(size_t index) const;
-	Node* GetNodeByIndex(size_t index);
+	Node* GetNodeByIndexInArray(size_t index); // returns the item from nodes vector by its index
+	const Node* GetNodeByIndexInArray(size_t index) const; // returns the const item from nodes vector by its index
+	Node* GetNodeByIndex(size_t index); // returns a pointer to node with a specific index: node->index
 	const std::vector<int> GetNodeIndices() const;
 	Node* GetEdgeByNodeIndex(int index); // get node by its number (not index in vector)
 	Edge* GetEdge(const Node* from, const Node* to);
