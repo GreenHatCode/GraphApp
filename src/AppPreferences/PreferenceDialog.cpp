@@ -6,7 +6,8 @@ enum {
 	ID_PANEL,
 	ID_DUPL_WARNING_CHECK,
 	ID_TIP_CHECK,
-	ID_COLOUR_SCHEME
+	ID_COLOUR_SCHEME,
+	ID_DYNAMIC_UPDATE_CALCULATION_RESULTS
 };
 
 BEGIN_EVENT_TABLE(PreferenceDialog, wxDialog)
@@ -95,7 +96,7 @@ void PreferenceDialog::SetUpTabPanel()
 	top_sizer->Add(dupl_warning_check, 0, wxALL, 5);
 	wxCheckBox* tip_check = new wxCheckBox(m_main_panel, ID_TIP_CHECK, wxT("Show tip of the day at start."));
 	top_sizer->Add(tip_check, 0, wxALL, 5);
-	wxCheckBox *dynamic_update_of_calc_results = new wxCheckBox(m_main_panel, wxID_ANY, wxT("Dynamic update of calculation results"));
+	wxCheckBox *dynamic_update_of_calc_results = new wxCheckBox(m_main_panel, ID_DYNAMIC_UPDATE_CALCULATION_RESULTS, wxT("Dynamic update of calculation results"));
 	top_sizer->Add(dynamic_update_of_calc_results, 0, wxALL, 5);
 	m_main_panel->SetSizerAndFit(top_sizer);
 
@@ -137,7 +138,7 @@ void PreferenceDialog::SetPreferenceTab(wxCommandEvent& evt)
 			top_sizer->Add(dupl_warning_check, 0, wxALL, 5);
 			wxCheckBox* tip_check = new wxCheckBox(m_main_panel, ID_TIP_CHECK, wxT("Show tip of the day at start."));
 			top_sizer->Add(tip_check, 0, wxALL, 5);
-			wxCheckBox *dynamic_update_of_calc_results = new wxCheckBox(m_main_panel, wxID_ANY, wxT("Dynamic update of calculation results"));
+			wxCheckBox *dynamic_update_of_calc_results = new wxCheckBox(m_main_panel, ID_DYNAMIC_UPDATE_CALCULATION_RESULTS, wxT("Dynamic update of calculation results"));
 			top_sizer->Add(dynamic_update_of_calc_results, 0, wxALL, 5);
 		}
 			break;
@@ -224,9 +225,11 @@ bool PreferenceDialog::IsPreferencesChanged()
 	{
 		wxCheckBox* dupl_warning_check = (wxCheckBox*)FindWindow(ID_DUPL_WARNING_CHECK);
 		wxCheckBox* tip_check = (wxCheckBox*)FindWindow(ID_TIP_CHECK);
+		wxCheckBox* dynamic_update_of_calc_results = (wxCheckBox*)FindWindow(ID_DYNAMIC_UPDATE_CALCULATION_RESULTS);
 
 		m_preferences_copy.SetDuplicationWarning(dupl_warning_check->GetValue());
 		m_preferences_copy.SetShowTooltip(tip_check->GetValue());
+		m_preferences_copy.SetDynamicGraphProcessing(dynamic_update_of_calc_results->GetValue());
 
 	}
 	break;
@@ -261,9 +264,11 @@ bool PreferenceDialog::TransferDataToWindow()
 	{
 		wxCheckBox* dupl_warning_check = (wxCheckBox*)FindWindow(ID_DUPL_WARNING_CHECK);
 		wxCheckBox* tip_check = (wxCheckBox*)FindWindow(ID_TIP_CHECK);
+		wxCheckBox* dynamic_update_of_calc_results = (wxCheckBox*)FindWindow(ID_DYNAMIC_UPDATE_CALCULATION_RESULTS);
 
 		dupl_warning_check->SetValue(m_preferences_copy.GetDuplicationWarning());
 		tip_check->SetValue(m_preferences_copy.GetShowTooltip());
+		dynamic_update_of_calc_results->SetValue(m_preferences_copy.GetDynamicGraphProcessing());
 	}
 		break;
 	case 1: // appearance tab panel
