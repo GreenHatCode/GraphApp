@@ -45,7 +45,11 @@ public:
 
 	bool operator != (AppPreferences& obj)
 	{
-		if (m_dupl_warning != obj.m_dupl_warning || m_show_tip != obj.m_show_tip || m_colour_scheme_type != obj.m_colour_scheme_type)
+		if (m_dupl_warning != obj.m_dupl_warning || 
+			m_show_tip != obj.m_show_tip || 
+			m_colour_scheme_type != obj.m_colour_scheme_type ||
+			m_dynamic_graph_processing != obj.m_dynamic_graph_processing
+		)
 		{
 			return true;
 		}
