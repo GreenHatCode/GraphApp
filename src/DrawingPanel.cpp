@@ -28,7 +28,9 @@ DrawingPanel::DrawingPanel(wxWindow* parent, wxWindowID winid)
 	:wxPanel(parent, winid)
 {
 	SetDoubleBuffered(true);
-	m_graph = new Graph();
+	m_graph = new Graph([this](){
+		this->OnGraphModified();
+	});
 	m_graph_processor = new ProcessGraph(m_graph, this);
 }
 
@@ -80,6 +82,11 @@ void DrawingPanel::AddNewEdge(const Node* node_from, const Node* node_to)
 		m_selected_begin_node = nullptr;
 		Refresh();
 	}
+}
+
+void DrawingPanel::OnGraphModified()
+{
+	if (m_dynamic_graph_processing)m_graph_processor->DoProcess(false);
 }
 
 void DrawingPanel::OnRightUp(wxMouseEvent &evt)
@@ -512,6 +519,9 @@ void DrawingPanel::SetGraph(Graph* graph_ptr)
 	delete m_graph;
 	m_graph = graph_ptr;
 	m_graph_processor->SetGraph(m_graph);
+	m_graph->RegisterChangeListener([this](){
+		this->OnGraphModified();
+	});
 	Refresh();
 }
 

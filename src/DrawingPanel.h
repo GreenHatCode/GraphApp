@@ -54,6 +54,9 @@ private:
     void AddNewNode(const wxPoint& node_coords);
     void AddNewEdge(const Node* node_from, const Node* node_to);
 
+    // runs dynamic grap processing
+    void OnGraphModified();
+
     void OnRightUp(wxMouseEvent& evt); // context menu
     void OnLeftUp(wxMouseEvent& evt); // add/delete node or edge
     void OnPaint(wxPaintEvent& evt); // calls after Refresh()
