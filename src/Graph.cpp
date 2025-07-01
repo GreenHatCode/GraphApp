@@ -127,7 +127,7 @@ Node* Graph::GetNode(const wxPoint& node_coords)
 Node* Graph::GetNode(size_t index)
 {
 	if (nodes.empty() || index >= nodes.size())return nullptr;
-	else return nodes[index];
+	else return nodes[index]; // possible problem
 }
 
 Node* Graph::GetEdgeByNodeIndex(int index)
@@ -150,7 +150,7 @@ Node* Graph::GetEdgeByNodeIndex(int index)
 const Node* Graph::GetNode(size_t index) const
 {
 	if (nodes.empty() || index >= nodes.size())return nullptr;
-	else return nodes[index];
+	else return nodes[index]; // possible problem
 }
 
 const std::vector<int> Graph::GetNodeIndices() const
