@@ -112,7 +112,12 @@ void Graph::TurnAroundEdge(const wxPoint &coords)
 	}
 }
 
-Node* Graph::GetNode(const wxPoint& node_coords)
+void Graph::RegisterChangeListener(ChangeListener listener)
+{
+	listeners.push_back(listener);
+}
+
+Node *Graph::GetNode(const wxPoint &node_coords)
 {
 	for (std::vector<Node*>::iterator iter = nodes.begin(); iter != nodes.end(); iter++)
 	{
@@ -325,7 +330,15 @@ bool Graph::IsOnEdge(const wxPoint& pt)
 	return false;
 }
 
-bool Graph::IsNode(const wxPoint& node_coords, std::vector<Node*>::iterator& iter)
+void Graph::NotifyChange()
+{
+	for (auto& listener: listeners)
+	{
+		listener();
+	}
+}
+
+bool Graph::IsNode(const wxPoint &node_coords, std::vector<Node *>::iterator &iter)
 {
 	Node* node = *iter;
 

@@ -1,6 +1,7 @@
 #pragma once
 #include "wx/wx.h"
 #include <vector>
+#include <functional>
 
 
 struct Node
@@ -40,6 +41,8 @@ struct Edge
 class Graph
 {
 public:
+	using ChangeListener = std::function<void()>;
+
 	// modify the graph
 	void AddNode(const wxPoint& coords, int index, int early_event_deadline = -1, int late_event_deadline = -1, int time_reserve = -1);
 	void EditNode(const wxPoint& node_coords);
@@ -48,6 +51,9 @@ public:
 	void Erase(const wxPoint& coords);
 	void TurnAroundEdge(const wxPoint& coords);
 	void Clear(); // clears all the graph
+
+	// listener to trigger dynamic processing
+	void RegisterChangeListener(ChangeListener listener);
 
 	Node* GetNode(const wxPoint& node_coords);
 	Node* GetNode(size_t index);
@@ -80,6 +86,9 @@ private:
 	std::vector<Node*> nodes;
 	std::vector<Edge*> edges;
 
+	// listener to trigger dynamic processing
+	void NotifyChange();
+	std::vector<ChangeListener> listeners;
 	
 	bool IsNode(const wxPoint& node_coords, std::vector<Node*>::iterator& iter); // checks if the click is made inside node borders
 	bool IsEdge(const wxPoint& click_coords, std::vector<Edge*>::iterator& iter); // checks if the click is made inside edge borders
