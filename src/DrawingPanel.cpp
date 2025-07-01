@@ -320,6 +320,11 @@ void DrawingPanel::ShowNodeDuplicationWarning(bool show)
 	m_dupl_warning = show;
 }
 
+void DrawingPanel::SetDynamicGraphProcessing(bool value)
+{
+	m_dynamic_graph_processing = value;
+}
+
 void DrawingPanel::Print(wxDC& dc, int pageNum, wxSize dc_size)
 {
 	if (m_graph->Empty())return;
