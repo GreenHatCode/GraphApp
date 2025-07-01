@@ -512,7 +512,7 @@ void DrawingPanel::SetGraph(Graph* graph_ptr)
 
 void DrawingPanel::AddNewEdge(int node_from_index, int node_to_index, int weight)
 {
-	m_graph->AddEdge(m_graph->GetNodeByIndexInArray(node_from_index), m_graph->GetNodeByIndexInArray(node_to_index), weight);
+	m_graph->AddEdge(m_graph->GetNodeByIndex(node_from_index), m_graph->GetNodeByIndex(node_to_index), weight);
 	Refresh();
 }
 
