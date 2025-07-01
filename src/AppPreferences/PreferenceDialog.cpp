@@ -95,6 +95,8 @@ void PreferenceDialog::SetUpTabPanel()
 	top_sizer->Add(dupl_warning_check, 0, wxALL, 5);
 	wxCheckBox* tip_check = new wxCheckBox(m_main_panel, ID_TIP_CHECK, wxT("Show tip of the day at start."));
 	top_sizer->Add(tip_check, 0, wxALL, 5);
+	wxCheckBox *dynamic_update_of_calc_results = new wxCheckBox(m_main_panel, wxID_ANY, wxT("Dynamic update of calculation results"));
+	top_sizer->Add(dynamic_update_of_calc_results, 0, wxALL, 5);
 	m_main_panel->SetSizerAndFit(top_sizer);
 
 }
@@ -116,12 +118,10 @@ void PreferenceDialog::UpdateApplyButton(wxUpdateUIEvent& evt)
 void PreferenceDialog::SetPreferenceTab(wxCommandEvent& evt)
 {
 	// changes the controls on wxpanel according to selected item in the list
-	wxListBox* tabs = (wxListBox*)FindWindow(ID_PREFERENCE_TABS);
-
-	if (m_curr_tab_idx != tabs->GetSelection())
+	if (m_curr_tab_idx != evt.GetSelection())
 	{
 		// change the tab panel
-		m_curr_tab_idx = tabs->GetSelection();
+		m_curr_tab_idx = evt.GetSelection();
 		m_main_panel->Freeze();
 		m_main_panel->GetSizer()->Clear(true);
 		wxBoxSizer* top_sizer = new wxBoxSizer(wxVERTICAL);
@@ -137,6 +137,8 @@ void PreferenceDialog::SetPreferenceTab(wxCommandEvent& evt)
 			top_sizer->Add(dupl_warning_check, 0, wxALL, 5);
 			wxCheckBox* tip_check = new wxCheckBox(m_main_panel, ID_TIP_CHECK, wxT("Show tip of the day at start."));
 			top_sizer->Add(tip_check, 0, wxALL, 5);
+			wxCheckBox *dynamic_update_of_calc_results = new wxCheckBox(m_main_panel, wxID_ANY, wxT("Dynamic update of calculation results"));
+			top_sizer->Add(dynamic_update_of_calc_results, 0, wxALL, 5);
 		}
 			break;
 		case 1:
