@@ -10,6 +10,7 @@ void Graph::AddNode(const wxPoint& coords, int index, int early_event_deadline, 
 	new_node->time_reserve = time_reserve;
 	nodes.push_back(new_node);
 	Rank();
+	NotifyChange();
 }
 
 void Graph::EditNode(const wxPoint& node_coords)
@@ -22,6 +23,7 @@ void Graph::EditNode(const wxPoint& node_coords)
 	}
 	(*iter)->coords = node_coords;
 	Rank();
+	NotifyChange();
 }
 
 void Graph::EditNode(const wxPoint &node_coords, int index, int early_event_deadline, int late_event_deadline, int time_reserve)
@@ -39,7 +41,7 @@ void Graph::EditNode(const wxPoint &node_coords, int index, int early_event_dead
 	if(time_reserve != -1)
 		node->time_reserve = time_reserve;
 
-
+	NotifyChange();
 }
 
 void Graph::AddEdge(const Node* from, const Node* to, int weight, bool critical_path)
@@ -61,6 +63,7 @@ void Graph::AddEdge(const Node* from, const Node* to, int weight, bool critical_
 	}
 
 	edges.push_back(new_edge); 
+	NotifyChange();
 }
 
 void Graph::Erase(const wxPoint& coords)
@@ -98,6 +101,7 @@ void Graph::Erase(const wxPoint& coords)
 			return;
 		}
 	}
+	NotifyChange();
 }
 
 void Graph::TurnAroundEdge(const wxPoint &coords)
@@ -110,6 +114,7 @@ void Graph::TurnAroundEdge(const wxPoint &coords)
 			return;
 		}
 	}
+	NotifyChange();
 }
 
 void Graph::RegisterChangeListener(ChangeListener listener)
@@ -242,6 +247,7 @@ void Graph::SetNodeParametersToDefault()
 		(*iter)->late_event_deadline = -1;
 		(*iter)->time_reserve = -1;
 	}
+	NotifyChange();
 }
 
 void Graph::SetEdgeParametersToDefault()
@@ -250,6 +256,7 @@ void Graph::SetEdgeParametersToDefault()
 	{
 		(*iter)->critical_path_edge = false;
 	}
+	NotifyChange();
 }
 
 size_t Graph::GetNodeAmount() const
@@ -275,6 +282,7 @@ void Graph::Clear()
 
 	nodes.clear();
 	edges.clear();
+	NotifyChange();
 }
 
 bool Graph::Contain(int node_index)
