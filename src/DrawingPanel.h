@@ -2,7 +2,7 @@
 #include "wx/wx.h"
 #include "Graph.h"
 #include "wx/numdlg.h"
-#include "AppPreferences.h"
+#include "AppPreferences/AppPreferences.h"
 #include "ProcessGraph/ProcessGraph.h"
 
 #include <wx/dcbuffer.h>
