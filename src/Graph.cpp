@@ -1,6 +1,16 @@
 #include "Graph.h"
 
-void Graph::AddNode(const wxPoint& coords, int index, int early_event_deadline, int late_event_deadline, int time_reserve)
+Graph::Graph(ChangeListener listener)
+{
+	this->RegisterChangeListener(listener);
+}
+
+Graph::Graph()
+{
+	
+}
+
+void Graph::AddNode(const wxPoint &coords, int index, int early_event_deadline, int late_event_deadline, int time_reserve)
 {
 	Node* new_node = new Node;
 	new_node->coords = coords;

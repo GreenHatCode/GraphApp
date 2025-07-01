@@ -43,6 +43,10 @@ class Graph
 public:
 	using ChangeListener = std::function<void()>;
 
+	// constructors
+	Graph(ChangeListener listener);
+	Graph();
+
 	// modify the graph
 	void AddNode(const wxPoint& coords, int index, int early_event_deadline = -1, int late_event_deadline = -1, int time_reserve = -1);
 	void EditNode(const wxPoint& node_coords);
