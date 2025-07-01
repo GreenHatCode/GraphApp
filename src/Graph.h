@@ -47,13 +47,17 @@ public:
 	Graph(ChangeListener listener);
 	Graph();
 
-	// modify the graph
+	// modify the graph 
+	// implemented notify listener
 	void AddNode(const wxPoint& coords, int index, int early_event_deadline = -1, int late_event_deadline = -1, int time_reserve = -1);
-	void EditNode(const wxPoint& node_coords);
 	void EditNode(const wxPoint& node_coords, int index, int early_event_deadline = -1, int late_event_deadline = -1, int time_reserve = -1);
 	void AddEdge(const Node* from, const Node* to, int weight = 0, bool critical_path = false);
 	void Erase(const wxPoint& coords);
 	void TurnAroundEdge(const wxPoint& coords);
+	
+	// modify the graph 
+	// without notify listener
+	void EditNode(const wxPoint& node_coords);
 	void Clear(); // clears all the graph
 	void SetNodeParametersToDefault(); // sets calculation params for all nodes to default values
 	void SetEdgeParametersToDefault(); // sets calculation params for all nodes to default values

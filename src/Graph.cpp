@@ -7,7 +7,7 @@ Graph::Graph(ChangeListener listener)
 
 Graph::Graph()
 {
-	
+
 }
 
 void Graph::AddNode(const wxPoint &coords, int index, int early_event_deadline, int late_event_deadline, int time_reserve)
@@ -33,7 +33,6 @@ void Graph::EditNode(const wxPoint& node_coords)
 	}
 	(*iter)->coords = node_coords;
 	Rank();
-	NotifyChange();
 }
 
 void Graph::EditNode(const wxPoint &node_coords, int index, int early_event_deadline, int late_event_deadline, int time_reserve)
@@ -96,7 +95,7 @@ void Graph::Erase(const wxPoint& coords)
 			}
 			delete *iter;
 			nodes.erase(iter); // delete the node pointer
-			return;
+			break;
 		}
 	}
 	Rank();
@@ -108,7 +107,7 @@ void Graph::Erase(const wxPoint& coords)
 		{
 			delete (*iter);
 			edges.erase(iter);
-			return;
+			break;
 		}
 	}
 	NotifyChange();
@@ -121,7 +120,7 @@ void Graph::TurnAroundEdge(const wxPoint &coords)
 		if (IsEdge(coords, iter))
 		{
 			std::swap((*iter)->from, (*iter)->to);
-			return;
+			break;
 		}
 	}
 	NotifyChange();
@@ -257,7 +256,6 @@ void Graph::SetNodeParametersToDefault()
 		(*iter)->late_event_deadline = -1;
 		(*iter)->time_reserve = -1;
 	}
-	NotifyChange();
 }
 
 void Graph::SetEdgeParametersToDefault()
@@ -266,7 +264,6 @@ void Graph::SetEdgeParametersToDefault()
 	{
 		(*iter)->critical_path_edge = false;
 	}
-	NotifyChange();
 }
 
 size_t Graph::GetNodeAmount() const
@@ -292,7 +289,6 @@ void Graph::Clear()
 
 	nodes.clear();
 	edges.clear();
-	NotifyChange();
 }
 
 bool Graph::Contain(int node_index)
@@ -350,6 +346,7 @@ bool Graph::IsOnEdge(const wxPoint& pt)
 
 void Graph::NotifyChange()
 {
+	//if (listeners.empty()) wxLogError(wxT("No available listeners for graph class.")); // for dev
 	for (auto& listener: listeners)
 	{
 		listener();
