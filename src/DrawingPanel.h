@@ -23,14 +23,16 @@ public:
     ~DrawingPanel();
     void OnClear(); // clears drawing area
     void SetDrawingRegime(DrawingRegimes regime);
-    void SetColourScheme(ColourSchemes scheme);
-    void ShowNodeDuplicationWarning(bool show);
     void Print(wxDC& dc, int pageNum, wxSize dc_size);
     Graph* GetGraph();
     void SetGraph(Graph* graph_ptr);
     void AddNewEdge(int node_from_index, int node_to_index, int weight);
     bool ProcessCurrentGraph();
 
+    // preferences set methods
+    void SetColourScheme(ColourSchemes scheme);
+    void ShowNodeDuplicationWarning(bool show);
+    
 private:
     Graph* m_graph = nullptr;
     DrawingRegimes m_drawing_regime = STANDARD_CURSOR;
