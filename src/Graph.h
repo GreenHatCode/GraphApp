@@ -53,6 +53,7 @@ public:
 	
 	Node* GetNodeByIndexInArray(size_t index);
 	const Node* GetNodeByIndexInArray(size_t index) const;
+	Node* GetNodeByIndex(size_t index);
 	const std::vector<int> GetNodeIndices() const;
 	Node* GetEdgeByNodeIndex(int index); // get node by its number (not index in vector)
 	Edge* GetEdge(const Node* from, const Node* to);

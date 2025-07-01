@@ -81,7 +81,7 @@ bool ProcessGraph::OutputResults(OutputDestination output_destination, GraphCalc
 		const std::vector<int>& m_Time_reserve = graph_calculator.GetTimeReserve();
 		for (size_t i = 0; i < m_graph_ptr->GetNodeAmount(); i++)
 		{
-			Node* curr_node = m_graph_ptr->GetNode(i);
+			Node* curr_node = m_graph_ptr->GetNodeByIndexInArray(i);
 			if (m_process_settings.GetCalculateEarlyEventDate())curr_node->early_event_deadline = m_T_early[i];
 			if (m_process_settings.GetCalculateLateEventDate())curr_node->late_event_deadline = m_T_late[i];
 			if (m_process_settings.GetCalculateEvenTimeReserne())curr_node->time_reserve = m_Time_reserve[i];

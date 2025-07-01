@@ -22,7 +22,7 @@ bool GraphFile::SaveAsToFile(const wxString& file)
 	{
 		wxXmlNode* XmlGraphNode = new wxXmlNode(wxXML_ELEMENT_NODE, wxT("node"));
 		
-		const Node* node = m_graph_ptr->GetNode(i);
+		const Node* node = m_graph_ptr->GetNodeByIndexInArray(i);
 		
 		// index
 		wxXmlNode* node_index = new wxXmlNode(wxXML_ELEMENT_NODE, wxT("index"));
