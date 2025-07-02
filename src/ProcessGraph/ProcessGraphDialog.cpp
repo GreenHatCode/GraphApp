@@ -5,7 +5,9 @@ enum {
     ID_LATE_EVENT_DATE,
     ID_EVENT_TIME_RESERVE,
     ID_CRITICAL_PATH,
-    ID_OUTPUTTYPE_DESTINATION
+    ID_OUTPUTTYPE_DESTINATION,
+    ID_COMPLEXITY_FACTOR,
+    ID_SELECT_ALL
 };
 
 ProcessGraphDialog::ProcessGraphDialog(
@@ -46,6 +48,11 @@ ProcessGraphDialog::ProcessGraphDialog(
 
     options_sizer->Add(m_checkBox53, 0, wxALL, 5);
 
+    wxCheckBox* complexity_factor_check = new wxCheckBox(this, ID_COMPLEXITY_FACTOR, _("Coplexity factor"), wxDefaultPosition, wxDLG_UNIT(this, wxSize(-1,-1)), 0);
+    complexity_factor_check->SetValue(false);
+
+    options_sizer->Add(complexity_factor_check, 0, wxALL, 5);
+
     wxStaticBoxSizer* staticBoxSizer62 = new wxStaticBoxSizer(new wxStaticBox(this, wxID_ANY, _("Draw")), wxVERTICAL);
 
     boxSizer->Add(staticBoxSizer62, 1, wxALL | wxEXPAND, 5);
@@ -54,6 +61,15 @@ ProcessGraphDialog::ProcessGraphDialog(
     m_checkBox63->SetValue(false);
 
     staticBoxSizer62->Add(m_checkBox63, 0, wxALL, 5);
+
+    wxBoxSizer* special_controls_sizer = new wxBoxSizer(wxVERTICAL);
+    
+    boxSizer->Add(special_controls_sizer, 0, wxALL | wxEXPAND, 5);
+    
+    wxCheckBox* select_all_check = new wxCheckBox(this, ID_SELECT_ALL, _("Select all"), wxDefaultPosition, wxDLG_UNIT(this, wxSize(-1,-1)), 0);
+    select_all_check->SetValue(false);
+    
+    special_controls_sizer->Add(select_all_check, 0, wxALL | wxALIGN_RIGHT, 5);
 
     wxArrayString output_destinationArr;
     output_destinationArr.Add(_("Drawing area"));

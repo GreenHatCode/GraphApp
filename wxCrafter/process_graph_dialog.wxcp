@@ -170,7 +170,7 @@
 								}, {
 									"type":	"string",
 									"m_label":	"Name:",
-									"m_value":	"box_sizer"
+									"m_value":	"boxSizer"
 								}, {
 									"type":	"string",
 									"m_label":	"Style:",
@@ -457,7 +457,7 @@
 											"m_properties":	[{
 													"type":	"winid",
 													"m_label":	"ID:",
-													"m_winid":	"wxID_ANY"
+													"m_winid":	"ID_COMPLEXITY_FACTOR"
 												}, {
 													"type":	"string",
 													"m_label":	"Size:",
