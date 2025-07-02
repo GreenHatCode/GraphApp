@@ -77,7 +77,7 @@ bool ProcessGraph::OutputResults(OutputDestination output_destination, GraphCalc
 	// convert text values
 	// complexity factor
 	wxString complexity_factor_str = "Complexity factor: ";
-	complexity_factor_str.append(wxString::Format("%f", graph_calculator.GetComplexityFactor()));
+	complexity_factor_str.append(wxString::Format("%f ", graph_calculator.GetComplexityFactor()));
 	if (graph_calculator.GetComplexityFactor() >= 1 && graph_calculator.GetComplexityFactor() <= 1.5) complexity_factor_str.append("(the network graph has simple complexity).");
 	else if (graph_calculator.GetComplexityFactor() > 1.5 && graph_calculator.GetComplexityFactor() <= 2.0) complexity_factor_str.append("(the network graph has medium complexity).");
 	else if (graph_calculator.GetComplexityFactor() > 2.0) complexity_factor_str.append("(the network graph has high complexity).");
