@@ -125,7 +125,21 @@ void ProcessGraphDialog::OnOK(wxCommandEvent& evt)
 
 void ProcessGraphDialog::OnSelectAll(wxCommandEvent &evt)
 {
+    bool select_all_state = evt.GetSelection();
+
+    wxCheckBox* t_early_check = (wxCheckBox*)FindWindow(ID_EARLY_EVENT_DATE);
+    wxCheckBox* t_late_check = (wxCheckBox*)FindWindow(ID_LATE_EVENT_DATE);
+    wxCheckBox* t_R_check = (wxCheckBox*)FindWindow(ID_EVENT_TIME_RESERVE);
+    wxCheckBox* critical_path_check = (wxCheckBox*)FindWindow(ID_CRITICAL_PATH);
+    wxCheckBox* complexity_factor_check = (wxCheckBox*)FindWindow(ID_COMPLEXITY_FACTOR);
+
+    t_early_check->SetValue(select_all_state);
+    t_late_check->SetValue(select_all_state);
+    t_R_check->SetValue(select_all_state);
+    critical_path_check->SetValue(select_all_state);
+    complexity_factor_check->SetValue(select_all_state);
 }
+
 bool ProcessGraphDialog::TransferDataFromWindow()
 {
     wxCheckBox* t_early_check = (wxCheckBox*)FindWindow(ID_EARLY_EVENT_DATE);
