@@ -1,7 +1,7 @@
 {
 	"metadata":	{
 		"m_generatedFilesDir":	".",
-		"m_objCounter":	19,
+		"m_objCounter":	20,
 		"m_includeFiles":	[],
 		"m_bitmapFunction":	"wxCD1B2InitBitmapResources",
 		"m_bitmapsFile":	"process_graph_dialog_wxcrafter_bitmaps.cpp",
@@ -188,7 +188,7 @@
 							"m_events":	[],
 							"m_children":	[{
 									"m_type":	4449,
-									"proportion":	1,
+									"proportion":	2,
 									"border":	5,
 									"gbSpan":	"1,1",
 									"gbPosition":	"0,0",
@@ -244,7 +244,7 @@
 												}, {
 													"type":	"string",
 													"m_label":	"Name:",
-													"m_value":	"m_checkBox10"
+													"m_value":	"t_early_check"
 												}, {
 													"type":	"multi-string",
 													"m_label":	"Tooltip:",
@@ -319,7 +319,7 @@
 												}, {
 													"type":	"string",
 													"m_label":	"Name:",
-													"m_value":	"m_checkBox11"
+													"m_value":	"t_late_check"
 												}, {
 													"type":	"multi-string",
 													"m_label":	"Tooltip:",
@@ -394,7 +394,7 @@
 												}, {
 													"type":	"string",
 													"m_label":	"Name:",
-													"m_value":	"m_checkBox12"
+													"m_value":	"time_reserve_check"
 												}, {
 													"type":	"multi-string",
 													"m_label":	"Tooltip:",
@@ -439,6 +439,81 @@
 													"type":	"string",
 													"m_label":	"Label:",
 													"m_value":	"Event time reserve (R)"
+												}, {
+													"type":	"bool",
+													"m_label":	"Value:",
+													"m_value":	false
+												}],
+											"m_events":	[],
+											"m_children":	[]
+										}, {
+											"m_type":	4415,
+											"proportion":	0,
+											"border":	5,
+											"gbSpan":	"1,1",
+											"gbPosition":	"0,0",
+											"m_styles":	[],
+											"m_sizerFlags":	["wxALL", "wxLEFT", "wxRIGHT", "wxTOP", "wxBOTTOM"],
+											"m_properties":	[{
+													"type":	"winid",
+													"m_label":	"ID:",
+													"m_winid":	"wxID_ANY"
+												}, {
+													"type":	"string",
+													"m_label":	"Size:",
+													"m_value":	"-1,-1"
+												}, {
+													"type":	"string",
+													"m_label":	"Minimum Size:",
+													"m_value":	"-1,-1"
+												}, {
+													"type":	"string",
+													"m_label":	"Name:",
+													"m_value":	"complexity_factor_check"
+												}, {
+													"type":	"multi-string",
+													"m_label":	"Tooltip:",
+													"m_value":	""
+												}, {
+													"type":	"colour",
+													"m_label":	"Bg Colour:",
+													"colour":	"<Default>"
+												}, {
+													"type":	"colour",
+													"m_label":	"Fg Colour:",
+													"colour":	"<Default>"
+												}, {
+													"type":	"font",
+													"m_label":	"Font:",
+													"m_value":	""
+												}, {
+													"type":	"bool",
+													"m_label":	"Hidden",
+													"m_value":	false
+												}, {
+													"type":	"bool",
+													"m_label":	"Disabled",
+													"m_value":	false
+												}, {
+													"type":	"bool",
+													"m_label":	"Focused",
+													"m_value":	false
+												}, {
+													"type":	"string",
+													"m_label":	"Class Name:",
+													"m_value":	""
+												}, {
+													"type":	"string",
+													"m_label":	"Include File:",
+													"m_value":	""
+												}, {
+													"type":	"string",
+													"m_label":	"Style:",
+													"m_value":	""
+												}, {
+													"type":	"string",
+													"m_label":	"Label:",
+													"m_value":	"Coplexity factor"
 												}, {
 													"type":	"bool",
 													"m_label":	"Value:",
@@ -505,7 +580,7 @@
 												}, {
 													"type":	"string",
 													"m_label":	"Name:",
-													"m_value":	"m_checkBox13"
+													"m_value":	"crit_path_check"
 												}, {
 													"type":	"multi-string",
 													"m_label":	"Tooltip:",
@@ -612,7 +687,7 @@
 												}, {
 													"type":	"string",
 													"m_label":	"Name:",
-													"m_value":	"m_checkBox19"
+													"m_value":	"select_all_check"
 												}, {
 													"type":	"multi-string",
 													"m_label":	"Tooltip:",
