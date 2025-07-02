@@ -56,6 +56,11 @@ void GraphCalculator::CalculateTimeReserve()
 	}
 }
 
+void GraphCalculator::CalculateComplexityFactor()
+{
+	m_complexity_factor = m_graph_ptr->GetEdgeAmount() / m_graph_ptr->GetNodeAmount();
+}
+
 void GraphCalculator::SearchCritPath()
 {
     CalculateTimeReserve();
