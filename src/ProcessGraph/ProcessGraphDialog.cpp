@@ -124,7 +124,9 @@ bool ProcessGraphDialog::TransferDataFromWindow()
     wxCheckBox* t_late_check = (wxCheckBox*)FindWindow(ID_LATE_EVENT_DATE);
     wxCheckBox* t_R_check = (wxCheckBox*)FindWindow(ID_EVENT_TIME_RESERVE);
     wxCheckBox* critical_path_check = (wxCheckBox*)FindWindow(ID_CRITICAL_PATH);
+    wxCheckBox* complexity_factor_check = (wxCheckBox*)FindWindow(ID_COMPLEXITY_FACTOR);
     wxRadioBox* output_destination_selector = (wxRadioBox*)FindWindow(ID_OUTPUTTYPE_DESTINATION);
+
 
     m_process_settings.SetCalculateEarlyEventDate(t_early_check->GetValue());
     m_process_settings.SetCalculateLateEventDate(t_late_check->GetValue());
