@@ -1,6 +1,16 @@
 #include "Graph.h"
 
-void Graph::AddNode(const wxPoint& coords, int index, int early_event_deadline, int late_event_deadline, int time_reserve)
+Graph::Graph(ChangeListener listener)
+{
+	this->RegisterChangeListener(listener);
+}
+
+Graph::Graph()
+{
+
+}
+
+void Graph::AddNode(const wxPoint &coords, int index, int early_event_deadline, int late_event_deadline, int time_reserve)
 {
 	Node* new_node = new Node;
 	new_node->coords = coords;
@@ -10,6 +20,7 @@ void Graph::AddNode(const wxPoint& coords, int index, int early_event_deadline, 
 	new_node->time_reserve = time_reserve;
 	nodes.push_back(new_node);
 	Rank();
+	NotifyChange();
 }
 
 void Graph::EditNode(const wxPoint& node_coords)
@@ -39,7 +50,7 @@ void Graph::EditNode(const wxPoint &node_coords, int index, int early_event_dead
 	if(time_reserve != -1)
 		node->time_reserve = time_reserve;
 
-
+	NotifyChange();
 }
 
 void Graph::AddEdge(const Node* from, const Node* to, int weight, bool critical_path)
@@ -61,6 +72,7 @@ void Graph::AddEdge(const Node* from, const Node* to, int weight, bool critical_
 	}
 
 	edges.push_back(new_edge); 
+	NotifyChange();
 }
 
 void Graph::Erase(const wxPoint& coords)
@@ -83,7 +95,7 @@ void Graph::Erase(const wxPoint& coords)
 			}
 			delete *iter;
 			nodes.erase(iter); // delete the node pointer
-			return;
+			break;
 		}
 	}
 	Rank();
@@ -95,9 +107,10 @@ void Graph::Erase(const wxPoint& coords)
 		{
 			delete (*iter);
 			edges.erase(iter);
-			return;
+			break;
 		}
 	}
+	NotifyChange();
 }
 
 void Graph::TurnAroundEdge(const wxPoint &coords)
@@ -107,12 +120,18 @@ void Graph::TurnAroundEdge(const wxPoint &coords)
 		if (IsEdge(coords, iter))
 		{
 			std::swap((*iter)->from, (*iter)->to);
-			return;
+			break;
 		}
 	}
+	NotifyChange();
 }
 
-Node* Graph::GetNode(const wxPoint& node_coords)
+void Graph::RegisterChangeListener(ChangeListener listener)
+{
+	listeners.push_back(listener);
+}
+
+Node *Graph::GetNode(const wxPoint &node_coords)
 {
 	for (std::vector<Node*>::iterator iter = nodes.begin(); iter != nodes.end(); iter++)
 	{
@@ -330,7 +349,16 @@ bool Graph::IsOnEdge(const wxPoint& pt)
 	return false;
 }
 
-bool Graph::IsNode(const wxPoint& node_coords, std::vector<Node*>::iterator& iter)
+void Graph::NotifyChange()
+{
+	//if (listeners.empty()) wxLogError(wxT("No available listeners for graph class.")); // for dev
+	for (auto& listener: listeners)
+	{
+		listener();
+	}
+}
+
+bool Graph::IsNode(const wxPoint &node_coords, std::vector<Node *>::iterator &iter)
 {
 	Node* node = *iter;
 

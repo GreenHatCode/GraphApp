@@ -37,12 +37,19 @@ public:
 	void SetColourScheme(ColourSchemes value);
 	ColourSchemes GetColourScheme();
 
+	void SetDynamicGraphProcessing(bool value);
+	bool GetDynamicGraphProcessing();
+
 	bool SaveDataToFile();
 	bool LoadDataFromFile();
 
 	bool operator != (AppPreferences& obj)
 	{
-		if (m_dupl_warning != obj.m_dupl_warning || m_show_tip != obj.m_show_tip || m_colour_scheme_type != obj.m_colour_scheme_type)
+		if (m_dupl_warning != obj.m_dupl_warning || 
+			m_show_tip != obj.m_show_tip || 
+			m_colour_scheme_type != obj.m_colour_scheme_type ||
+			m_dynamic_graph_processing != obj.m_dynamic_graph_processing
+		)
 		{
 			return true;
 		}
@@ -60,6 +67,8 @@ private:
 	bool m_show_tip;
 	// sets the colour scheme of the drawint area
 	ColourSchemes m_colour_scheme_type = ColourSchemes::COLOURED;
+	// process the graph after any change in it
+	bool m_dynamic_graph_processing;
 
 };
 

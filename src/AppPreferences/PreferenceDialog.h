@@ -2,7 +2,7 @@
 #include "wx/wx.h"
 #include "wx/gbsizer.h"
 #include "wx/srchctrl.h"
-#include "AppPreferences.h"
+#include "AppPreferences/AppPreferences.h"
 
 // This dialog is used to edit the application settings. 
 //

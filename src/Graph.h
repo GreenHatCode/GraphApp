@@ -1,6 +1,7 @@
 #pragma once
 #include "wx/wx.h"
 #include <vector>
+#include <functional>
 
 
 struct Node
@@ -40,14 +41,29 @@ struct Edge
 class Graph
 {
 public:
-	// modify the graph
+	using ChangeListener = std::function<void()>;
+
+	// constructors
+	Graph(ChangeListener listener);
+	Graph();
+
+	// modify the graph 
+	// implemented notify listener
 	void AddNode(const wxPoint& coords, int index, int early_event_deadline = -1, int late_event_deadline = -1, int time_reserve = -1);
-	void EditNode(const wxPoint& node_coords);
 	void EditNode(const wxPoint& node_coords, int index, int early_event_deadline = -1, int late_event_deadline = -1, int time_reserve = -1);
 	void AddEdge(const Node* from, const Node* to, int weight = 0, bool critical_path = false);
 	void Erase(const wxPoint& coords);
 	void TurnAroundEdge(const wxPoint& coords);
+	
+	// modify the graph 
+	// without notify listener
+	void EditNode(const wxPoint& node_coords);
 	void Clear(); // clears all the graph
+	void SetNodeParametersToDefault(); // sets calculation params for all nodes to default values
+	void SetEdgeParametersToDefault(); // sets calculation params for all nodes to default values
+
+	// listener to trigger dynamic processing
+	void RegisterChangeListener(ChangeListener listener);
 
 	Node* GetNode(const wxPoint& node_coords);
 	
@@ -64,8 +80,7 @@ public:
 	
 	bool Empty();
 	void Rank(); // changes the order of the nodes in the array according to their idexes
-	void SetNodeParametersToDefault(); // sets calculation params for all nodes to default values
-	void SetEdgeParametersToDefault(); // sets calculation params for all nodes to default values
+
 
 	size_t GetNodeAmount() const;
 	size_t GetEdgeAmount() const;
@@ -82,6 +97,9 @@ private:
 	std::vector<Node*> nodes;
 	std::vector<Edge*> edges;
 
+	// listener to trigger dynamic processing
+	void NotifyChange();
+	std::vector<ChangeListener> listeners;
 	
 	bool IsNode(const wxPoint& node_coords, std::vector<Node*>::iterator& iter); // checks if the click is made inside node borders
 	bool IsEdge(const wxPoint& click_coords, std::vector<Edge*>::iterator& iter); // checks if the click is made inside edge borders

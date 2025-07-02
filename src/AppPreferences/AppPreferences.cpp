@@ -1,3 +1,4 @@
+#include "AppPreferences/AppPreferences.h"
 #include "AppPreferences.h"
 
 AppPreferences::AppPreferences(const std::string& preference_file)
@@ -46,6 +47,15 @@ ColourSchemes AppPreferences::GetColourScheme()
 	return m_colour_scheme_type;
 }
 
+void AppPreferences::SetDynamicGraphProcessing(bool value)
+{
+	m_dynamic_graph_processing = value;
+}
+
+bool AppPreferences::GetDynamicGraphProcessing()
+{
+    return m_dynamic_graph_processing;
+}
 
 bool AppPreferences::SaveDataToFile()
 {
@@ -60,10 +70,12 @@ bool AppPreferences::SaveDataToFile()
 	std::string m_dupl_warning_str = std::to_string(m_dupl_warning);
 	std::string m_show_tip_str = std::to_string(m_show_tip);
 	std::string m_colour_scheme_type_str = std::to_string(m_colour_scheme_type);
+	std::string m_dynamic_graph_processing_str = std::to_string(m_dynamic_graph_processing);
 
 	ini["general"].set({
 		{ "dupl_warning", m_dupl_warning_str },
-		{ "show_tip", m_show_tip_str }
+		{ "show_tip", m_show_tip_str },
+		{ "dynamic_graph_processing", m_dynamic_graph_processing_str }
 		});
 
 	ini["appearance"]["colour_scheme_type"] = m_colour_scheme_type_str;
@@ -89,10 +101,11 @@ bool AppPreferences::LoadDataFromFile()
 	std::string m_dupl_warning_str = ini.get("general").get("dupl_warning");
 	std::string m_show_tip_str = ini.get("general").get("show_tip");
 	std::string m_colour_scheme_type_str = ini.get("appearance").get("colour_scheme_type");
+	std::string m_dynamic_graph_processing_str = ini.get("general").get("dynamic_graph_processing");
 
 	std::istringstream(m_dupl_warning_str) >> m_dupl_warning;
 	std::istringstream(m_show_tip_str) >> m_show_tip;
-	
+	std::istringstream(m_dynamic_graph_processing_str) >> m_dynamic_graph_processing;
 	
 	switch (std::stoi(m_colour_scheme_type_str))
 	{
