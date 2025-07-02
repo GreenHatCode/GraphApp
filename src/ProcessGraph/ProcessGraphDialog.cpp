@@ -154,7 +154,7 @@ bool ProcessGraphDialog::TransferDataFromWindow()
     m_process_settings.SetCalculateLateEventDate(t_late_check->GetValue());
     m_process_settings.SetCalculateEvenTimeReserne(t_R_check->GetValue());
     m_process_settings.SetDrawCriticalPath(critical_path_check->GetValue());
-    m_process_settings.SetComplexityFactor(complexity_factor_check->GetValue());
+    m_process_settings.SetCalculateComplexityFactor(complexity_factor_check->GetValue());
     m_process_settings.SetOutputDestination((OutputDestination)output_destination_selector->GetSelection());
 
     return true;
@@ -173,7 +173,7 @@ bool ProcessGraphDialog::TransferDataToWindow()
     t_late_check->SetValue(m_process_settings.GetCalculateLateEventDate());
     t_R_check->SetValue(m_process_settings.GetCalculateEvenTimeReserne());
     critical_path_check->SetValue(m_process_settings.GetDrawCriticalPath());
-    complexity_factor_check->SetValue(m_process_settings.GetComplexityFactor());
+    complexity_factor_check->SetValue(m_process_settings.GetCalculateComplexityFactor());
     output_destination_selector->SetSelection(m_process_settings.GetOutputDestination());
 
     return true;

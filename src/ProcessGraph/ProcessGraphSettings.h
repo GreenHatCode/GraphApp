@@ -18,14 +18,14 @@ public:
     void SetCalculateLateEventDate(bool value) { m_calculate_t_late = value; }
     void SetCalculateEvenTimeReserne(bool value) { m_calculate_R = value; }
     void SetDrawCriticalPath(bool value) { m_search_critical_path = value; }
-    void SetComplexityFactor(bool value) { m_calculate_complexity_factor = value; }
+    void SetCalculateComplexityFactor(bool value) { m_calculate_complexity_factor = value; }
     void SetOutputDestination(OutputDestination value)  { m_output_destination_type = value; }
    
     bool GetCalculateEarlyEventDate() { return m_calculate_t_early; }
     bool GetCalculateLateEventDate() { return m_calculate_t_late; }
     bool GetCalculateEvenTimeReserne() { return m_calculate_R; }
     bool GetDrawCriticalPath() { return m_search_critical_path; }
-    bool GetComplexityFactor() { return m_calculate_complexity_factor; }
+    bool GetCalculateComplexityFactor() { return m_calculate_complexity_factor; }
     OutputDestination GetOutputDestination() { return m_output_destination_type; }
 
 
