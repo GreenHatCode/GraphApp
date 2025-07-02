@@ -38,6 +38,7 @@ bool ProcessGraph::DoProcess(bool show_dialog)
 	if (m_process_settings.GetCalculateLateEventDate()) graph_calculator.CalculateLateEventDate();
 	if (m_process_settings.GetCalculateEvenTimeReserne()) graph_calculator.CalculateTimeReserve();
 	if (m_process_settings.GetDrawCriticalPath()) graph_calculator.SearchCritPath();
+	if (m_process_settings.GetCalculateComplexityFactor()) graph_calculator.CalculateComplexityFactor();
 
 	if (!OutputResults(m_process_settings.GetOutputDestination(), graph_calculator))
 	{
@@ -73,6 +74,15 @@ bool ProcessGraph::ShowModalDialog()
 
 bool ProcessGraph::OutputResults(OutputDestination output_destination, GraphCalculator graph_calculator)
 {
+	// convert text values
+	// complexity factor
+	wxString complexity_factor_str = "Complexity factor: ";
+	complexity_factor_str.append(wxString::Format("%f", graph_calculator.GetComplexityFactor()));
+	if (graph_calculator.GetComplexityFactor() >= 1 && graph_calculator.GetComplexityFactor() <= 1.5) complexity_factor_str.append("(the network graph has simple complexity).");
+	else if (graph_calculator.GetComplexityFactor() > 1.5 && graph_calculator.GetComplexityFactor() <= 2.0) complexity_factor_str.append("(the network graph has medium complexity).");
+	else if (graph_calculator.GetComplexityFactor() > 2.0) complexity_factor_str.append("(the network graph has high complexity).");
+
+
 	if (output_destination == OutputDestination::DRAWING_AREA)
 	{
 		// modifing nodes
@@ -107,6 +117,8 @@ bool ProcessGraph::OutputResults(OutputDestination output_destination, GraphCalc
 		}
 		
 		m_dialog_parent_window->Refresh();
+		
+		if (m_process_settings.GetCalculateComplexityFactor()) wxMessageBox(complexity_factor_str, wxT("Complexity factor"));
 	}
 	else 
 	{
