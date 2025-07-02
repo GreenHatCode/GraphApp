@@ -1,4 +1,5 @@
 #include "ProcessGraph/ProcessGraphDialog.h"
+#include "ProcessGraphDialog.h"
 
 enum {
     ID_EARLY_EVENT_DATE,
@@ -9,6 +10,10 @@ enum {
     ID_COMPLEXITY_FACTOR,
     ID_SELECT_ALL
 };
+
+BEGIN_EVENT_TABLE(ProcessGraphDialog, wxDialog)
+    EVT_CHECKBOX(ID_SELECT_ALL, ProcessGraphDialog::OnSelectAll)
+END_EVENT_TABLE();
 
 ProcessGraphDialog::ProcessGraphDialog(
     wxWindow* parent, 
@@ -118,6 +123,9 @@ void ProcessGraphDialog::OnOK(wxCommandEvent& evt)
     else wxLogError("Can't transfer data from window.");
 }
 
+void ProcessGraphDialog::OnSelectAll(wxCommandEvent &evt)
+{
+}
 bool ProcessGraphDialog::TransferDataFromWindow()
 {
     wxCheckBox* t_early_check = (wxCheckBox*)FindWindow(ID_EARLY_EVENT_DATE);
