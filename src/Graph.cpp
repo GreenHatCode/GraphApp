@@ -124,7 +124,7 @@ Node* Graph::GetNode(const wxPoint& node_coords)
 	return nullptr;
 }
 
-Node* Graph::GetNode(size_t index)
+Node* Graph::GetNodeByIndexInArray(size_t index)
 {
 	if (nodes.empty() || index >= nodes.size())return nullptr;
 	else return nodes[index];
@@ -147,10 +147,20 @@ Node* Graph::GetEdgeByNodeIndex(int index)
 	}
 }
 
-const Node* Graph::GetNode(size_t index) const
+const Node* Graph::GetNodeByIndexInArray(size_t index) const
 {
 	if (nodes.empty() || index >= nodes.size())return nullptr;
 	else return nodes[index];
+}
+
+Node *Graph::GetNodeByIndex(size_t index)
+{
+    if (std::find_if(nodes.begin(), nodes.end(), [&index](Node* curr_node){ return curr_node->index == index;}) == nodes.end()) return nullptr;
+	else
+	{
+		std::vector<Node*>::iterator iter = std::find_if(nodes.begin(), nodes.end(), [&index](Node* curr_node){ return curr_node->index == index;});
+		return (*iter);
+	}
 }
 
 const std::vector<int> Graph::GetNodeIndices() const
@@ -274,13 +284,8 @@ void Graph::Clear()
 
 bool Graph::Contain(int node_index)
 {
-	for (size_t i = 0; i < nodes.size(); i++)
-	{
-		if (nodes[i]->index == node_index) return true;
-	}
-
-	return false;
-
+	if (std::find_if(nodes.begin(), nodes.end(), [&node_index](Node* curr_node){ return curr_node->index == node_index;}) == nodes.end()) return false;
+	else return true;
 }
 
 int Graph::MaxNodeIndex()

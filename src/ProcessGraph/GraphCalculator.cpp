@@ -15,7 +15,7 @@ void GraphCalculator::CalculateEarlyEventDate()
 		int max_m_T_early = 0;
 		for (int k = i - 1; k >= 0; k--)
 		{
-			Edge* curr_incoming_edge = m_graph_ptr->GetEdge(m_graph_ptr->GetNode(k), m_graph_ptr->GetNode(i));
+			Edge* curr_incoming_edge = m_graph_ptr->GetEdge(m_graph_ptr->GetNodeByIndexInArray(k), m_graph_ptr->GetNodeByIndexInArray(i));
 			if (curr_incoming_edge == nullptr)continue;
 
 			int tmp = curr_incoming_edge->weight + m_T_early[k];
@@ -35,7 +35,7 @@ void GraphCalculator::CalculateLateEventDate()
 		int min_m_T_late = std::numeric_limits<int>::max();
 		for (int k = i + 1; k < m_T_late.size(); k++)
 		{
-			Edge* curr_outcoming_edge = m_graph_ptr->GetEdge(m_graph_ptr->GetNode(i), m_graph_ptr->GetNode(k));
+			Edge* curr_outcoming_edge = m_graph_ptr->GetEdge(m_graph_ptr->GetNodeByIndexInArray(i), m_graph_ptr->GetNodeByIndexInArray(k));
 			if (curr_outcoming_edge == nullptr)continue;
 
 			int tmp = m_T_late[k] - curr_outcoming_edge->weight;
@@ -62,6 +62,6 @@ void GraphCalculator::SearchCritPath()
 	// find all cirtical nodes
 	for (int i = 0; i < m_Time_reserve.size(); i++)
 	{
-		if (m_Time_reserve[i] == 0)	m_crit_path.push_back(m_graph_ptr->GetNode(i));
+		if (m_Time_reserve[i] == 0)	m_crit_path.push_back(m_graph_ptr->GetNodeByIndexInArray(i));
 	}
 }

@@ -177,7 +177,7 @@ void DrawingPanel::OnPaint(wxPaintEvent& evt)
 	// redrawing all existing nodes
 	for (size_t i = 0; i < m_graph->GetNodeAmount(); i++)
 	{
-		DrawNode(m_graph->GetNode(i));
+		DrawNode(m_graph->GetNodeByIndexInArray(i));
 	}
 
 }
@@ -338,17 +338,17 @@ void DrawingPanel::Print(wxDC& dc, int pageNum, wxSize dc_size)
 
 	int margin = 5; // 5px
 	int node_radius = 30;
-	int x_min = m_graph->GetNode(0)->coords.x;
-	int y_min = m_graph->GetNode(0)->coords.y;
+	int x_min = m_graph->GetNodeByIndexInArray(0)->coords.x;
+	int y_min = m_graph->GetNodeByIndexInArray(0)->coords.y;
 
 	// search for x_min and y_min
 	for (size_t i = 1; i < m_graph->GetNodeAmount(); i++)
 	{
-		if (x_min > m_graph->GetNode(i)->coords.x)
-			x_min = m_graph->GetNode(i)->coords.x;
+		if (x_min > m_graph->GetNodeByIndexInArray(i)->coords.x)
+			x_min = m_graph->GetNodeByIndexInArray(i)->coords.x;
 
-		if (y_min > m_graph->GetNode(i)->coords.y)
-			y_min = m_graph->GetNode(i)->coords.y;
+		if (y_min > m_graph->GetNodeByIndexInArray(i)->coords.y)
+			y_min = m_graph->GetNodeByIndexInArray(i)->coords.y;
 	}
 
 	// this value determines how far we should move our graph drawing to the left top corner of the sheet of paper
@@ -453,7 +453,7 @@ void DrawingPanel::Print(wxDC& dc, int pageNum, wxSize dc_size)
 	// drawing nodes
 	for (size_t i = 0; i < m_graph->GetNodeAmount(); i++)
 	{
-		Node node = *(m_graph->GetNode(i));
+		Node node = *(m_graph->GetNodeByIndexInArray(i));
 
 		node.coords += diff; // nove the node
 
@@ -512,7 +512,7 @@ void DrawingPanel::SetGraph(Graph* graph_ptr)
 
 void DrawingPanel::AddNewEdge(int node_from_index, int node_to_index, int weight)
 {
-	m_graph->AddEdge(m_graph->GetNode(node_from_index), m_graph->GetNode(node_to_index), weight);
+	m_graph->AddEdge(m_graph->GetNodeByIndex(node_from_index), m_graph->GetNodeByIndex(node_to_index), weight);
 	Refresh();
 }
 
