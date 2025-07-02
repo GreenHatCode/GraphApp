@@ -32,5 +32,6 @@ private:
     bool m_calculate_t_late = false; // ID_LATE_EVENT_DATE
     bool m_calculate_R = false; // ID_EVENT_TIME_RESERVE
     bool m_search_critical_path = false; // ID_CRITICAL_PATH
+    bool m_calculate_complexity_factor = false; // ID_COMPLEXITY_FACTOR
     OutputDestination m_output_destination_type = OutputDestination::DRAWING_AREA;
 };
