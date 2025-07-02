@@ -132,6 +132,7 @@ bool ProcessGraphDialog::TransferDataFromWindow()
     m_process_settings.SetCalculateLateEventDate(t_late_check->GetValue());
     m_process_settings.SetCalculateEvenTimeReserne(t_R_check->GetValue());
     m_process_settings.SetDrawCriticalPath(critical_path_check->GetValue());
+    m_process_settings.SetComplexityFactor(complexity_factor_check->GetValue());
     m_process_settings.SetOutputDestination((OutputDestination)output_destination_selector->GetSelection());
 
     return true;
@@ -143,12 +144,14 @@ bool ProcessGraphDialog::TransferDataToWindow()
     wxCheckBox* t_late_check = (wxCheckBox*)FindWindow(ID_LATE_EVENT_DATE);
     wxCheckBox* t_R_check = (wxCheckBox*)FindWindow(ID_EVENT_TIME_RESERVE);
     wxCheckBox* critical_path_check = (wxCheckBox*)FindWindow(ID_CRITICAL_PATH);
+    wxCheckBox* complexity_factor_check = (wxCheckBox*)FindWindow(ID_COMPLEXITY_FACTOR);
     wxRadioBox* output_destination_selector = (wxRadioBox*)FindWindow(ID_OUTPUTTYPE_DESTINATION);
 
     t_early_check->SetValue(m_process_settings.GetCalculateEarlyEventDate());
     t_late_check->SetValue(m_process_settings.GetCalculateLateEventDate());
     t_R_check->SetValue(m_process_settings.GetCalculateEvenTimeReserne());
     critical_path_check->SetValue(m_process_settings.GetDrawCriticalPath());
+    complexity_factor_check->SetValue(m_process_settings.GetComplexityFactor());
     output_destination_selector->SetSelection(m_process_settings.GetOutputDestination());
 
     return true;
