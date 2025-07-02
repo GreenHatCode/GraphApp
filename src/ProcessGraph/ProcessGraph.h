@@ -5,6 +5,7 @@
 #include "ProcessGraph/GraphCalculator.h"
 #include "ProcessGraph/OutputProcessingResultsDialog.h"
 #include "wx/wfstream.h"
+#include "wx/numformatter.h"
 #include <map>
 
 // the class is used to process graph, calculate nodes' params etc.

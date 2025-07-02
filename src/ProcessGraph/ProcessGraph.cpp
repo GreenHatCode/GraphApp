@@ -77,7 +77,8 @@ bool ProcessGraph::OutputResults(OutputDestination output_destination, GraphCalc
 	// convert text values
 	// complexity factor
 	wxString complexity_factor_str = "Complexity factor: ";
-	complexity_factor_str.append(wxString::Format("%f ", graph_calculator.GetComplexityFactor()));
+	complexity_factor_str.append(wxNumberFormatter::ToString(graph_calculator.GetComplexityFactor(), 3));
+	complexity_factor_str.append(" ");
 	if (graph_calculator.GetComplexityFactor() >= 1 && graph_calculator.GetComplexityFactor() <= 1.5) complexity_factor_str.append("(the network graph has simple complexity).");
 	else if (graph_calculator.GetComplexityFactor() > 1.5 && graph_calculator.GetComplexityFactor() <= 2.0) complexity_factor_str.append("(the network graph has medium complexity).");
 	else if (graph_calculator.GetComplexityFactor() > 2.0) complexity_factor_str.append("(the network graph has high complexity).");
@@ -162,7 +163,12 @@ bool ProcessGraph::OutputResults(OutputDestination output_destination, GraphCalc
 				output_message.append(wxString::Format(" %i,", m_crit_path[i]->index));
 			}
 			output_message.erase(output_message.end() - 1);
+			output_message.append(wxT("\n\n"));
 		}
+
+		// append complexity factor
+		if(m_process_settings.GetCalculateComplexityFactor()) output_message.append(complexity_factor_str);
+
 
 		// invoke dialog to output results as a text
 		// or invoke dialog to save them into a file
