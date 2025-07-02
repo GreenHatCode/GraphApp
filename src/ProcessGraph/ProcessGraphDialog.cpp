@@ -31,7 +31,7 @@ ProcessGraphDialog::ProcessGraphDialog(
 
     wxStaticBoxSizer* options_sizer = new wxStaticBoxSizer(new wxStaticBox(this, wxID_ANY, _("Calculate")), wxVERTICAL);
 
-    boxSizer->Add(options_sizer, 1, wxALL | wxEXPAND, 5);
+    boxSizer->Add(options_sizer, 2, wxALL | wxEXPAND, 5);
 
     wxCheckBox* m_checkBox51 = new wxCheckBox(this, ID_EARLY_EVENT_DATE, _("Early event date (t eraly)"), wxDefaultPosition, wxDLG_UNIT(this, wxSize(-1, -1)), 0);
     m_checkBox51->SetValue(false);
