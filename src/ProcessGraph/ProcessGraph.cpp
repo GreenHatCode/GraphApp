@@ -44,6 +44,31 @@ void ProcessGraph::SetGraph(Graph* ptr)
 	m_graph_ptr = ptr;
 }
 
+bool ProcessGraph::BuildAdjacencyMatrix()
+{
+	return false;
+}
+
+bool ProcessGraph::BuildIncidenceMatrix()
+{
+	return false;
+}
+
+bool ProcessGraph::BuildKirchhoffMatrix()
+{
+	return false;
+}
+
+bool ProcessGraph::SearchPathDijkstra()
+{
+	return false;
+}
+
+bool ProcessGraph::SearchPathBellmanFord()
+{
+	return false;
+}
+
 bool ProcessGraph::Validate()
 {
 	if (m_graph_ptr->Empty())

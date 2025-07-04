@@ -17,6 +17,13 @@ public:
 	bool DoProcess(bool show_dialog = true); // executes graph porcessig, returns false if processing is failed
     void SetGraph(Graph* ptr); // sets a new graph, delete the previous graph before set a new one
     
+    
+    bool BuildAdjacencyMatrix();
+    bool BuildIncidenceMatrix();
+    bool BuildKirchhoffMatrix();
+    bool SearchPathDijkstra();
+    bool SearchPathBellmanFord();
+
 
 private:
 	Graph* m_graph_ptr = nullptr;
