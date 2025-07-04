@@ -7,7 +7,12 @@ enum {
 	ID_MODE_DELETE, // the use can delete either node or edge
 	ID_PROCESS_GRAPH, // the app process the graph
 	ID_ADD_EDGE_DIALOG,
-	ID_CLEAR_CALCULATION_PARAMETERS
+	ID_CLEAR_CALCULATION_PARAMETERS,
+	ID_BUILD_ADJACENCY_MATRIX,
+	ID_BUILD_INCIDENCE_MATRIX,
+	ID_BUILD_KIRCHHOFF_MATRIX,
+	ID_BUILD_PATH_DIJKSTRA_ALGORITHM,
+	ID_BUILD_PATH_BELLMAN_FORD_ALGORITHM
 };
 
 BEGIN_EVENT_TABLE(mainFrame, wxFrame)
@@ -48,6 +53,17 @@ mainFrame::mainFrame(const wxString& title)
 	editMenu->Append(ID_CLEAR_CALCULATION_PARAMETERS, wxT("Clear calculation &results"), wxT("Clears node parameters and unpaints edges"));
 	editMenu->Append(ID_ADD_EDGE_DIALOG, wxT("&Add edge"), wxT("Adds a new edge via dialog"));
 
+	wxMenu* buildMenu = new wxMenu;
+	buildMenu->Append(ID_BUILD_ADJACENCY_MATRIX, wxT("&Adjacency matrix"), wxT("Builds adjacency matrix"));
+	buildMenu->Append(ID_BUILD_INCIDENCE_MATRIX, wxT("&Incidence matrix"), wxT("Builds incidence matrix"));
+	buildMenu->Append(ID_BUILD_KIRCHHOFF_MATRIX, wxT("&Kirchhoff  matrix"), wxT("Builds Kirchhoff  matrix"));
+	buildMenu->AppendSeparator();
+	wxMenu* pathSubMenu = new wxMenu;
+	pathSubMenu->Append(ID_BUILD_PATH_DIJKSTRA_ALGORITHM, wxT("Shortest path &Dijkstra's algorithm"), wxT("Builds the shortest path using Dijkstra's algorithm"));
+	pathSubMenu->Append(ID_BUILD_PATH_BELLMAN_FORD_ALGORITHM, wxT("&Shortest path &Bellman–Ford algorithm"), wxT("Builds the shortest path using Bellman–Ford algorithm"));
+	buildMenu->AppendSubMenu(pathSubMenu, wxT("Search path"));
+
+
 	wxMenu* prefMenu = new wxMenu;
 	prefMenu->Append(wxID_PREFERENCES);
 
@@ -58,6 +74,7 @@ mainFrame::mainFrame(const wxString& title)
 	wxMenuBar* menuBar = new wxMenuBar;
 	menuBar->Append(fileMenu, wxT("&File"));
 	menuBar->Append(editMenu, wxT("&Edit"));
+	menuBar->Append(buildMenu, wxT("&Build"));
 	menuBar->Append(prefMenu, wxT("&Preferences"));
 	menuBar->Append(helpMenu, wxT("&Help"));
 
