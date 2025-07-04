@@ -24,6 +24,19 @@ public:
     void CalculateComplexityFactor();
     void SearchCritPath();
 
+    // build matrix methods
+    // return false if can't build the matrix
+    bool BuildAdjacencyMat();
+    bool BuildIncidenceMat();
+    bool BuildKirchhoffMat();
+
+    // seach the shortest path methods
+    // returns false if can't search path
+    //bool SeacrhShortestPathDijkstra();
+    //bool SeacrhShortestPathBellmanFord();
+
+
+
 private:
     Graph* m_graph_ptr = nullptr;
 
