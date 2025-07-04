@@ -10,18 +10,8 @@ ProcessGraph::ProcessGraph(Graph *ptr, wxWindow *dialog_parent_window)
 
 bool ProcessGraph::DoProcess(bool show_dialog)
 {
-	if(m_dialog_parent_window == nullptr)return false;
-	if (m_graph_ptr->Empty())
-	{
-		wxMessageBox("Your graph is empty. It can't be processed.", "Graph processing error", wxICON_ERROR);
-		return false;
-	}
-
-	if (!Validate())
-	{
-		wxMessageBox("You didn't pass the graph validation. Correct your net graph.", "Graph processing error", wxICON_ERROR);
-		return false;
-	}
+	if(m_dialog_parent_window == nullptr) return false;
+	if (!Validate()) return false;
 
 	// call dialog and get processing params
 	// if we don't call the dialog
@@ -56,11 +46,25 @@ void ProcessGraph::SetGraph(Graph* ptr)
 
 bool ProcessGraph::Validate()
 {
+	if (m_graph_ptr->Empty())
+	{
+		wxMessageBox("Your graph is empty. It can't be processed.", "Graph processing error", wxICON_ERROR);
+		return false;
+	}
+
 	// searching for edges in which from->index > to->index
 	for (size_t i = 0; i < m_graph_ptr->GetEdgeAmount(); i++)
 	{
 		Edge* curr_edge = m_graph_ptr->GetEdge(i);
-		if (curr_edge->from->index > curr_edge->to->index)return false;
+		if (curr_edge->from->index > curr_edge->to->index)
+		{
+			wxString err_ms = "The edge ";
+			err_ms.append(wxString::Format("(%i,%i) ", curr_edge->from->index, curr_edge->to->index));
+			err_ms.append("has the wrong direction, turn around the edge.");
+			wxMessageBox(err_ms, "Graph processing error", wxICON_ERROR);
+
+			return false;
+		}
 	}
 
 	return true;
@@ -69,7 +73,7 @@ bool ProcessGraph::Validate()
 bool ProcessGraph::ShowModalDialog()
 {
     ProcessGraphDialog* dlg = new ProcessGraphDialog(m_dialog_parent_window, wxID_ANY, wxT("Process graph options"), m_process_settings);
-	return dlg->ShowModal();
+	return dlg->ShowModal() == wxID_OK;
 }
 
 bool ProcessGraph::OutputResults(OutputDestination output_destination, GraphCalculator graph_calculator)
