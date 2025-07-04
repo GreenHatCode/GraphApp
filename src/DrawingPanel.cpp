@@ -536,6 +536,31 @@ bool DrawingPanel::ProcessCurrentGraph()
     return m_graph_processor->DoProcess(); // create an object of ProcessGraph and process the graph
 }
 
+void DrawingPanel::BuildAdjacencyMatrix()
+{
+	wxMessageBox(wxT("Adjacency matrix")); // TODO: implement Adjacency matrix
+}
+
+void DrawingPanel::BuildIncidenceMatrix()
+{
+	wxMessageBox(wxT("Incidence matrix")); // TODO: implement Incidence matrix
+}
+
+void DrawingPanel::BuildKirchhoffMatrix()
+{
+	wxMessageBox(wxT("Kirchhoff matrix")); // TODO: implement Kirchhoff matrix
+}
+
+void DrawingPanel::SearchPathDijkstra()
+{
+	wxMessageBox(wxT("Dijkstra's algorithm")); // TODO: implement Dijkstra's algorithm
+}
+
+void DrawingPanel::SearchPathBellmanFord()
+{
+	wxMessageBox(wxT("Bellman–Ford algorithm")); // TODO: implement Bellman–Ford algorithm
+}
+
 void DrawingPanel::DrawNode(const Node* node)
 {
 	wxClientDC dc(this);

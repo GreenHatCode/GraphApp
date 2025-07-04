@@ -248,27 +248,27 @@ void mainFrame::OnAbout(wxCommandEvent& evt)
 
 void mainFrame::OnRunAdjacencyMatrixAlgorithm(wxCommandEvent &evt)
 {
-	wxMessageBox(wxT("Adjacency matrix")); // TODO: implement Adjacency matrix
+	drawingPanel->BuildAdjacencyMatrix();
 }
 
 void mainFrame::OnRunIncidenceMatrixAlgorithm(wxCommandEvent &evt)
 {
-	wxMessageBox(wxT("Incidence matrix")); // TODO: implement Incidence matrix
+	drawingPanel->BuildIncidenceMatrix();
 }
 
 void mainFrame::OnRunKirchhoffMatrixAlgorithm(wxCommandEvent &evt)
 {
-	wxMessageBox(wxT("Kirchhoff matrix")); // TODO: implement Kirchhoff matrix
+	drawingPanel->BuildKirchhoffMatrix();
 }
 
 void mainFrame::OnRunDijkstraAlgorithm(wxCommandEvent &evt)
 {
-	wxMessageBox(wxT("Dijkstra's algorithm")); // TODO: implement Dijkstra's algorithm
+	drawingPanel->SearchPathDijkstra();
 }
 
 void mainFrame::OnRunBellmanFordAlgorithm(wxCommandEvent &evt)
 {
-	wxMessageBox(wxT("Bellman–Ford algorithm")); // TODO: implement Bellman–Ford algorithm
+	drawingPanel->SearchPathBellmanFord();
 }
 
 void mainFrame::SetEditingRegime(wxCommandEvent& evt)
