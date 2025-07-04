@@ -28,6 +28,11 @@ BEGIN_EVENT_TABLE(mainFrame, wxFrame)
 	EVT_MENU(wxID_SAVE, mainFrame::OnSave)
 	EVT_MENU(wxID_SAVEAS, mainFrame::OnSaveAs)
 	EVT_MENU(wxID_PREFERENCES, mainFrame::OnPreferences)
+	EVT_MENU(ID_BUILD_ADJACENCY_MATRIX, mainFrame::OnRunAdjacencyMatrixAlgorithm)
+	EVT_MENU(ID_BUILD_INCIDENCE_MATRIX, mainFrame::OnRunIncidenceMatrixAlgorithm)
+	EVT_MENU(ID_BUILD_KIRCHHOFF_MATRIX, mainFrame::OnRunKirchhoffMatrixAlgorithm)
+	EVT_MENU(ID_BUILD_PATH_DIJKSTRA_ALGORITHM, mainFrame::OnRunDijkstraAlgorithm)
+	EVT_MENU(ID_BUILD_PATH_BELLMAN_FORD_ALGORITHM, mainFrame::OnRunBellmanFordAlgorithm)
 	EVT_TOOL(ID_PROCESS_GRAPH, mainFrame::OnProcessGraph)
 	EVT_TOOL_RANGE(ID_MODE_NORMAL, ID_MODE_DELETE, mainFrame::SetEditingRegime)
 END_EVENT_TABLE()
@@ -61,7 +66,7 @@ mainFrame::mainFrame(const wxString& title)
 	wxMenu* pathSubMenu = new wxMenu;
 	pathSubMenu->Append(ID_BUILD_PATH_DIJKSTRA_ALGORITHM, wxT("Shortest path &Dijkstra's algorithm"), wxT("Builds the shortest path using Dijkstra's algorithm"));
 	pathSubMenu->Append(ID_BUILD_PATH_BELLMAN_FORD_ALGORITHM, wxT("&Shortest path &Bellman–Ford algorithm"), wxT("Builds the shortest path using Bellman–Ford algorithm"));
-	buildMenu->AppendSubMenu(pathSubMenu, wxT("Search path"));
+	buildMenu->AppendSubMenu(pathSubMenu, wxT("&Search path"));
 
 
 	wxMenu* prefMenu = new wxMenu;
@@ -239,6 +244,31 @@ void mainFrame::OnHelp(wxCommandEvent& evt)
 void mainFrame::OnAbout(wxCommandEvent& evt)
 {
 	wxLaunchDefaultBrowser(wxT("https://github.com/GreenHatCode/GraphApp"), wxBROWSER_NEW_WINDOW);
+}
+
+void mainFrame::OnRunAdjacencyMatrixAlgorithm(wxCommandEvent &evt)
+{
+	wxMessageBox(wxT("Adjacency matrix")); // TODO: implement Adjacency matrix
+}
+
+void mainFrame::OnRunIncidenceMatrixAlgorithm(wxCommandEvent &evt)
+{
+	wxMessageBox(wxT("Incidence matrix")); // TODO: implement Incidence matrix
+}
+
+void mainFrame::OnRunKirchhoffMatrixAlgorithm(wxCommandEvent &evt)
+{
+	wxMessageBox(wxT("Kirchhoff matrix")); // TODO: implement Kirchhoff matrix
+}
+
+void mainFrame::OnRunDijkstraAlgorithm(wxCommandEvent &evt)
+{
+	wxMessageBox(wxT("Dijkstra's algorithm")); // TODO: implement Dijkstra's algorithm
+}
+
+void mainFrame::OnRunBellmanFordAlgorithm(wxCommandEvent &evt)
+{
+	wxMessageBox(wxT("Bellman–Ford algorithm")); // TODO: implement Bellman–Ford algorithm
 }
 
 void mainFrame::SetEditingRegime(wxCommandEvent& evt)
