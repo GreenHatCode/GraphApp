@@ -26,9 +26,9 @@ public:
 
     // build matrix methods
     // return false if can't build the matrix
-    bool BuildAdjacencyMat();
-    bool BuildIncidenceMat();
-    bool BuildKirchhoffMat();
+    void BuildAdjacencyMat();
+    void BuildIncidenceMat();
+    void BuildKirchhoffMat();
 
     // seach the shortest path methods
     // returns false if can't search path
