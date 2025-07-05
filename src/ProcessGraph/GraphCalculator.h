@@ -12,11 +12,12 @@ class GraphCalculator
 public:
     GraphCalculator(Graph* ptr);
 
-    std::vector<int> GetEarlyEventDates() { return m_T_early; };
-    std::vector<int> GetLateEventDate() { return m_T_late; };
-    std::vector<int> GetTimeReserve() { return m_Time_reserve; };
-    std::vector<Node*> GetCritPath() { return m_crit_path; };
-    float GetComplexityFactor() { return m_complexity_factor; }
+    const std::vector<int> GetEarlyEventDates() const { return m_T_early; };
+    const std::vector<int> GetLateEventDate() const { return m_T_late; };
+    const std::vector<int> GetTimeReserve() const { return m_Time_reserve; };
+    const std::vector<Node*> GetCritPath() const { return m_crit_path; };
+    const float GetComplexityFactor() const { return m_complexity_factor; }
+
 
     // calculation methods
     void CalculateEarlyEventDate();
@@ -48,6 +49,6 @@ private:
     float m_complexity_factor = 0;
     std::vector<Node*> m_crit_path; // stores nodes that create a critical path
 
-
-
+    // matrices
+    std::unique_ptr<MatN> m_adjacency_matrix = nullptr;
 };

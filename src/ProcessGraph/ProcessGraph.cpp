@@ -103,7 +103,7 @@ bool ProcessGraph::ShowModalDialog()
 	return dlg->ShowModal() == wxID_OK;
 }
 
-bool ProcessGraph::OutputResults(OutputDestination output_destination, GraphCalculator graph_calculator)
+bool ProcessGraph::OutputResults(OutputDestination output_destination, const GraphCalculator& graph_calculator)
 {
 	// convert text values
 	// complexity factor

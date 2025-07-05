@@ -32,7 +32,7 @@ private:
     
     bool Validate();
     bool ShowModalDialog();
-    bool OutputResults(OutputDestination output_destination, GraphCalculator graph_calculator); // return false if can't output calculation results
+    bool OutputResults(OutputDestination output_destination, const GraphCalculator& graph_calculator); // return false if can't output calculation results
 
 
 };
