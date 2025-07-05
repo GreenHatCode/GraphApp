@@ -21,7 +21,7 @@ public:
         return m_matrix_array[row * m_dimensions + col];
     }
 
-    wxString toWxString()
+    const wxString toWxString() const
     {
         wxString matrix_str;
         for (size_t i = 0; i < m_dimensions; i++)
@@ -34,6 +34,7 @@ public:
             matrix_str.append("\n");
             
         }
+        matrix_str.erase(matrix_str.end() - 1);
         return matrix_str;
     }
 
