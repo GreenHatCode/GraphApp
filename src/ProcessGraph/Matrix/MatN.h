@@ -2,9 +2,9 @@
 #include "wx/wx.h"
 
 // represents a square matrix with N rows and cols
-class matN{
+class MatN{
 public:
-    matN(int dimensions)
+    MatN(int dimensions)
     {
         m_dimensions = dimensions;
         m_total_elements = dimensions * dimensions;
@@ -12,6 +12,13 @@ public:
         for (size_t i = 0; i < m_total_elements; i++)
             m_matrix_array[i] = 0;
         
+    }
+
+    int& At(int row, int col) // get an element by indices
+    {
+        assert(row >= 0 && row < m_dimensions);
+        assert(col >= 0 && col < m_dimensions);
+        return m_matrix_array[row * m_dimensions + col];
     }
 
 private:
