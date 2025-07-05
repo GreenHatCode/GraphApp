@@ -46,6 +46,8 @@ void ProcessGraph::SetGraph(Graph* ptr)
 
 bool ProcessGraph::BuildAdjacencyMatrix()
 {
+	GraphCalculator graph_calculator(m_graph_ptr);
+	graph_calculator.BuildAdjacencyMat();
 	return false;
 }
 

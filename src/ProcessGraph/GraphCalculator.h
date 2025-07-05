@@ -1,5 +1,6 @@
 #pragma once
 #include "Graph.h"
+#include "ProcessGraph/Matrix/MatN.h"
 #include <map>
 
 // this class does only calculations

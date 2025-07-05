@@ -70,3 +70,11 @@ void GraphCalculator::SearchCritPath()
 		if (m_Time_reserve[i] == 0)	m_crit_path.push_back(m_graph_ptr->GetNodeByIndexInArray(i));
 	}
 }
+
+void GraphCalculator::BuildAdjacencyMat()
+{
+	MatN matrix(4);
+	matrix.At(2,2) = 10;
+	int a = matrix.At(2,2);
+	a++;
+}
