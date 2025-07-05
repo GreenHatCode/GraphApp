@@ -19,6 +19,7 @@ public:
     const float GetComplexityFactor() const { return m_complexity_factor; }
 
 
+
     // calculation methods
     void CalculateEarlyEventDate();
     void CalculateLateEventDate();
