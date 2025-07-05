@@ -74,7 +74,7 @@ void GraphCalculator::SearchCritPath()
 void GraphCalculator::BuildAdjacencyMat()
 {
 	MatN matrix(4);
-	matrix.At(2,2) = 10;
-	int a = matrix.At(2,2);
-	a++;
+	matrix.At(0,0) = -100;
+	matrix.At(3,3) = 100;
+	wxMessageBox(matrix.toWxString());
 }
