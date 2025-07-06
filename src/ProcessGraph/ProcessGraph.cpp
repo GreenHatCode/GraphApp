@@ -56,7 +56,12 @@ bool ProcessGraph::BuildAdjacencyMatrix()
 
 bool ProcessGraph::BuildIncidenceMatrix()
 {
-	return false;
+		if (!MatrixValidate()) return false;
+	GraphCalculator graph_calculator(m_graph_ptr);
+	OutputProcessingResultsDialog* dialog = new OutputProcessingResultsDialog(m_dialog_parent_window, wxID_ANY, wxT("Incidence matrix"), graph_calculator.BuildIncidenceMat().toWxString());
+	dialog->ShowModal();
+	dialog->Destroy(); 
+	return true;
 }
 
 bool ProcessGraph::BuildKirchhoffMatrix()
