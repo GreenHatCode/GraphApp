@@ -79,7 +79,7 @@ void GraphCalculator::BuildAdjacencyMat()
 		node_index_mat_index.emplace(m_graph_ptr->GetNodeByIndexInArray(i)->index, i);
 	}
 	
-	m_adjacency_matrix = std::make_unique<MatN>(MatN(m_graph_ptr->GetNodeAmount()));
+	m_adjacency_matrix = std::make_unique<MatN>(MatN(m_graph_ptr->GetNodeAmount(), m_graph_ptr->GetNodeAmount()));
 	for (size_t row = 0; row < m_graph_ptr->GetNodeAmount(); row++)
 	{
 		std::vector<Edge*> outcoming_edges = m_graph_ptr->GetOutcomingEdges(m_graph_ptr->GetNodeByIndexInArray(row)); 	
@@ -88,4 +88,12 @@ void GraphCalculator::BuildAdjacencyMat()
 			m_adjacency_matrix.get()->At(row, node_index_mat_index[outcoming_edges[col]->to->index]) = 1;
 		}
 	}
+}
+
+void GraphCalculator::BuildIncidenceMat()
+{
+
+
+
+
 }
