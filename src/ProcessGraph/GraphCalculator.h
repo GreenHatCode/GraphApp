@@ -17,7 +17,7 @@ public:
     const std::vector<int> GetTimeReserve() const { return m_Time_reserve; };
     const std::vector<Node*> GetCritPath() const { return m_crit_path; };
     const float GetComplexityFactor() const { return m_complexity_factor; }
-
+    const MatN GetAdjacencyMat() const { return *(m_adjacency_matrix.get()); }
 
 
     // calculation methods
