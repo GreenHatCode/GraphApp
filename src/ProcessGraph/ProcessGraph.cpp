@@ -11,7 +11,7 @@ ProcessGraph::ProcessGraph(Graph *ptr, wxWindow *dialog_parent_window)
 bool ProcessGraph::DoProcess(bool show_dialog)
 {
 	if(m_dialog_parent_window == nullptr) return false;
-	if (!Validate()) return false;
+	if (!ProcessGraphValidate()) return false;
 
 	// call dialog and get processing params
 	// if we don't call the dialog
@@ -46,7 +46,7 @@ void ProcessGraph::SetGraph(Graph* ptr)
 
 bool ProcessGraph::BuildAdjacencyMatrix()
 {
-	if (!Validate()) return false;
+	if (!MatrixValidate()) return false;
 	GraphCalculator graph_calculator(m_graph_ptr);
 	graph_calculator.BuildAdjacencyMat();
 	
@@ -76,7 +76,7 @@ bool ProcessGraph::SearchPathBellmanFord()
 	return false;
 }
 
-bool ProcessGraph::Validate()
+bool ProcessGraph::ProcessGraphValidate()
 {
 	if (m_graph_ptr->Empty())
 	{
@@ -100,6 +100,17 @@ bool ProcessGraph::Validate()
 	}
 
 	return true;
+}
+
+bool ProcessGraph::MatrixValidate()
+{
+	if (m_graph_ptr->Empty())
+	{
+		wxMessageBox("Your graph is empty.", "Graph matrix building error", wxICON_ERROR);
+		return false;
+	}
+
+    return true;
 }
 
 bool ProcessGraph::ShowModalDialog()
