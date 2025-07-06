@@ -48,9 +48,7 @@ bool ProcessGraph::BuildAdjacencyMatrix()
 {
 	if (!MatrixValidate()) return false;
 	GraphCalculator graph_calculator(m_graph_ptr);
-	graph_calculator.BuildAdjacencyMat();
-	
-	OutputProcessingResultsDialog* dialog = new OutputProcessingResultsDialog(m_dialog_parent_window, wxID_ANY, wxT("Adjacency matrix"), graph_calculator.GetAdjacencyMat().toWxString());
+	OutputProcessingResultsDialog* dialog = new OutputProcessingResultsDialog(m_dialog_parent_window, wxID_ANY, wxT("Adjacency matrix"), graph_calculator.BuildAdjacencyMat().toWxString());
 	dialog->ShowModal();
 	dialog->Destroy(); 
 	return true;
