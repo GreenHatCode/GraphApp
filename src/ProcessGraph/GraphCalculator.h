@@ -17,8 +17,8 @@ public:
     const std::vector<int> GetTimeReserve() const { return m_Time_reserve; };
     const std::vector<Node*> GetCritPath() const { return m_crit_path; };
     const float GetComplexityFactor() const { return m_complexity_factor; }
-    const MatN GetAdjacencyMat() const { return *(m_adjacency_matrix.get()); }
-
+    const MatN GetAdjacencyMat() const { return *(m_adjacency_matrix); }
+    const MatN GetIncidenceMat() const { return *(m_incidence_matrix); }
 
     // calculation methods
     void CalculateEarlyEventDate();
@@ -52,4 +52,5 @@ private:
 
     // matrices
     std::unique_ptr<MatN> m_adjacency_matrix = nullptr;
+    std::unique_ptr<MatN> m_incidence_matrix = nullptr;
 };
