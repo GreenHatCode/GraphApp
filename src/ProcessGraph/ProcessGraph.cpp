@@ -46,9 +46,14 @@ void ProcessGraph::SetGraph(Graph* ptr)
 
 bool ProcessGraph::BuildAdjacencyMatrix()
 {
+	if (!Validate()) return false;
 	GraphCalculator graph_calculator(m_graph_ptr);
 	graph_calculator.BuildAdjacencyMat();
-	return false;
+	
+	OutputProcessingResultsDialog* dialog = new OutputProcessingResultsDialog(m_dialog_parent_window, wxID_ANY, wxT("Adjacency matrix"), graph_calculator.GetAdjacencyMat().toWxString());
+	dialog->ShowModal();
+	dialog->Destroy(); 
+	return true;
 }
 
 bool ProcessGraph::BuildIncidenceMatrix()
