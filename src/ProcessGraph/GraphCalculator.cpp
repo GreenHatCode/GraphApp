@@ -71,7 +71,7 @@ void GraphCalculator::SearchCritPath()
 	}
 }
 
-void GraphCalculator::BuildAdjacencyMat()
+MatN GraphCalculator::BuildAdjacencyMat()
 {
 	std::map<int,int> node_index_mat_index; // key - node index, value - node index in array
 	for (size_t i = 0; i < m_graph_ptr->GetNodeAmount(); i++)
@@ -88,12 +88,5 @@ void GraphCalculator::BuildAdjacencyMat()
 			m_adjacency_matrix.get()->At(row, node_index_mat_index[outcoming_edges[col]->to->index]) = 1;
 		}
 	}
-}
-
-void GraphCalculator::BuildIncidenceMat()
-{
-
-
-
-
+	return *(m_adjacency_matrix);
 }
