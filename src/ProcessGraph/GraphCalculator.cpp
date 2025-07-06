@@ -90,3 +90,21 @@ MatN GraphCalculator::BuildAdjacencyMat()
 	}
 	return *(m_adjacency_matrix);
 }
+
+MatN GraphCalculator::BuildIncidenceMat()
+{
+    std::map<int,int> node_index_mat_index; // key - node index, value - node index in array
+	for (size_t i = 0; i < m_graph_ptr->GetNodeAmount(); i++)
+	{
+		node_index_mat_index.emplace(m_graph_ptr->GetNodeByIndexInArray(i)->index, i);
+	}
+	
+	m_incidence_matrix = std::make_unique<MatN>(MatN(m_graph_ptr->GetNodeAmount(), m_graph_ptr->GetEdgeAmount()));
+	for (size_t i = 0; i < m_graph_ptr->GetEdgeAmount(); i++)
+	{
+		Edge* curr_edge = m_graph_ptr->GetEdge(i);
+		(*m_incidence_matrix).At(node_index_mat_index[curr_edge->from->index], i) = 1;
+		(*m_incidence_matrix).At(node_index_mat_index[curr_edge->to->index], i) = -1;
+	}
+	return *(m_incidence_matrix);
+}
