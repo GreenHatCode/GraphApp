@@ -66,7 +66,12 @@ bool ProcessGraph::BuildIncidenceMatrix()
 
 bool ProcessGraph::BuildKirchhoffMatrix()
 {
-	return false;
+	if (!MatrixValidate()) return false;
+	GraphCalculator graph_calculator(m_graph_ptr);
+	OutputProcessingResultsDialog* dialog = new OutputProcessingResultsDialog(m_dialog_parent_window, wxID_ANY, wxT("Kirchhoff matrix"), graph_calculator.BuildKirchhoffMat().toWxString());
+	dialog->ShowModal();
+	dialog->Destroy(); 
+	return true;
 }
 
 bool ProcessGraph::SearchPathDijkstra()
