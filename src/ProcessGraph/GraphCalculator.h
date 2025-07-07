@@ -51,4 +51,5 @@ private:
     // matrices
     std::unique_ptr<MatN> m_adjacency_matrix = nullptr;
     std::unique_ptr<MatN> m_incidence_matrix = nullptr;
+    std::unique_ptr<MatN> m_kirchhoff_matrix = nullptr;
 };

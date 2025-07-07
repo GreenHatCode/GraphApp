@@ -108,3 +108,26 @@ MatN GraphCalculator::BuildIncidenceMat()
 	}
 	return *(m_incidence_matrix);
 }
+
+MatN GraphCalculator::BuildKirchhoffMat()
+{
+	std::map<int,int> node_index_mat_index; // key - node index, value - node index in array
+	for (size_t i = 0; i < m_graph_ptr->GetNodeAmount(); i++)
+	{
+		node_index_mat_index.emplace(m_graph_ptr->GetNodeByIndexInArray(i)->index, i);
+	}
+
+    m_kirchhoff_matrix = std::make_unique<MatN>(MatN(m_graph_ptr->GetNodeAmount(), m_graph_ptr->GetNodeAmount()));
+
+	for (size_t row = 0; row < m_graph_ptr->GetNodeAmount(); row++)
+	{
+		std::vector<Edge*> outcoming_edges = m_graph_ptr->GetOutcomingEdges(m_graph_ptr->GetNodeByIndexInArray(row)); 
+		(*m_kirchhoff_matrix).At(row, row) = outcoming_edges.size(); // main diagonal	
+		for (size_t col = 0; col < outcoming_edges.size(); col++)
+		{
+			(*m_kirchhoff_matrix).At(row, node_index_mat_index[outcoming_edges[col]->to->index]) = -1;
+		}
+	}
+
+	return *(m_kirchhoff_matrix);
+}
