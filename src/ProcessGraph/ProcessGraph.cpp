@@ -77,10 +77,10 @@ bool ProcessGraph::BuildKirchhoffMatrix()
 bool ProcessGraph::SearchPathDijkstra()
 {
 	if (!DijkstraAlgorithmValidate()) return false;
-	
-	
-	
-	
+	GraphCalculator graph_calculator(m_graph_ptr);
+	OutputProcessingResultsDialog* dialog = new OutputProcessingResultsDialog(m_dialog_parent_window, wxID_ANY, wxT("Dijkstra algorithm output"), graph_calculator.SeacrhShortestPathDijkstra());
+	dialog->ShowModal();
+	dialog->Destroy(); 	
 	return true;
 }
 
