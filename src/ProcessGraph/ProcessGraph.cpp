@@ -76,7 +76,12 @@ bool ProcessGraph::BuildKirchhoffMatrix()
 
 bool ProcessGraph::SearchPathDijkstra()
 {
-	return false;
+	if (!DijkstraAlgorithmValidate()) return false;
+	
+	
+	
+	
+	return true;
 }
 
 bool ProcessGraph::SearchPathBellmanFord()
@@ -117,6 +122,29 @@ bool ProcessGraph::MatrixValidate()
 		wxMessageBox("Your graph is empty.", "Graph matrix building error", wxICON_ERROR);
 		return false;
 	}
+
+    return true;
+}
+
+bool ProcessGraph::DijkstraAlgorithmValidate()
+{
+	if (m_graph_ptr->Empty())
+	{
+		wxMessageBox("Your graph is empty. It can't be processed.", "Dijkstra algorithm error", wxICON_ERROR);
+		return false;
+	}
+
+	for (size_t i = 0; i < m_graph_ptr->GetEdgeAmount(); i++)
+	{
+		if(m_graph_ptr->GetEdge(i)->weight < 0)
+		{
+			wxMessageBox("The edge " 
+				+ wxString::Format("(%i, %i)", m_graph_ptr->GetEdge(i)->from->index, m_graph_ptr->GetEdge(i)->to->index) 
+				+ " has weight less than 0. Edge weight must be 0 or higher.", "Dijkstra algorithm error", wxICON_ERROR);
+			return false;
+		}
+	}
+	
 
     return true;
 }

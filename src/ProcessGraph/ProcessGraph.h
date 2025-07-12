@@ -32,6 +32,7 @@ private:
     
     bool ProcessGraphValidate(); // validate graph for processing (calculate parameters form ProcessGraphDialog)
     bool MatrixValidate(); // validate graph for building matrices
+    bool DijkstraAlgorithmValidate(); // validate graph before executing Dijkstra algorithm
     bool ShowModalDialog();
     bool OutputResults(OutputDestination output_destination, const GraphCalculator& graph_calculator); // return false if can't output calculation results
 
