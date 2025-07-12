@@ -33,7 +33,7 @@ public:
 
     // seach the shortest path methods
     // returns false if can't search path
-    //bool SeacrhShortestPathDijkstra();
+    wxString SeacrhShortestPathDijkstra(); // searches the shortest pathes and returns a message with them
     //bool SeacrhShortestPathBellmanFord();
 
 

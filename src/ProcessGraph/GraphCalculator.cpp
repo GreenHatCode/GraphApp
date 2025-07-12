@@ -131,3 +131,8 @@ MatN GraphCalculator::BuildKirchhoffMat()
 
 	return *(m_kirchhoff_matrix);
 }
+
+wxString GraphCalculator::SeacrhShortestPathDijkstra()
+{
+    return "Success";
+}
