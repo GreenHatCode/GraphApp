@@ -2,6 +2,9 @@
 #include "Graph.h"
 #include "ProcessGraph/Matrix/MatN.h"
 #include <map>
+#include <queue>
+#include <unordered_map>
+#include <limits>
 
 // this class does only calculations
 // it returns arrays and strings 
