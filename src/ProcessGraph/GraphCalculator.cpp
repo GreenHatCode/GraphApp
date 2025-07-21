@@ -134,5 +134,50 @@ MatN GraphCalculator::BuildKirchhoffMat()
 
 wxString GraphCalculator::SeacrhShortestPathDijkstra()
 {
-    return "Success";
+	size_t nodeCount = m_graph_ptr->GetNodeAmount();
+    const std::vector<int> nodeIndices = m_graph_ptr->GetNodeIndices();
+
+    // choose start node (lowest index)
+    int startIndex = *std::min_element(nodeIndices.begin(), nodeIndices.end());
+    Node* startNode = m_graph_ptr->GetEdgeByNodeIndex(startIndex);
+
+    // distance map
+    std::unordered_map<int, int> dist;
+    std::unordered_map<int, int> prev;
+    for (int idx : nodeIndices) 
+	{
+        dist[idx] = std::numeric_limits<int>::max();
+        prev[idx] = -1;
+    }
+    dist[startNode->index] = 0;
+
+    // min-heap priority queue
+    auto cmp = [&](const Node* a, const Node* b) { return dist[a->index] > dist[b->index]; };
+    std::priority_queue<const Node*, std::vector<const Node*>, decltype(cmp)> pq(cmp);
+    pq.push(startNode);
+
+    while (!pq.empty()) 
+	{
+        const Node* current = pq.top();
+        pq.pop();
+
+        for (Edge* edge : m_graph_ptr->GetOutcomingEdges(current)) 
+		{
+            const Node* neighbor = edge->to;
+            int alt = dist[current->index] + edge->weight;
+            if (alt < dist[neighbor->index]) 
+			{
+                dist[neighbor->index] = alt;
+                prev[neighbor->index] = current->index;
+                pq.push(neighbor);
+            }
+        }
+    }
+
+    // result string
+    wxString oss;
+    for (int idx : nodeIndices)
+        oss << "Node " << idx << " -> Distance: " << dist[idx] << "\n";
+
+    return oss;
 }
