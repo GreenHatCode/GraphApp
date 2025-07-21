@@ -184,5 +184,63 @@ wxString GraphCalculator::SeacrhShortestPathDijkstra()
 
 wxString GraphCalculator::SeacrhShortestPathBellmanFord()
 {
-    return "Success";
+    const int INF = std::numeric_limits<int>::max();
+    size_t node_count = m_graph_ptr->GetNodeAmount();
+    m_graph_ptr->Rank(); // ensure nodes are ordered by index
+
+    Node* start_node = m_graph_ptr->GetNodeByIndexInArray(0); // start from node with lowest index
+    std::vector<int> dist(node_count, INF);
+    std::vector<int> prev(node_count, -1);
+    dist[start_node->index] = 0;
+
+    // Step 1: Relax all edges |V|-1 times
+    for (size_t i = 1; i < node_count; ++i) {
+        for (size_t j = 0; j < node_count; ++j) {
+            const Node* u = m_graph_ptr->GetNodeByIndexInArray(j);
+            for (Edge* edge : m_graph_ptr->GetOutcomingEdges(u)) {
+                const Node* v = edge->to;
+                int weight = edge->weight;
+                if (dist[u->index] != INF && dist[u->index] + weight < dist[v->index]) {
+                    dist[v->index] = dist[u->index] + weight;
+                    prev[v->index] = u->index;
+                }
+            }
+        }
+    }
+
+    // Step 2: Check for negative-weight cycles
+    for (size_t j = 0; j < node_count; ++j) {
+        const Node* u = m_graph_ptr->GetNodeByIndexInArray(j);
+        for (Edge* edge : m_graph_ptr->GetOutcomingEdges(u)) {
+            const Node* v = edge->to;
+            int weight = edge->weight;
+            if (dist[u->index] != INF && dist[u->index] + weight < dist[v->index]) {
+                return "Graph contains a negative-weight cycle.";
+            }
+        }
+    }
+
+    // Step 3: Build result string of shortest paths
+    wxString result;
+    for (size_t i = 0; i < node_count; ++i) {
+        if (i == start_node->index) continue;
+
+        result << "Path to Node " << i << ": ";
+        if (dist[i] == INF) {
+            result << "Unreachable\n";
+            continue;
+        }
+
+        std::vector<int> path;
+        for (int at = i; at != -1; at = prev[at])
+            path.insert(path.begin(), at);
+
+        for (size_t j = 0; j < path.size(); ++j) {
+            result << path[j];
+            if (j < path.size() - 1) result << " -> ";
+        }
+        result << " | Cost: " << dist[i] << "\n";
+    }
+
+    return result;
 }
