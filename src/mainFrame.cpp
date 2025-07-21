@@ -61,11 +61,11 @@ mainFrame::mainFrame(const wxString& title)
 	wxMenu* buildMenu = new wxMenu;
 	buildMenu->Append(ID_BUILD_ADJACENCY_MATRIX, wxT("&Adjacency matrix"), wxT("Builds adjacency matrix"));
 	buildMenu->Append(ID_BUILD_INCIDENCE_MATRIX, wxT("&Incidence matrix"), wxT("Builds incidence matrix"));
-	buildMenu->Append(ID_BUILD_KIRCHHOFF_MATRIX, wxT("&Kirchhoff  matrix"), wxT("Builds Kirchhoff  matrix"));
+	buildMenu->Append(ID_BUILD_KIRCHHOFF_MATRIX, wxT("&Kirchhoff  matrix"), wxT("Builds Kirchhoff matrix"));
 	buildMenu->AppendSeparator();
 	wxMenu* pathSubMenu = new wxMenu;
 	pathSubMenu->Append(ID_BUILD_PATH_DIJKSTRA_ALGORITHM, wxT("Shortest path &Dijkstra's algorithm"), wxT("Builds the shortest path using Dijkstra's algorithm"));
-	pathSubMenu->Append(ID_BUILD_PATH_BELLMAN_FORD_ALGORITHM, wxT("&Shortest path &Bellman–Ford algorithm"), wxT("Builds the shortest path using Bellman–Ford algorithm"));
+	pathSubMenu->Append(ID_BUILD_PATH_BELLMAN_FORD_ALGORITHM, wxT("&Shortest path &Bellman-Ford algorithm"), wxT("Builds the shortest path using Bellman-Ford algorithm"));
 	buildMenu->AppendSubMenu(pathSubMenu, wxT("&Search path"));
 
 
