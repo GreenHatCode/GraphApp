@@ -86,7 +86,12 @@ bool ProcessGraph::SearchPathDijkstra()
 
 bool ProcessGraph::SearchPathBellmanFord()
 {
-	return false;
+	if (!BellmanFordAlgorithmValidate()) return false;
+	GraphCalculator graph_calculator(m_graph_ptr);
+	OutputProcessingResultsDialog* dialog = new OutputProcessingResultsDialog(m_dialog_parent_window, wxID_ANY, wxT("BellmanFord algorithm output"), graph_calculator.SeacrhShortestPathBellmanFord());
+	dialog->ShowModal();
+	dialog->Destroy(); 	
+	return true;
 }
 
 bool ProcessGraph::ProcessGraphValidate()
@@ -145,6 +150,17 @@ bool ProcessGraph::DijkstraAlgorithmValidate()
 		}
 	}
 	
+
+    return true;
+}
+
+bool ProcessGraph::BellmanFordAlgorithmValidate()
+{
+	if (m_graph_ptr->Empty())
+	{
+		wxMessageBox("Your graph is empty. It can't be processed.", "BellmanFord algorithm error", wxICON_ERROR);
+		return false;
+	}
 
     return true;
 }

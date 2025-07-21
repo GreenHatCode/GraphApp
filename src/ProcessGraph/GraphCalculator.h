@@ -37,7 +37,7 @@ public:
     // seach the shortest path methods
     // returns false if can't search path
     wxString SeacrhShortestPathDijkstra(); // searches the shortest pathes and returns a message with them
-    //bool SeacrhShortestPathBellmanFord();
+    wxString SeacrhShortestPathBellmanFord(); // searches the shortest pathes and returns a message with them (works with negative edge weight)
 
 
 

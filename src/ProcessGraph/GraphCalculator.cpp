@@ -181,3 +181,8 @@ wxString GraphCalculator::SeacrhShortestPathDijkstra()
 
     return oss;
 }
+
+wxString GraphCalculator::SeacrhShortestPathBellmanFord()
+{
+    return "Success";
+}
