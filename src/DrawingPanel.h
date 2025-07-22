@@ -21,13 +21,26 @@ public:
     
     DrawingPanel(wxWindow* parent, wxWindowID winid);
     ~DrawingPanel();
+    
+    Graph* GetGraph();
+    void Print(wxDC& dc, int pageNum, wxSize dc_size);
+    void SetGraph(Graph* graph_ptr);
+
+
+    // menu and toolbar functions
     void OnClear(); // clears drawing area
     void SetDrawingRegime(DrawingRegimes regime);
-    void Print(wxDC& dc, int pageNum, wxSize dc_size);
-    Graph* GetGraph();
-    void SetGraph(Graph* graph_ptr);
     void AddNewEdge(int node_from_index, int node_to_index, int weight);
     bool ProcessCurrentGraph();
+    
+    // functions for menu tab build
+    void BuildAdjacencyMatrix();
+    void BuildIncidenceMatrix();
+    void BuildKirchhoffMatrix();
+    void SearchPathDijkstra();
+    void SearchPathBellmanFord();
+
+
 
     // preferences set methods
     void SetColourScheme(ColourSchemes scheme);

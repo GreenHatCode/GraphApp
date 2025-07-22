@@ -35,20 +35,37 @@ private:
     GraphFile* m_graph_file;
 
     // menu bar functions
+    // file menu
     void OnNew(wxCommandEvent& evt); // clears all data
     void OnOpen(wxCommandEvent& evt); // loads graph from file
     void OnSave(wxCommandEvent& evt); // save graph to current save file
     void OnSaveAs(wxCommandEvent& evt); // save graph to a new file
     void OnPrint(wxCommandEvent& evt);
     void OnQuit(wxCommandEvent& evt);
+    
+    // edit menu
     void OnClear(wxCommandEvent& evt);
     void OnClearCalculationParameters(wxCommandEvent& evt);
     void OnInvokeAddEdgeDialog(wxCommandEvent& evt);
+    
+    // preferences menu
     void OnPreferences(wxCommandEvent& evt);
+    
+    // help menu
     void OnHelp(wxCommandEvent& evt); // shows tool tip
-    void OnAbout(wxCommandEvent& evt);
-    void SetEditingRegime(wxCommandEvent& evt);
+    void OnAbout(wxCommandEvent& evt); // redirect to app github page
+    
+    // build menu
+    void OnRunAdjacencyMatrixAlgorithm(wxCommandEvent& evt);
+    void OnRunIncidenceMatrixAlgorithm(wxCommandEvent& evt);
+    void OnRunKirchhoffMatrixAlgorithm(wxCommandEvent& evt);
+    void OnRunDijkstraAlgorithm(wxCommandEvent& evt);
+    void OnRunBellmanFordAlgorithm(wxCommandEvent& evt);
+
+    // toolbar
     void OnProcessGraph(wxCommandEvent& evt);
+    void SetEditingRegime(wxCommandEvent& evt);
+
 
     bool ShowToolTip();
     void SetPreferences();

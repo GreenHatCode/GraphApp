@@ -76,7 +76,7 @@ public:
 	Edge* GetEdge(size_t index);
 	Edge* GetEdge(const wxPoint& coords);
 	const Edge* GetEdge(size_t index) const;
-	std::vector<Edge*> GetIncomingEdges(const Node* in);
+	std::vector<Edge*> GetOutcomingEdges(const Node* out);
 	
 	bool Empty();
 	void Rank(); // changes the order of the nodes in the array according to their idexes

@@ -10,18 +10,8 @@ ProcessGraph::ProcessGraph(Graph *ptr, wxWindow *dialog_parent_window)
 
 bool ProcessGraph::DoProcess(bool show_dialog)
 {
-	if(m_dialog_parent_window == nullptr)return false;
-	if (m_graph_ptr->Empty())
-	{
-		wxMessageBox("Your graph is empty. It can't be processed.", "Graph processing error", wxICON_ERROR);
-		return false;
-	}
-
-	if (!Validate())
-	{
-		wxMessageBox("You didn't pass the graph validation. Correct your net graph.", "Graph processing error", wxICON_ERROR);
-		return false;
-	}
+	if(m_dialog_parent_window == nullptr) return false;
+	if (!ProcessGraphValidate()) return false;
 
 	// call dialog and get processing params
 	// if we don't call the dialog
@@ -38,6 +28,7 @@ bool ProcessGraph::DoProcess(bool show_dialog)
 	if (m_process_settings.GetCalculateLateEventDate()) graph_calculator.CalculateLateEventDate();
 	if (m_process_settings.GetCalculateEvenTimeReserne()) graph_calculator.CalculateTimeReserve();
 	if (m_process_settings.GetDrawCriticalPath()) graph_calculator.SearchCritPath();
+	if (m_process_settings.GetCalculateComplexityFactor()) graph_calculator.CalculateComplexityFactor();
 
 	if (!OutputResults(m_process_settings.GetOutputDestination(), graph_calculator))
 	{
@@ -53,26 +44,145 @@ void ProcessGraph::SetGraph(Graph* ptr)
 	m_graph_ptr = ptr;
 }
 
-bool ProcessGraph::Validate()
+bool ProcessGraph::BuildAdjacencyMatrix()
 {
+	if (!MatrixValidate()) return false;
+	GraphCalculator graph_calculator(m_graph_ptr);
+	OutputProcessingResultsDialog* dialog = new OutputProcessingResultsDialog(m_dialog_parent_window, wxID_ANY, wxT("Adjacency matrix"), graph_calculator.BuildAdjacencyMat().toWxString());
+	dialog->ShowModal();
+	dialog->Destroy(); 
+	return true;
+}
+
+bool ProcessGraph::BuildIncidenceMatrix()
+{
+	if (!MatrixValidate()) return false;
+	GraphCalculator graph_calculator(m_graph_ptr);
+	OutputProcessingResultsDialog* dialog = new OutputProcessingResultsDialog(m_dialog_parent_window, wxID_ANY, wxT("Incidence matrix"), graph_calculator.BuildIncidenceMat().toWxString());
+	dialog->ShowModal();
+	dialog->Destroy(); 
+	return true;
+}
+
+bool ProcessGraph::BuildKirchhoffMatrix()
+{
+	if (!MatrixValidate()) return false;
+	GraphCalculator graph_calculator(m_graph_ptr);
+	OutputProcessingResultsDialog* dialog = new OutputProcessingResultsDialog(m_dialog_parent_window, wxID_ANY, wxT("Kirchhoff matrix"), graph_calculator.BuildKirchhoffMat().toWxString());
+	dialog->ShowModal();
+	dialog->Destroy(); 
+	return true;
+}
+
+bool ProcessGraph::SearchPathDijkstra()
+{
+	if (!DijkstraAlgorithmValidate()) return false;
+	GraphCalculator graph_calculator(m_graph_ptr);
+	OutputProcessingResultsDialog* dialog = new OutputProcessingResultsDialog(m_dialog_parent_window, wxID_ANY, wxT("Dijkstra algorithm output"), graph_calculator.SeacrhShortestPathDijkstra());
+	dialog->ShowModal();
+	dialog->Destroy(); 	
+	return true;
+}
+
+bool ProcessGraph::SearchPathBellmanFord()
+{
+	if (!BellmanFordAlgorithmValidate()) return false;
+	GraphCalculator graph_calculator(m_graph_ptr);
+	OutputProcessingResultsDialog* dialog = new OutputProcessingResultsDialog(m_dialog_parent_window, wxID_ANY, wxT("BellmanFord algorithm output"), graph_calculator.SeacrhShortestPathBellmanFord());
+	dialog->ShowModal();
+	dialog->Destroy(); 	
+	return true;
+}
+
+bool ProcessGraph::ProcessGraphValidate()
+{
+	if (m_graph_ptr->Empty())
+	{
+		wxMessageBox("Your graph is empty. It can't be processed.", "Graph processing error", wxICON_ERROR);
+		return false;
+	}
+
 	// searching for edges in which from->index > to->index
 	for (size_t i = 0; i < m_graph_ptr->GetEdgeAmount(); i++)
 	{
 		Edge* curr_edge = m_graph_ptr->GetEdge(i);
-		if (curr_edge->from->index > curr_edge->to->index)return false;
+		if (curr_edge->from->index > curr_edge->to->index)
+		{
+			wxString err_ms = "The edge ";
+			err_ms.append(wxString::Format("(%i,%i) ", curr_edge->from->index, curr_edge->to->index));
+			err_ms.append("has the wrong direction, turn around the edge.");
+			wxMessageBox(err_ms, "Graph processing error", wxICON_ERROR);
+
+			return false;
+		}
 	}
 
 	return true;
 }
 
+bool ProcessGraph::MatrixValidate()
+{
+	if (m_graph_ptr->Empty())
+	{
+		wxMessageBox("Your graph is empty.", "Graph matrix building error", wxICON_ERROR);
+		return false;
+	}
+
+    return true;
+}
+
+bool ProcessGraph::DijkstraAlgorithmValidate()
+{
+	if (m_graph_ptr->Empty())
+	{
+		wxMessageBox("Your graph is empty. It can't be processed.", "Dijkstra algorithm error", wxICON_ERROR);
+		return false;
+	}
+
+	for (size_t i = 0; i < m_graph_ptr->GetEdgeAmount(); i++)
+	{
+		if(m_graph_ptr->GetEdge(i)->weight < 0)
+		{
+			wxMessageBox("The edge " 
+				+ wxString::Format("(%i, %i)", m_graph_ptr->GetEdge(i)->from->index, m_graph_ptr->GetEdge(i)->to->index) 
+				+ " has weight less than 0. Edge weight must be 0 or higher.", "Dijkstra algorithm error", wxICON_ERROR);
+			return false;
+		}
+	}
+	
+
+    return true;
+}
+
+bool ProcessGraph::BellmanFordAlgorithmValidate()
+{
+	if (m_graph_ptr->Empty())
+	{
+		wxMessageBox("Your graph is empty. It can't be processed.", "BellmanFord algorithm error", wxICON_ERROR);
+		return false;
+	}
+
+    return true;
+}
+
 bool ProcessGraph::ShowModalDialog()
 {
     ProcessGraphDialog* dlg = new ProcessGraphDialog(m_dialog_parent_window, wxID_ANY, wxT("Process graph options"), m_process_settings);
-	return dlg->ShowModal();
+	return dlg->ShowModal() == wxID_OK;
 }
 
-bool ProcessGraph::OutputResults(OutputDestination output_destination, GraphCalculator graph_calculator)
+bool ProcessGraph::OutputResults(OutputDestination output_destination, const GraphCalculator& graph_calculator)
 {
+	// convert text values
+	// complexity factor
+	wxString complexity_factor_str = "Complexity factor: ";
+	complexity_factor_str.append(wxNumberFormatter::ToString(graph_calculator.GetComplexityFactor(), 3));
+	complexity_factor_str.append(" ");
+	if (graph_calculator.GetComplexityFactor() >= 1 && graph_calculator.GetComplexityFactor() <= 1.5) complexity_factor_str.append("(the network graph has simple complexity).");
+	else if (graph_calculator.GetComplexityFactor() > 1.5 && graph_calculator.GetComplexityFactor() <= 2.0) complexity_factor_str.append("(the network graph has medium complexity).");
+	else if (graph_calculator.GetComplexityFactor() > 2.0) complexity_factor_str.append("(the network graph has high complexity).");
+
+
 	if (output_destination == OutputDestination::DRAWING_AREA)
 	{
 		// modifing nodes
@@ -107,6 +217,8 @@ bool ProcessGraph::OutputResults(OutputDestination output_destination, GraphCalc
 		}
 		
 		m_dialog_parent_window->Refresh();
+		
+		if (m_process_settings.GetCalculateComplexityFactor()) wxMessageBox(complexity_factor_str, wxT("Complexity factor"));
 	}
 	else 
 	{
@@ -150,7 +262,12 @@ bool ProcessGraph::OutputResults(OutputDestination output_destination, GraphCalc
 				output_message.append(wxString::Format(" %i,", m_crit_path[i]->index));
 			}
 			output_message.erase(output_message.end() - 1);
+			output_message.append(wxT("\n\n"));
 		}
+
+		// append complexity factor
+		if(m_process_settings.GetCalculateComplexityFactor()) output_message.append(complexity_factor_str);
+
 
 		// invoke dialog to output results as a text
 		// or invoke dialog to save them into a file

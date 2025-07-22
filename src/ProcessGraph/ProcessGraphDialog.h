@@ -29,12 +29,11 @@ public:
 private:
     ProcessGraphSettings& m_process_settings;
     void OnOK(wxCommandEvent& evt);
+    void OnSelectAll(wxCommandEvent& evt); // select/unselect all controls
 
     bool TransferDataFromWindow();
     bool TransferDataToWindow();
 
-
-
-
+    DECLARE_EVENT_TABLE();
 };
 

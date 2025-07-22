@@ -7,7 +7,12 @@ enum {
 	ID_MODE_DELETE, // the use can delete either node or edge
 	ID_PROCESS_GRAPH, // the app process the graph
 	ID_ADD_EDGE_DIALOG,
-	ID_CLEAR_CALCULATION_PARAMETERS
+	ID_CLEAR_CALCULATION_PARAMETERS,
+	ID_BUILD_ADJACENCY_MATRIX,
+	ID_BUILD_INCIDENCE_MATRIX,
+	ID_BUILD_KIRCHHOFF_MATRIX,
+	ID_BUILD_PATH_DIJKSTRA_ALGORITHM,
+	ID_BUILD_PATH_BELLMAN_FORD_ALGORITHM
 };
 
 BEGIN_EVENT_TABLE(mainFrame, wxFrame)
@@ -23,6 +28,11 @@ BEGIN_EVENT_TABLE(mainFrame, wxFrame)
 	EVT_MENU(wxID_SAVE, mainFrame::OnSave)
 	EVT_MENU(wxID_SAVEAS, mainFrame::OnSaveAs)
 	EVT_MENU(wxID_PREFERENCES, mainFrame::OnPreferences)
+	EVT_MENU(ID_BUILD_ADJACENCY_MATRIX, mainFrame::OnRunAdjacencyMatrixAlgorithm)
+	EVT_MENU(ID_BUILD_INCIDENCE_MATRIX, mainFrame::OnRunIncidenceMatrixAlgorithm)
+	EVT_MENU(ID_BUILD_KIRCHHOFF_MATRIX, mainFrame::OnRunKirchhoffMatrixAlgorithm)
+	EVT_MENU(ID_BUILD_PATH_DIJKSTRA_ALGORITHM, mainFrame::OnRunDijkstraAlgorithm)
+	EVT_MENU(ID_BUILD_PATH_BELLMAN_FORD_ALGORITHM, mainFrame::OnRunBellmanFordAlgorithm)
 	EVT_TOOL(ID_PROCESS_GRAPH, mainFrame::OnProcessGraph)
 	EVT_TOOL_RANGE(ID_MODE_NORMAL, ID_MODE_DELETE, mainFrame::SetEditingRegime)
 END_EVENT_TABLE()
@@ -48,6 +58,17 @@ mainFrame::mainFrame(const wxString& title)
 	editMenu->Append(ID_CLEAR_CALCULATION_PARAMETERS, wxT("Clear calculation &results"), wxT("Clears node parameters and unpaints edges"));
 	editMenu->Append(ID_ADD_EDGE_DIALOG, wxT("&Add edge"), wxT("Adds a new edge via dialog"));
 
+	wxMenu* buildMenu = new wxMenu;
+	buildMenu->Append(ID_BUILD_ADJACENCY_MATRIX, wxT("&Adjacency matrix"), wxT("Builds adjacency matrix"));
+	buildMenu->Append(ID_BUILD_INCIDENCE_MATRIX, wxT("&Incidence matrix"), wxT("Builds incidence matrix"));
+	buildMenu->Append(ID_BUILD_KIRCHHOFF_MATRIX, wxT("&Kirchhoff  matrix"), wxT("Builds Kirchhoff matrix"));
+	buildMenu->AppendSeparator();
+	wxMenu* pathSubMenu = new wxMenu;
+	pathSubMenu->Append(ID_BUILD_PATH_DIJKSTRA_ALGORITHM, wxT("Shortest path &Dijkstra's algorithm"), wxT("Builds the shortest path using Dijkstra's algorithm"));
+	pathSubMenu->Append(ID_BUILD_PATH_BELLMAN_FORD_ALGORITHM, wxT("&Shortest path &Bellman-Ford algorithm"), wxT("Builds the shortest path using Bellman-Ford algorithm"));
+	buildMenu->AppendSubMenu(pathSubMenu, wxT("&Search path"));
+
+
 	wxMenu* prefMenu = new wxMenu;
 	prefMenu->Append(wxID_PREFERENCES);
 
@@ -58,6 +79,7 @@ mainFrame::mainFrame(const wxString& title)
 	wxMenuBar* menuBar = new wxMenuBar;
 	menuBar->Append(fileMenu, wxT("&File"));
 	menuBar->Append(editMenu, wxT("&Edit"));
+	menuBar->Append(buildMenu, wxT("&Build"));
 	menuBar->Append(prefMenu, wxT("&Preferences"));
 	menuBar->Append(helpMenu, wxT("&Help"));
 
@@ -222,6 +244,31 @@ void mainFrame::OnHelp(wxCommandEvent& evt)
 void mainFrame::OnAbout(wxCommandEvent& evt)
 {
 	wxLaunchDefaultBrowser(wxT("https://github.com/GreenHatCode/GraphApp"), wxBROWSER_NEW_WINDOW);
+}
+
+void mainFrame::OnRunAdjacencyMatrixAlgorithm(wxCommandEvent &evt)
+{
+	drawingPanel->BuildAdjacencyMatrix();
+}
+
+void mainFrame::OnRunIncidenceMatrixAlgorithm(wxCommandEvent &evt)
+{
+	drawingPanel->BuildIncidenceMatrix();
+}
+
+void mainFrame::OnRunKirchhoffMatrixAlgorithm(wxCommandEvent &evt)
+{
+	drawingPanel->BuildKirchhoffMatrix();
+}
+
+void mainFrame::OnRunDijkstraAlgorithm(wxCommandEvent &evt)
+{
+	drawingPanel->SearchPathDijkstra();
+}
+
+void mainFrame::OnRunBellmanFordAlgorithm(wxCommandEvent &evt)
+{
+	drawingPanel->SearchPathBellmanFord();
 }
 
 void mainFrame::SetEditingRegime(wxCommandEvent& evt)

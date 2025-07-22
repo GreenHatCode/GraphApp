@@ -228,12 +228,12 @@ const Edge* Graph::GetEdge(size_t index) const
 	else throw "Index out of range";
 }
 
-std::vector<Edge*> Graph::GetIncomingEdges(const Node* in)
+std::vector<Edge*> Graph::GetOutcomingEdges(const Node* out)
 {
 	std::vector<Edge*> result;
 	for (std::vector<Edge*>::iterator iter = edges.begin(); iter < edges.end(); iter++)
 	{
-		if ((*iter)->to == in)result.push_back(*iter);
+		if ((*iter)->from == out)result.push_back(*iter);
 	}
 
 	return result;

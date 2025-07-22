@@ -1,12 +1,19 @@
 #include "ProcessGraph/ProcessGraphDialog.h"
+#include "ProcessGraphDialog.h"
 
 enum {
     ID_EARLY_EVENT_DATE,
     ID_LATE_EVENT_DATE,
     ID_EVENT_TIME_RESERVE,
     ID_CRITICAL_PATH,
-    ID_OUTPUTTYPE_DESTINATION
+    ID_OUTPUTTYPE_DESTINATION,
+    ID_COMPLEXITY_FACTOR,
+    ID_SELECT_ALL
 };
+
+BEGIN_EVENT_TABLE(ProcessGraphDialog, wxDialog)
+    EVT_CHECKBOX(ID_SELECT_ALL, ProcessGraphDialog::OnSelectAll)
+END_EVENT_TABLE();
 
 ProcessGraphDialog::ProcessGraphDialog(
     wxWindow* parent, 
@@ -29,7 +36,7 @@ ProcessGraphDialog::ProcessGraphDialog(
 
     wxStaticBoxSizer* options_sizer = new wxStaticBoxSizer(new wxStaticBox(this, wxID_ANY, _("Calculate")), wxVERTICAL);
 
-    boxSizer->Add(options_sizer, 1, wxALL | wxEXPAND, 5);
+    boxSizer->Add(options_sizer, 2, wxALL | wxEXPAND, 5);
 
     wxCheckBox* m_checkBox51 = new wxCheckBox(this, ID_EARLY_EVENT_DATE, _("Early event date (t eraly)"), wxDefaultPosition, wxDLG_UNIT(this, wxSize(-1, -1)), 0);
     m_checkBox51->SetValue(false);
@@ -46,6 +53,11 @@ ProcessGraphDialog::ProcessGraphDialog(
 
     options_sizer->Add(m_checkBox53, 0, wxALL, 5);
 
+    wxCheckBox* complexity_factor_check = new wxCheckBox(this, ID_COMPLEXITY_FACTOR, _("Coplexity factor"), wxDefaultPosition, wxDLG_UNIT(this, wxSize(-1,-1)), 0);
+    complexity_factor_check->SetValue(false);
+
+    options_sizer->Add(complexity_factor_check, 0, wxALL, 5);
+
     wxStaticBoxSizer* staticBoxSizer62 = new wxStaticBoxSizer(new wxStaticBox(this, wxID_ANY, _("Draw")), wxVERTICAL);
 
     boxSizer->Add(staticBoxSizer62, 1, wxALL | wxEXPAND, 5);
@@ -54,6 +66,15 @@ ProcessGraphDialog::ProcessGraphDialog(
     m_checkBox63->SetValue(false);
 
     staticBoxSizer62->Add(m_checkBox63, 0, wxALL, 5);
+
+    wxBoxSizer* special_controls_sizer = new wxBoxSizer(wxVERTICAL);
+    
+    boxSizer->Add(special_controls_sizer, 0, wxALL | wxEXPAND, 5);
+    
+    wxCheckBox* select_all_check = new wxCheckBox(this, ID_SELECT_ALL, _("Select all"), wxDefaultPosition, wxDLG_UNIT(this, wxSize(-1,-1)), 0);
+    select_all_check->SetValue(false);
+    
+    special_controls_sizer->Add(select_all_check, 0, wxALL | wxALIGN_RIGHT, 5);
 
     wxArrayString output_destinationArr;
     output_destinationArr.Add(_("Drawing area"));
@@ -102,18 +123,38 @@ void ProcessGraphDialog::OnOK(wxCommandEvent& evt)
     else wxLogError("Can't transfer data from window.");
 }
 
+void ProcessGraphDialog::OnSelectAll(wxCommandEvent &evt)
+{
+    bool select_all_state = evt.GetSelection();
+
+    wxCheckBox* t_early_check = (wxCheckBox*)FindWindow(ID_EARLY_EVENT_DATE);
+    wxCheckBox* t_late_check = (wxCheckBox*)FindWindow(ID_LATE_EVENT_DATE);
+    wxCheckBox* t_R_check = (wxCheckBox*)FindWindow(ID_EVENT_TIME_RESERVE);
+    wxCheckBox* critical_path_check = (wxCheckBox*)FindWindow(ID_CRITICAL_PATH);
+    wxCheckBox* complexity_factor_check = (wxCheckBox*)FindWindow(ID_COMPLEXITY_FACTOR);
+
+    t_early_check->SetValue(select_all_state);
+    t_late_check->SetValue(select_all_state);
+    t_R_check->SetValue(select_all_state);
+    critical_path_check->SetValue(select_all_state);
+    complexity_factor_check->SetValue(select_all_state);
+}
+
 bool ProcessGraphDialog::TransferDataFromWindow()
 {
     wxCheckBox* t_early_check = (wxCheckBox*)FindWindow(ID_EARLY_EVENT_DATE);
     wxCheckBox* t_late_check = (wxCheckBox*)FindWindow(ID_LATE_EVENT_DATE);
     wxCheckBox* t_R_check = (wxCheckBox*)FindWindow(ID_EVENT_TIME_RESERVE);
     wxCheckBox* critical_path_check = (wxCheckBox*)FindWindow(ID_CRITICAL_PATH);
+    wxCheckBox* complexity_factor_check = (wxCheckBox*)FindWindow(ID_COMPLEXITY_FACTOR);
     wxRadioBox* output_destination_selector = (wxRadioBox*)FindWindow(ID_OUTPUTTYPE_DESTINATION);
+
 
     m_process_settings.SetCalculateEarlyEventDate(t_early_check->GetValue());
     m_process_settings.SetCalculateLateEventDate(t_late_check->GetValue());
     m_process_settings.SetCalculateEvenTimeReserne(t_R_check->GetValue());
     m_process_settings.SetDrawCriticalPath(critical_path_check->GetValue());
+    m_process_settings.SetCalculateComplexityFactor(complexity_factor_check->GetValue());
     m_process_settings.SetOutputDestination((OutputDestination)output_destination_selector->GetSelection());
 
     return true;
@@ -125,12 +166,14 @@ bool ProcessGraphDialog::TransferDataToWindow()
     wxCheckBox* t_late_check = (wxCheckBox*)FindWindow(ID_LATE_EVENT_DATE);
     wxCheckBox* t_R_check = (wxCheckBox*)FindWindow(ID_EVENT_TIME_RESERVE);
     wxCheckBox* critical_path_check = (wxCheckBox*)FindWindow(ID_CRITICAL_PATH);
+    wxCheckBox* complexity_factor_check = (wxCheckBox*)FindWindow(ID_COMPLEXITY_FACTOR);
     wxRadioBox* output_destination_selector = (wxRadioBox*)FindWindow(ID_OUTPUTTYPE_DESTINATION);
 
     t_early_check->SetValue(m_process_settings.GetCalculateEarlyEventDate());
     t_late_check->SetValue(m_process_settings.GetCalculateLateEventDate());
     t_R_check->SetValue(m_process_settings.GetCalculateEvenTimeReserne());
     critical_path_check->SetValue(m_process_settings.GetDrawCriticalPath());
+    complexity_factor_check->SetValue(m_process_settings.GetCalculateComplexityFactor());
     output_destination_selector->SetSelection(m_process_settings.GetOutputDestination());
 
     return true;
