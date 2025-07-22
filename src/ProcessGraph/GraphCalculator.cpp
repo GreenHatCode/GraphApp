@@ -237,14 +237,14 @@ wxString GraphCalculator::SeacrhShortestPathBellmanFord()
             continue;
         }
 
-        // std::vector<int> path;
-        // for (int at = i; at != -1; at = prev[at])
-        //     path.insert(path.begin(), at);
+        std::vector<int> path;
+        for (int at = m_graph_ptr->GetNodeByIndexInArray(i)->index; at != -1; at = prev[at])
+            path.insert(path.begin(), at);
 
-        // for (size_t j = 0; j < path.size(); ++j) {
-        //     result << path[j];
-        //     if (j < path.size() - 1) result << " -> ";
-        // }
+        for (size_t j = 0; j < path.size(); ++j) {
+            result << path[j];
+            if (j < path.size() - 1) result << " -> ";
+        }
         result << " | Cost: " << dist[m_graph_ptr->GetNodeByIndexInArray(i)->index] << "\n";
     }
 
