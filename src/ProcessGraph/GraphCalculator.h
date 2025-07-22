@@ -5,6 +5,7 @@
 #include <queue>
 #include <unordered_map>
 #include <limits>
+#include <memory>
 
 // this class does only calculations
 // it returns arrays and strings 
