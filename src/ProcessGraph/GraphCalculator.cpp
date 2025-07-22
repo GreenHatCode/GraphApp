@@ -189,8 +189,15 @@ wxString GraphCalculator::SeacrhShortestPathBellmanFord()
     m_graph_ptr->Rank(); // ensure nodes are ordered by index
 
     Node* start_node = m_graph_ptr->GetNodeByIndexInArray(0); // start from node with lowest index
-    std::vector<int> dist(node_count, INF);
-    std::vector<int> prev(node_count, -1);
+    std::map<int, int> dist;
+    std::map<int, int> prev;
+    for (size_t i = 0; i < node_count; ++i) // initialize maps with start values
+    {
+        dist.emplace(m_graph_ptr->GetNodeByIndexInArray(i)->index, INF);
+        prev.emplace(m_graph_ptr->GetNodeByIndexInArray(i)->index, -1);
+    }
+    
+    
     dist[start_node->index] = 0;
 
     // Step 1: Relax all edges |V|-1 times
@@ -223,23 +230,22 @@ wxString GraphCalculator::SeacrhShortestPathBellmanFord()
     // Step 3: Build result string of shortest paths
     wxString result;
     for (size_t i = 0; i < node_count; ++i) {
-        if (i == start_node->index) continue;
 
-        result << "Path to Node " << i << ": ";
-        if (dist[i] == INF) {
+        result << "Path to Node " << m_graph_ptr->GetNodeByIndexInArray(i)->index << ": ";
+        if (dist[m_graph_ptr->GetNodeByIndexInArray(i)->index] == INF) {
             result << "Unreachable\n";
             continue;
         }
 
-        std::vector<int> path;
-        for (int at = i; at != -1; at = prev[at])
-            path.insert(path.begin(), at);
+        // std::vector<int> path;
+        // for (int at = i; at != -1; at = prev[at])
+        //     path.insert(path.begin(), at);
 
-        for (size_t j = 0; j < path.size(); ++j) {
-            result << path[j];
-            if (j < path.size() - 1) result << " -> ";
-        }
-        result << " | Cost: " << dist[i] << "\n";
+        // for (size_t j = 0; j < path.size(); ++j) {
+        //     result << path[j];
+        //     if (j < path.size() - 1) result << " -> ";
+        // }
+        result << " | Cost: " << dist[m_graph_ptr->GetNodeByIndexInArray(i)->index] << "\n";
     }
 
     return result;
