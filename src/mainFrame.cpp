@@ -54,18 +54,18 @@ mainFrame::mainFrame(const wxString& title)
 	fileMenu->Append(wxID_EXIT, wxT("E&xit\tAlt+F4"));
 
 	wxMenu* editMenu = new wxMenu;
-	editMenu->Append(wxID_CLEAR, wxT("&Clear"), wxT("Clears drawing area"));
-	editMenu->Append(ID_CLEAR_CALCULATION_PARAMETERS, wxT("Clear calculation &results"), wxT("Clears node parameters and unpaints edges"));
-	editMenu->Append(ID_ADD_EDGE_DIALOG, wxT("&Add edge"), wxT("Adds a new edge via dialog"));
+	editMenu->Append(wxID_CLEAR, wxT("&Clear\tCtrl+Shift+C"), wxT("Clears drawing area"));
+	editMenu->Append(ID_CLEAR_CALCULATION_PARAMETERS, wxT("Clear calculation &results\tCtrl+Shift+R"), wxT("Clears node parameters and unpaints edges"));
+	editMenu->Append(ID_ADD_EDGE_DIALOG, wxT("&Add edge\tCtrl+E"), wxT("Adds a new edge via dialog"));
 
 	wxMenu* buildMenu = new wxMenu;
-	buildMenu->Append(ID_BUILD_ADJACENCY_MATRIX, wxT("&Adjacency matrix"), wxT("Builds adjacency matrix"));
-	buildMenu->Append(ID_BUILD_INCIDENCE_MATRIX, wxT("&Incidence matrix"), wxT("Builds incidence matrix"));
-	buildMenu->Append(ID_BUILD_KIRCHHOFF_MATRIX, wxT("&Kirchhoff  matrix"), wxT("Builds Kirchhoff matrix"));
+	buildMenu->Append(ID_BUILD_ADJACENCY_MATRIX, wxT("&Adjacency matrix\tCtrl+A"), wxT("Builds adjacency matrix"));
+	buildMenu->Append(ID_BUILD_INCIDENCE_MATRIX, wxT("&Incidence matrix\tCtrl+I"), wxT("Builds incidence matrix"));
+	buildMenu->Append(ID_BUILD_KIRCHHOFF_MATRIX, wxT("&Kirchhoff  matrix\tCtrl+K"), wxT("Builds Kirchhoff matrix"));
 	buildMenu->AppendSeparator();
 	wxMenu* pathSubMenu = new wxMenu;
-	pathSubMenu->Append(ID_BUILD_PATH_DIJKSTRA_ALGORITHM, wxT("Shortest path &Dijkstra's algorithm"), wxT("Builds the shortest path using Dijkstra's algorithm"));
-	pathSubMenu->Append(ID_BUILD_PATH_BELLMAN_FORD_ALGORITHM, wxT("&Shortest path &Bellman-Ford algorithm"), wxT("Builds the shortest path using Bellman-Ford algorithm"));
+	pathSubMenu->Append(ID_BUILD_PATH_DIJKSTRA_ALGORITHM, wxT("Shortest path &Dijkstra's algorithm\tCtrl+D"), wxT("Searches for the shortest pathes using Dijkstra's algorithm"));
+	pathSubMenu->Append(ID_BUILD_PATH_BELLMAN_FORD_ALGORITHM, wxT("Shortest path &Bellman-Ford algorithm\tCtrl+B"), wxT("Searches for the shortest pathes using Bellman-Ford algorithm"));
 	buildMenu->AppendSubMenu(pathSubMenu, wxT("&Search path"));
 
 
