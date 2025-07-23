@@ -538,35 +538,30 @@ bool DrawingPanel::ProcessCurrentGraph()
 
 void DrawingPanel::BuildAdjacencyMatrix()
 {
-	// TODO: implement Adjacency matrix
 	if(!m_graph_processor->BuildAdjacencyMatrix()) 
 		wxMessageBox(wxT("Can't build adjacency matrix."), wxT("Build matrix error"), wxICON_ERROR);
 }
 
 void DrawingPanel::BuildIncidenceMatrix()
 {
-	// TODO: implement Incidence matrix
 	if(!m_graph_processor->BuildIncidenceMatrix()) 
 		wxMessageBox(wxT("Can't build incidence matrix."), wxT("Build matrix error"), wxICON_ERROR);
 }
 
 void DrawingPanel::BuildKirchhoffMatrix()
 {
-	// TODO: implement Kirchhoff matrix
 	if(!m_graph_processor->BuildKirchhoffMatrix()) 
 		wxMessageBox(wxT("Can't build Kirchhoff matrix."), wxT("Build matrix error"), wxICON_ERROR);
 }
 
 void DrawingPanel::SearchPathDijkstra()
 {
-	// TODO: implement Dijkstra's algorithm
 	if(!m_graph_processor->SearchPathDijkstra()) 
 		wxMessageBox(wxT("Can't search the shortest path using Dijkstra's algorithm."), wxT("Search path error"), wxICON_ERROR);
 }
 
 void DrawingPanel::SearchPathBellmanFord()
 {
-	// TODO: implement Bellman–Ford algorithm
 	if(!m_graph_processor->SearchPathBellmanFord()) 
 		wxMessageBox(wxT("Can't search the shortest path using Bellman-Ford algorithm."), wxT("Search path error"), wxICON_ERROR);
 }
