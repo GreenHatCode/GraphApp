@@ -638,11 +638,11 @@ void DrawingPanel::DrawEdge(const Edge* edge)
 	const Node* to = (*edge).to;
 
 	wxPoint vector((to->coords.x - from->coords.x), (to->coords.y - from->coords.y));
-	double d = sqrt(pow(to->coords.x - from->coords.x, 2) + pow(to->coords.y - from->coords.y, 2));
+	float d = sqrt(pow(to->coords.x - from->coords.x, 2) + pow(to->coords.y - from->coords.y, 2));
 	
 	// normalized vector
-	double normalized_x = vector.x / d;
-	double normalized_y = vector.y / d;
+	float normalized_x = vector.x / d;
+	float normalized_y = vector.y / d;
 	
 	wxPoint triangle_head; // the first triangle node
 	triangle_head.x = to->coords.x - 30 * normalized_x;
