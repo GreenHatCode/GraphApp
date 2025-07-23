@@ -4,8 +4,11 @@
 #include "wx/numdlg.h"
 #include "AppPreferences/AppPreferences.h"
 #include "ProcessGraph/ProcessGraph.h"
-
 #include <wx/dcbuffer.h>
+
+// This class represents the main control of the application window.
+// The control displays a visual representation of the graph
+// and allows the user to edit it
 
 class DrawingPanel :
     public wxPanel
