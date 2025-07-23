@@ -739,8 +739,16 @@ void DrawingPanel::DrawEdge(const Edge* edge)
 	wxFont font(12, wxFONTFAMILY_DEFAULT, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_BOLD);
 	dc.SetFont(font);
 	
+	// compute the angle for text
+	double angle = 0;
 
-	dc.DrawText(edge_weight_text, midpoint);
+	double dx = to->coords.x - from->coords.x;
+	double dy = to->coords.y - from->coords.y;
+
+	angle = -(std::atan2(dy, dx) * 180.0 / M_PI);
+	if(angle < 0) angle += 360;
+	dc.DrawRotatedText(edge_weight_text, midpoint, angle);
+	
 
 	dc.SetPen(wxNullPen);
 }
