@@ -3,6 +3,8 @@
 #include "wx/printdlg.h"
 #include "wx/wx.h"
 
+// This class provides a simple functionality to print a graph as an image.
+// Source link: https://github.com/GreenHatCode/Projects/tree/main/QuickPrint
 
 class QuickPrint :
     public wxPrintout
