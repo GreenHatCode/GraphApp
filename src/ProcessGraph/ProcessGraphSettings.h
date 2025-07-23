@@ -1,6 +1,9 @@
 #pragma once
 #include "wx/wx.h"
 
+// This class stores information about
+// what values to calculate for the graph and where to output them
+
 enum OutputDestination
 {
     DRAWING_AREA,

@@ -2,14 +2,16 @@
 #include "wx/wx.h"
 #include "mini/ini.h"
 
+// This class stores the app settings 
+// and is used to pass them to other classes
+
 // In case the app can't open setting file, it will use 
 // the default settings
-//
+
 //	To add new settings:
 // 1) add a new variable and necessary set/get methods
 // 2) add it's key and value to setting file
-// 3) add necessary controls and their handlers in preference window class
-//
+// 3) implement necessary controls and their handlers in preference dialog
 
 // represents colours scheme types
 enum ColourSchemes 
@@ -17,7 +19,6 @@ enum ColourSchemes
 	COLOURED = 0,
 	BLACK_WHITE = 1
 };
-
 
 // stores app preferenfes, provides an interface to load/write them into file
 class AppPreferences

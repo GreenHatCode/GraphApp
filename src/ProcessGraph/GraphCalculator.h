@@ -7,9 +7,9 @@
 #include <limits>
 #include <memory>
 
-// this class does only calculations
-// it returns arrays and strings 
-// not user readable results
+// This class provides methods to calculate some graph values.
+// It does not perform data validation, look for it in the ProcessGraph header.
+// It only performs calculations and returns non-user-readable results.
 
 class GraphCalculator
 {

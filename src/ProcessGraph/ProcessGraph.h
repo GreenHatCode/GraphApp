@@ -8,7 +8,8 @@
 #include "wx/numformatter.h"
 #include <map>
 
-// the class is used to process graph, calculate nodes' params etc.
+// The class provides common methods for processing the graph and calculating its values.
+// This class also performs graph validation and includes functionality from other classes in the ProcessGraph/ folder.
 
 class ProcessGraph
 {

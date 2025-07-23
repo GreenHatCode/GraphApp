@@ -3,7 +3,7 @@
 #include <vector>
 #include <functional>
 
-
+// This struct represents a node in the graph
 struct Node
 {
 	wxPoint coords;
@@ -19,6 +19,7 @@ struct Node
 
 };
 
+// This struct represents an edge in the graph
 struct Edge
 {
 	const Node* from = nullptr;
@@ -38,6 +39,7 @@ struct Edge
 	}
 };
 
+// This class stores the graph and provides functions for editing it
 class Graph
 {
 public:

@@ -19,6 +19,7 @@
 #include "toolbar_icons/process24color.xpm"
 #include "toolbar_icons/help.xpm"
 
+// This class represents the main window of the application
 
 class mainFrame :
     public wxFrame

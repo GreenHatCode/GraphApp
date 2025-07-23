@@ -2,6 +2,9 @@
 #include "wx/wx.h"
 #include "wx/clipbrd.h"
 
+// This class represents a dialog to output text. 
+// The dialog allows the user to copy the text in it.
+
 class OutputProcessingResultsDialog: 
 	public wxDialog
 {
@@ -16,6 +19,7 @@ public:
         long style = wxDEFAULT_DIALOG_STYLE,
         const wxString& name = wxASCII_STR(wxDialogNameStr));
 
+private: 
     void OnOK(wxCommandEvent& evt);
     void OnCopy(wxCommandEvent& evt);
 

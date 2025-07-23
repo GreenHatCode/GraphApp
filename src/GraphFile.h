@@ -3,6 +3,9 @@
 #include "wx/xml/xml.h"
 #include <vector>
 
+// This class stores information about the file in which the current graph is saved.
+// It also provides methods for loading and saving the graph to a file.
+
 class GraphFile
 {
 public:
