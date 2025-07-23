@@ -3,9 +3,9 @@
 #include <wx/xrc/xmlres.h>
 #include <wx/spinctrl.h>
 
-/* Desctiption:
-
-*/
+// This dialog is used to get data from the user
+// to create a new edge without drawing it on
+// the drawing panel
 
 class AddEdgeDialog:
     public wxDialog
