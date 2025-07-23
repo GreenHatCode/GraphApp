@@ -2,16 +2,15 @@
 #include "wx/wx.h"
 #include "ProcessGraph/ProcessGraphSettings.h"
 
-// dialog description
-// This dialog is used to select what the app will do with graph
-//
-//
+// This dialog provides the user with the functionality 
+// to select the values to be calculated for the graph.
+
 // How to add a new option?
 // 1) add control creation in the constructor
 // 2) add a variable to store control data
 // 3) add a get method for this variable
 // 4) add the necessary code to TransferDataFromWindow and TransferDataToWindow
-//
+
 
 class ProcessGraphDialog :
     public wxDialog
