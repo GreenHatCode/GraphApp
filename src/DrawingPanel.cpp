@@ -670,7 +670,6 @@ void DrawingPanel::DrawEdge(const Edge* edge)
 
 	// drawing edge weight
 	wxPoint midpoint = ((*(edge->from)).coords + (*(edge->to)).coords) / 2;
-	midpoint.y += 10;
 	wxString edge_weight_text;
 	edge_weight_text << (*edge).weight;
 	wxSize str_width = dc.GetTextExtent(edge_weight_text);
@@ -691,7 +690,6 @@ void DrawingPanel::DrawEdge(const Edge* edge)
 	angle = -(std::atan2(dy, dx) * 180.0 / M_PI);
 	if(angle < 0) angle += 360;
 	dc.DrawRotatedText(edge_weight_text, midpoint, angle);
-	
 
 	dc.SetPen(wxNullPen);
 }
