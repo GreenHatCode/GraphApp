@@ -160,7 +160,7 @@ Graph* GraphFile::LoadGraph(const wxString& file)
 
 wxString GraphFile::GetCurrSaveFileName()
 {
-    return m_curr_save_file_path.substr(0, m_curr_save_file_path.find('.'));
+    return m_curr_save_file_path.SubString(m_curr_save_file_path.find_last_of("\\") + 1, m_curr_save_file_path.find('.', true) - 1);
 }
 
 wxString GraphFile::GetCurrSaveFilePath()
