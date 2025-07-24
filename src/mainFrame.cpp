@@ -251,7 +251,9 @@ void mainFrame::OnAbout(wxCommandEvent& evt)
 
 void mainFrame::OnNodeStructureInfo(wxCommandEvent &evt)
 {
-
+	NodeStructureInfoDialog* dlg = new NodeStructureInfoDialog(this, wxID_ANY, wxT(""));
+	dlg->ShowModal();
+	dlg->Destroy();
 }
 
 void mainFrame::OnRunAdjacencyMatrixAlgorithm(wxCommandEvent &evt)
