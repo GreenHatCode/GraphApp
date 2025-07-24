@@ -10,6 +10,7 @@
 #include "GraphFile.h"
 #include "AddEdgeDialog.h"
 #include <wx/utils.h> 
+#include "NodeStructureInfoDialog.h"
 
 // toolbar images
 #include "toolbar_icons/cursor24.xpm"

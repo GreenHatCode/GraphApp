@@ -1,6 +1,5 @@
 #pragma once
 #include "wx/wx.h"
-#include "wx/clipbrd.h"
 
 // This class represents a dialog to show an image with node structure info. 
 
