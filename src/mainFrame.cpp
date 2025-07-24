@@ -118,7 +118,7 @@ void mainFrame::OnNew(wxCommandEvent& evt)
 {
 	drawingPanel->GetGraph()->Clear();
 	drawingPanel->Refresh();
-	m_graph_file->SetCurrSaveFilename(wxT(""));
+	m_graph_file->SetCurrSaveFilePath();
 	this->SetTitle(wxT("Graph App"));
 }
 
@@ -134,6 +134,7 @@ void mainFrame::OnOpen(wxCommandEvent& evt)
 			return;
 		}
 		drawingPanel->SetGraph(m_graph_file->LoadGraph(load_file_dialog->GetPath()));
+		this->SetTitle(load_file_dialog->GetFilename().substr(0, load_file_dialog->GetFilename().find('.', true)) + " - Graph App");
 	}
 }
 
@@ -149,7 +150,7 @@ void mainFrame::OnSave(wxCommandEvent& evt)
 void mainFrame::OnSaveAs(wxCommandEvent& evt)
 {
 	// get a new save file location
-	wxFileDialog* save_file_dialog = new wxFileDialog(this, wxT("Save Graph"), "", m_graph_file->GetCurrSaveFilename(),
+	wxFileDialog* save_file_dialog = new wxFileDialog(this, wxT("Save Graph"), "", m_graph_file->GetCurrSaveFilePath(),
 		wxT("Graph (*.graph)|*.graph"), wxFD_SAVE);
 	if (save_file_dialog->ShowModal() == wxID_OK)
 	{
@@ -158,6 +159,7 @@ void mainFrame::OnSaveAs(wxCommandEvent& evt)
 			wxLogError("Cannot save graph in file '%s'.", save_file_dialog->GetPath());
 			return;
 		}
+		this->SetTitle(m_graph_file->GetCurrSaveFileName() + " - Graph App");
 	}
 }
 
