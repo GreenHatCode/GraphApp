@@ -1,5 +1,9 @@
 #include "NodeStructureInfoDialog.h"
 
+BEGIN_EVENT_TABLE(NodeStructureInfoDialog, wxDialog)
+    EVT_BUTTON(wxID_OK, NodeStructureInfoDialog::OnOK)
+END_EVENT_TABLE()
+
 NodeStructureInfoDialog::NodeStructureInfoDialog(
     wxWindow *parent, 
     wxWindowID id, 
