@@ -12,7 +12,8 @@ enum {
 	ID_BUILD_INCIDENCE_MATRIX,
 	ID_BUILD_KIRCHHOFF_MATRIX,
 	ID_BUILD_PATH_DIJKSTRA_ALGORITHM,
-	ID_BUILD_PATH_BELLMAN_FORD_ALGORITHM
+	ID_BUILD_PATH_BELLMAN_FORD_ALGORITHM,
+	ID_NODE_STRUCTURE_INFO
 };
 
 BEGIN_EVENT_TABLE(mainFrame, wxFrame)
@@ -35,6 +36,7 @@ BEGIN_EVENT_TABLE(mainFrame, wxFrame)
 	EVT_MENU(ID_BUILD_PATH_BELLMAN_FORD_ALGORITHM, mainFrame::OnRunBellmanFordAlgorithm)
 	EVT_TOOL(ID_PROCESS_GRAPH, mainFrame::OnProcessGraph)
 	EVT_TOOL_RANGE(ID_MODE_NORMAL, ID_MODE_DELETE, mainFrame::SetEditingRegime)
+	EVT_MENU(ID_NODE_STRUCTURE_INFO, mainFrame::OnNodeStructureInfo)
 END_EVENT_TABLE()
 
 
@@ -75,6 +77,7 @@ mainFrame::mainFrame(const wxString& title)
 	wxMenu* helpMenu = new wxMenu;
 	helpMenu->Append(wxID_HELP);
 	helpMenu->Append(wxID_ABOUT); // redirects to project github repository
+	helpMenu->Append(ID_NODE_STRUCTURE_INFO, wxT("Node structure information"));
 
 	wxMenuBar* menuBar = new wxMenuBar;
 	menuBar->Append(fileMenu, wxT("&File"));
@@ -244,6 +247,11 @@ void mainFrame::OnHelp(wxCommandEvent& evt)
 void mainFrame::OnAbout(wxCommandEvent& evt)
 {
 	wxLaunchDefaultBrowser(wxT("https://github.com/GreenHatCode/GraphApp"), wxBROWSER_NEW_WINDOW);
+}
+
+void mainFrame::OnNodeStructureInfo(wxCommandEvent &evt)
+{
+
 }
 
 void mainFrame::OnRunAdjacencyMatrixAlgorithm(wxCommandEvent &evt)
