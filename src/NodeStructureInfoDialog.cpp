@@ -15,22 +15,22 @@ NodeStructureInfoDialog::NodeStructureInfoDialog(
     :wxDialog(parent, id, title, pos, size, style, name)
 {
     wxBoxSizer* topSizer = new wxBoxSizer(wxVERTICAL);
-    this->SetSizer(topSizer);
+    this->SetSizerAndFit(topSizer);
     
-    wxStaticBitmap* m_staticBitmap = new wxStaticBitmap(this, wxID_ANY, wxBitmap(wxT("res/node_info.bmp")), wxDefaultPosition, wxDLG_UNIT(this, wxSize(-1,-1)), 0);
+    wxStaticBitmap* m_staticBitmap = new wxStaticBitmap(this, wxID_ANY, wxBitmap(wxT("res/node_info.bmp"), wxBITMAP_TYPE_BMP), wxDefaultPosition, wxDLG_UNIT(this, wxSize(-1,-1)), 0);
     
     topSizer->Add(m_staticBitmap, 0, wxALL, 5);
     
     wxBoxSizer* buttonsSizer = new wxBoxSizer(wxHORIZONTAL);
     
-    topSizer->Add(buttonsSizer, 1, wxALL|wxEXPAND|wxALIGN_RIGHT, 5);
+    topSizer->Add(buttonsSizer, 1, wxALL|wxALIGN_RIGHT, 5);
     
     wxButton* ok_button = new wxButton(this, wxID_OK, _("OK"), wxDefaultPosition, wxDLG_UNIT(this, wxSize(-1,-1)), 0);
     
     buttonsSizer->Add(ok_button, 0, wxALL, 5);
     
-    SetName(wxT("Node structure information"));
-    SetSize(wxSize(500,300));
+    SetTitle(wxT("Node structure information"));
+    SetSize(wxSize(758, 622));
 
 }
 
