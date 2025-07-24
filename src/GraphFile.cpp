@@ -2,14 +2,14 @@
 
 GraphFile::GraphFile(const wxString& file, const Graph* graph)
 {
-	m_curr_save_file = file;
+	m_curr_save_file_path = file;
 	m_graph_ptr = graph;
 }
 
 bool GraphFile::SaveToFile()
 {
-	if (m_curr_save_file.empty())return false;
-	return SaveAsToFile(m_curr_save_file);
+	if (m_curr_save_file_path.empty())return false;
+	return SaveAsToFile(m_curr_save_file_path);
 }
 
 bool GraphFile::SaveAsToFile(const wxString& file)
@@ -102,7 +102,7 @@ bool GraphFile::SaveAsToFile(const wxString& file)
 	xml_file.SetRoot(XmlGraph);
 	if (xml_file.Save(file))
 	{
-		m_curr_save_file = file;
+		m_curr_save_file_path = file;
 		return true;
 	}
 
@@ -158,12 +158,17 @@ Graph* GraphFile::LoadGraph(const wxString& file)
 	return new_graph;
 }
 
-wxString GraphFile::GetCurrSaveFilename()
+wxString GraphFile::GetCurrSaveFileName()
 {
-	return m_curr_save_file;
+    return m_curr_save_file_path.substr(0, m_curr_save_file_path.find('.'));
 }
 
-void GraphFile::SetCurrSaveFilename(const wxString& file_name)
+wxString GraphFile::GetCurrSaveFilePath()
 {
-	m_curr_save_file = file_name;
+	return m_curr_save_file_path;
+}
+
+void GraphFile::SetCurrSaveFilePath(const wxString& file_path)
+{
+	m_curr_save_file_path = file_path;
 }
