@@ -1,5 +1,6 @@
 #pragma once
 #include "wx/wx.h"
+#include <wx/xrc/xmlres.h>
 
 // This class represents a dialog to show an image with node structure info. 
 
