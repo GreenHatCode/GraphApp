@@ -13,11 +13,13 @@ public:
 	bool SaveToFile(); // saves graph in opended file
 	bool SaveAsToFile(const wxString& file); // saves graph to a new file
 	Graph* LoadGraph(const wxString& file); // constructs new graph using data from save file
-	wxString GetCurrSaveFilename();
-	void SetCurrSaveFilename(const wxString& file_name);
+	
+	wxString GetCurrSaveFileName();
+	wxString GetCurrSaveFilePath();
+	void SetCurrSaveFilePath(const wxString& file_path = "");
 
 private:
-	wxString m_curr_save_file;
+	wxString m_curr_save_file_path;
 	const Graph* m_graph_ptr;
 };
 
