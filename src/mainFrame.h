@@ -10,6 +10,7 @@
 #include "GraphFile.h"
 #include "AddEdgeDialog.h"
 #include <wx/utils.h> 
+#include "NodeStructureInfoDialog.h"
 
 // toolbar images
 #include "toolbar_icons/cursor24.xpm"
@@ -55,7 +56,8 @@ private:
     // help menu
     void OnHelp(wxCommandEvent& evt); // shows tool tip
     void OnAbout(wxCommandEvent& evt); // redirect to app github page
-    
+    void OnNodeStructureInfo(wxCommandEvent& evt); // shows image with node structure
+
     // build menu
     void OnRunAdjacencyMatrixAlgorithm(wxCommandEvent& evt);
     void OnRunIncidenceMatrixAlgorithm(wxCommandEvent& evt);
