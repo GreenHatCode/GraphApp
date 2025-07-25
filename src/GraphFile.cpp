@@ -155,6 +155,7 @@ Graph* GraphFile::LoadGraph(const wxString& file)
 	}
 
 	m_graph_ptr = new_graph;
+	m_curr_save_file_path = file;
 	return new_graph;
 }
 
