@@ -538,35 +538,30 @@ bool DrawingPanel::ProcessCurrentGraph()
 
 void DrawingPanel::BuildAdjacencyMatrix()
 {
-	// TODO: implement Adjacency matrix
 	if(!m_graph_processor->BuildAdjacencyMatrix()) 
 		wxMessageBox(wxT("Can't build adjacency matrix."), wxT("Build matrix error"), wxICON_ERROR);
 }
 
 void DrawingPanel::BuildIncidenceMatrix()
 {
-	// TODO: implement Incidence matrix
 	if(!m_graph_processor->BuildIncidenceMatrix()) 
 		wxMessageBox(wxT("Can't build incidence matrix."), wxT("Build matrix error"), wxICON_ERROR);
 }
 
 void DrawingPanel::BuildKirchhoffMatrix()
 {
-	// TODO: implement Kirchhoff matrix
 	if(!m_graph_processor->BuildKirchhoffMatrix()) 
 		wxMessageBox(wxT("Can't build Kirchhoff matrix."), wxT("Build matrix error"), wxICON_ERROR);
 }
 
 void DrawingPanel::SearchPathDijkstra()
 {
-	// TODO: implement Dijkstra's algorithm
 	if(!m_graph_processor->SearchPathDijkstra()) 
 		wxMessageBox(wxT("Can't search the shortest path using Dijkstra's algorithm."), wxT("Search path error"), wxICON_ERROR);
 }
 
 void DrawingPanel::SearchPathBellmanFord()
 {
-	// TODO: implement Bellman–Ford algorithm
 	if(!m_graph_processor->SearchPathBellmanFord()) 
 		wxMessageBox(wxT("Can't search the shortest path using Bellman-Ford algorithm."), wxT("Search path error"), wxICON_ERROR);
 }
@@ -584,7 +579,7 @@ void DrawingPanel::CircleLayout()
 	// compute the radius
 	double angle_step = 2 * M_PI / std::max(1, total_nodes_amount - 1);
 	double min_radius = node_radius / (2 * std::sin(angle_step / 2));
-	double curr_radius = std::min(this->GetSize().x, this->GetSize().y) / 2 - 50; // 50 is margin between nodes
+	double curr_radius = std::min(this->GetSize().x, this->GetSize().y) / 2 - 50; // 50px is margin between nodes
 	double radius = std::max(min_radius, curr_radius);
 
 	for (int node_index = 0; node_index < total_nodes_amount - 1; node_index++)
