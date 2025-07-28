@@ -64,8 +64,8 @@ mainFrame::mainFrame(const wxString& title)
 	editMenu->Append(ID_ADD_EDGE_DIALOG, wxT("&Add edge\tCtrl+E"), wxT("Adds a new edge via dialog"));
 
 	wxMenu* layoutMenu = new wxMenu;
-	layoutMenu->Append(ID_TREE_LAYOUT, wxT("Tree layout"));
-	layoutMenu->Append(ID_CIRCLE_LAYOUT, wxT("Circle layout"));
+	layoutMenu->Append(ID_TREE_LAYOUT, wxT("Tree layout\tCtrl+Shift+T"));
+	layoutMenu->Append(ID_CIRCLE_LAYOUT, wxT("Circle layout\tCtrl+Shift+O"));
 
 	wxMenu* buildMenu = new wxMenu;
 	buildMenu->Append(ID_BUILD_ADJACENCY_MATRIX, wxT("&Adjacency matrix\tCtrl+A"), wxT("Builds adjacency matrix"));
