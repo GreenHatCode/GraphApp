@@ -57,6 +57,7 @@ private:
     void OnHelp(wxHelpEvent& evt); // shows node structure
     void OnAbout(wxCommandEvent& evt); // redirect to app github page
     void OnNodeStructureInfo(wxCommandEvent& evt); // shows image with node structure
+    void OnShowToolTip(wxCommandEvent& evt);
 
     // build menu
     void OnRunAdjacencyMatrixAlgorithm(wxCommandEvent& evt);

@@ -13,12 +13,13 @@ enum {
 	ID_BUILD_KIRCHHOFF_MATRIX,
 	ID_BUILD_PATH_DIJKSTRA_ALGORITHM,
 	ID_BUILD_PATH_BELLMAN_FORD_ALGORITHM,
-	ID_NODE_STRUCTURE_INFO
+	ID_TIP_OF_THE_DAY
 };
 
 BEGIN_EVENT_TABLE(mainFrame, wxFrame)
 	EVT_MENU(wxID_EXIT, mainFrame::OnQuit)
 	EVT_HELP(wxID_ANY, mainFrame::OnHelp)
+	EVT_MENU(ID_TIP_OF_THE_DAY, mainFrame::OnShowToolTip)
 	EVT_MENU(wxID_HELP, mainFrame::OnNodeStructureInfo)
 	EVT_MENU(wxID_CLEAR, mainFrame::OnClear)
 	EVT_MENU(ID_CLEAR_CALCULATION_PARAMETERS, mainFrame::OnClearCalculationParameters)
@@ -76,7 +77,7 @@ mainFrame::mainFrame(const wxString& title)
 	wxMenu* helpMenu = new wxMenu;
 	helpMenu->Append(wxID_HELP); // shows node sturcture info
 	helpMenu->Append(wxID_ABOUT); // redirects to project github repository
-	//helpMenu->Append(ID_NODE_STRUCTURE_INFO, wxT("Node structure information"));
+	helpMenu->Append(ID_TIP_OF_THE_DAY, wxT("&Tip of the day"));
 
 	wxMenuBar* menuBar = new wxMenuBar;
 	menuBar->Append(fileMenu, wxT("&File"));
@@ -254,6 +255,11 @@ void mainFrame::OnNodeStructureInfo(wxCommandEvent &evt)
 	NodeStructureInfoDialog* dlg = new NodeStructureInfoDialog(this, wxID_ANY, wxT(""));
 	dlg->ShowModal();
 	dlg->Destroy();
+}
+
+void mainFrame::OnShowToolTip(wxCommandEvent &evt)
+{
+	ShowToolTip();
 }
 
 void mainFrame::OnRunAdjacencyMatrixAlgorithm(wxCommandEvent &evt)
