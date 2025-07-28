@@ -576,7 +576,7 @@ void DrawingPanel::CircleLayout()
 	if(m_graph->Empty())wxMessageBox(wxT("The graph is empty. Can't use layout."), wxT("Graph layout error"), wxICON_ERROR);
 
 
-	
+
 }
 
 void DrawingPanel::TreeLayout()
