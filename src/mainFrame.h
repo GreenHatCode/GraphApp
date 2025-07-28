@@ -54,7 +54,7 @@ private:
     void OnPreferences(wxCommandEvent& evt);
     
     // help menu
-    void OnHelp(wxCommandEvent& evt); // shows tool tip
+    void OnHelp(wxHelpEvent& evt); // shows node structure
     void OnAbout(wxCommandEvent& evt); // redirect to app github page
     void OnNodeStructureInfo(wxCommandEvent& evt); // shows image with node structure
 

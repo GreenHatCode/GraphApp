@@ -18,7 +18,7 @@ enum {
 
 BEGIN_EVENT_TABLE(mainFrame, wxFrame)
 	EVT_MENU(wxID_EXIT, mainFrame::OnQuit)
-	EVT_MENU(wxID_HELP, mainFrame::OnHelp)
+	EVT_HELP(wxID_ANY, mainFrame::OnHelp)
 	EVT_MENU(wxID_CLEAR, mainFrame::OnClear)
 	EVT_MENU(ID_CLEAR_CALCULATION_PARAMETERS, mainFrame::OnClearCalculationParameters)
 	EVT_MENU(ID_ADD_EDGE_DIALOG, mainFrame::OnInvokeAddEdgeDialog)
@@ -70,14 +70,13 @@ mainFrame::mainFrame(const wxString& title)
 	pathSubMenu->Append(ID_BUILD_PATH_BELLMAN_FORD_ALGORITHM, wxT("Shortest path &Bellman-Ford algorithm\tCtrl+B"), wxT("Searches for the shortest pathes using Bellman-Ford algorithm"));
 	buildMenu->AppendSubMenu(pathSubMenu, wxT("&Search path"));
 
-
 	wxMenu* prefMenu = new wxMenu;
 	prefMenu->Append(wxID_PREFERENCES);
 
 	wxMenu* helpMenu = new wxMenu;
-	helpMenu->Append(wxID_HELP);
+	helpMenu->Append(wxID_HELP); // shows node sturcture info
 	helpMenu->Append(wxID_ABOUT); // redirects to project github repository
-	helpMenu->Append(ID_NODE_STRUCTURE_INFO, wxT("Node structure information"));
+	//helpMenu->Append(ID_NODE_STRUCTURE_INFO, wxT("Node structure information"));
 
 	wxMenuBar* menuBar = new wxMenuBar;
 	menuBar->Append(fileMenu, wxT("&File"));
@@ -240,10 +239,11 @@ void mainFrame::OnPreferences(wxCommandEvent& evt)
 	SetPreferences();
 }
 
-void mainFrame::OnHelp(wxCommandEvent& evt)
+void mainFrame::OnHelp(wxHelpEvent& evt)
 {
-	// Shows tool tips
-	ShowToolTip();
+	NodeStructureInfoDialog* dlg = new NodeStructureInfoDialog(this, wxID_ANY, wxT(""));
+	dlg->ShowModal();
+	dlg->Destroy();
 }
 
 void mainFrame::OnAbout(wxCommandEvent& evt)
@@ -253,9 +253,7 @@ void mainFrame::OnAbout(wxCommandEvent& evt)
 
 void mainFrame::OnNodeStructureInfo(wxCommandEvent &evt)
 {
-	NodeStructureInfoDialog* dlg = new NodeStructureInfoDialog(this, wxID_ANY, wxT(""));
-	dlg->ShowModal();
-	dlg->Destroy();
+
 }
 
 void mainFrame::OnRunAdjacencyMatrixAlgorithm(wxCommandEvent &evt)
