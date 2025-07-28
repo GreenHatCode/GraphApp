@@ -19,6 +19,7 @@ enum {
 BEGIN_EVENT_TABLE(mainFrame, wxFrame)
 	EVT_MENU(wxID_EXIT, mainFrame::OnQuit)
 	EVT_HELP(wxID_ANY, mainFrame::OnHelp)
+	EVT_MENU(wxID_HELP, mainFrame::OnNodeStructureInfo)
 	EVT_MENU(wxID_CLEAR, mainFrame::OnClear)
 	EVT_MENU(ID_CLEAR_CALCULATION_PARAMETERS, mainFrame::OnClearCalculationParameters)
 	EVT_MENU(ID_ADD_EDGE_DIALOG, mainFrame::OnInvokeAddEdgeDialog)
@@ -36,7 +37,6 @@ BEGIN_EVENT_TABLE(mainFrame, wxFrame)
 	EVT_MENU(ID_BUILD_PATH_BELLMAN_FORD_ALGORITHM, mainFrame::OnRunBellmanFordAlgorithm)
 	EVT_TOOL(ID_PROCESS_GRAPH, mainFrame::OnProcessGraph)
 	EVT_TOOL_RANGE(ID_MODE_NORMAL, ID_MODE_DELETE, mainFrame::SetEditingRegime)
-	EVT_MENU(ID_NODE_STRUCTURE_INFO, mainFrame::OnNodeStructureInfo)
 END_EVENT_TABLE()
 
 
@@ -241,9 +241,7 @@ void mainFrame::OnPreferences(wxCommandEvent& evt)
 
 void mainFrame::OnHelp(wxHelpEvent& evt)
 {
-	NodeStructureInfoDialog* dlg = new NodeStructureInfoDialog(this, wxID_ANY, wxT(""));
-	dlg->ShowModal();
-	dlg->Destroy();
+	OnNodeStructureInfo(evt);
 }
 
 void mainFrame::OnAbout(wxCommandEvent& evt)
@@ -253,7 +251,9 @@ void mainFrame::OnAbout(wxCommandEvent& evt)
 
 void mainFrame::OnNodeStructureInfo(wxCommandEvent &evt)
 {
-
+	NodeStructureInfoDialog* dlg = new NodeStructureInfoDialog(this, wxID_ANY, wxT(""));
+	dlg->ShowModal();
+	dlg->Destroy();
 }
 
 void mainFrame::OnRunAdjacencyMatrixAlgorithm(wxCommandEvent &evt)
