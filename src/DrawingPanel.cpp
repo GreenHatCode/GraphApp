@@ -575,7 +575,6 @@ void DrawingPanel::CircleLayout()
 	int centerX = this->GetSize().x / 2;
 	int centerY = this->GetSize().y / 2;
 
-
 	// compute the radius
 	double angle_step = 2 * M_PI / std::max(1, total_nodes_amount - 1);
 	double min_radius = node_radius / (2 * std::sin(angle_step / 2));
@@ -591,8 +590,6 @@ void DrawingPanel::CircleLayout()
 	}
 	m_graph->GetNodeByIndexInArray(m_graph->GetNodeAmount() - 1)->coords = wxPoint(centerX, centerY);
 
-
-
 	Refresh();
 }
 
@@ -600,8 +597,31 @@ void DrawingPanel::TreeLayout()
 {
 	if(m_graph->Empty())wxMessageBox(wxT("The graph is empty. Can't use layout."), wxT("Graph layout error"), wxICON_ERROR);
 
+	int total_nodes_amount = m_graph->GetNodeAmount();
+	int node_radius = 30;
+	int tree_height = std::ceil(std::log2(total_nodes_amount + 1));
+	int max_nodes_at_tree_bottom = std::pow(2, tree_height - 1);
 
+	int hSpacing = 80;
+	int vSpacing = std::max(node_radius + 20, this->GetSize().x / (max_nodes_at_tree_bottom + 1));
+	int panel_width = this->GetSize().x;
+	int centerY = this->GetSize().y / 2;
+	int topY = 50; // Y coord of the root node
 
+	for (int i = 0; i < total_nodes_amount; i++)
+	{
+		int tree_level = std::floor(std::log2(i + 1));
+		int tree_level_start = std::pow(2, tree_level) - 1;
+		int tree_level_offset = i - tree_level_start;
+		int nodes_in_level = std::pow(2, tree_level);
+
+		int axis_spacing = panel_width / (nodes_in_level + 1);
+		int x = axis_spacing * (tree_level_offset + 1);
+		int y = topY + tree_level * hSpacing;
+
+		m_graph->GetNodeByIndexInArray(i)->coords = wxPoint(x, y);
+	}
+	Refresh();
 }
 
 void DrawingPanel::DrawNode(const Node* node)
