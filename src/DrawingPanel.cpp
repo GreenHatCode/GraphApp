@@ -605,7 +605,6 @@ void DrawingPanel::TreeLayout()
 	int hSpacing = 80;
 	int vSpacing = std::max(node_radius + 20, this->GetSize().x / (max_nodes_at_tree_bottom + 1));
 	int panel_width = this->GetSize().x;
-	int centerY = this->GetSize().y / 2;
 	int topY = 50; // Y coord of the root node
 
 	for (int i = 0; i < total_nodes_amount; i++)
@@ -617,10 +616,11 @@ void DrawingPanel::TreeLayout()
 
 		int axis_spacing = panel_width / (nodes_in_level + 1);
 		int x = axis_spacing * (tree_level_offset + 1);
-		int y = topY + tree_level * hSpacing;
+		int y = topY + tree_level * vSpacing;
 
 		m_graph->GetNodeByIndexInArray(i)->coords = wxPoint(x, y);
 	}
+
 	Refresh();
 }
 
