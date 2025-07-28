@@ -41,7 +41,7 @@ BEGIN_EVENT_TABLE(mainFrame, wxFrame)
 	EVT_TOOL(ID_PROCESS_GRAPH, mainFrame::OnProcessGraph)
 	EVT_TOOL_RANGE(ID_MODE_NORMAL, ID_MODE_DELETE, mainFrame::SetEditingRegime)
 	EVT_MENU(ID_TREE_LAYOUT, mainFrame::OnCircleLayout)
-	EVT_MENU(ID_TREE_LAYOUT, mainFrame::OnTreeLayout
+	EVT_MENU(ID_CIRCLE_LAYOUT, mainFrame::OnTreeLayout)
 END_EVENT_TABLE()
 
 
@@ -298,12 +298,12 @@ void mainFrame::OnRunBellmanFordAlgorithm(wxCommandEvent &evt)
 
 void mainFrame::OnCircleLayout(wxCommandEvent &evt)
 {
-	// drawingPanel.CircleLayout(); TODO: IMPLEMENT
+	drawingPanel->CircleLayout(); 
 }
 
 void mainFrame::OnTreeLayout(wxCommandEvent &evt)
 {
-	// drawingPanel.TreeLayout(); TODO: IMPLEMENT
+	drawingPanel->TreeLayout();
 }
 
 void mainFrame::SetEditingRegime(wxCommandEvent& evt)
