@@ -575,8 +575,30 @@ void DrawingPanel::CircleLayout()
 {
 	if(m_graph->Empty())wxMessageBox(wxT("The graph is empty. Can't use layout."), wxT("Graph layout error"), wxICON_ERROR);
 
+	int total_nodes_amount = m_graph->GetNodeAmount();
+	int node_radius = 30;
+	int centerX = this->GetSize().x / 2;
+	int centerY = this->GetSize().y / 2;
 
 
+	// compute the radius
+	double angle_step = 2 * M_PI / std::max(1, total_nodes_amount - 1);
+	double min_radius = node_radius / (2 * std::sin(angle_step / 2));
+	double curr_radius = std::min(this->GetSize().x, this->GetSize().y) / 2 - 50; // 50 is margin between nodes
+	double radius = std::max(min_radius, curr_radius);
+
+	for (int node_index = 0; node_index < total_nodes_amount - 1; node_index++)
+	{
+		double angle = 2 * M_PI * node_index / (total_nodes_amount - 1);
+		int x = centerX + radius * std::cos(angle);
+		int y = centerY + radius * std::sin(angle);
+		m_graph->GetNodeByIndexInArray(node_index)->coords = wxPoint(x, y);
+	}
+	m_graph->GetNodeByIndexInArray(m_graph->GetNodeAmount() - 1)->coords = wxPoint(centerX, centerY);
+
+
+
+	Refresh();
 }
 
 void DrawingPanel::TreeLayout()
