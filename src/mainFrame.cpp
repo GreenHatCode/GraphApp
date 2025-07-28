@@ -40,8 +40,8 @@ BEGIN_EVENT_TABLE(mainFrame, wxFrame)
 	EVT_MENU(ID_BUILD_PATH_BELLMAN_FORD_ALGORITHM, mainFrame::OnRunBellmanFordAlgorithm)
 	EVT_TOOL(ID_PROCESS_GRAPH, mainFrame::OnProcessGraph)
 	EVT_TOOL_RANGE(ID_MODE_NORMAL, ID_MODE_DELETE, mainFrame::SetEditingRegime)
-	EVT_MENU(ID_TREE_LAYOUT, mainFrame::OnCircleLayout)
-	EVT_MENU(ID_CIRCLE_LAYOUT, mainFrame::OnTreeLayout)
+	EVT_MENU(ID_CIRCLE_LAYOUT, mainFrame::OnCircleLayout)
+	EVT_MENU(ID_TREE_LAYOUT, mainFrame::OnTreeLayout)
 END_EVENT_TABLE()
 
 
