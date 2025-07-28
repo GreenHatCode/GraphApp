@@ -571,6 +571,22 @@ void DrawingPanel::SearchPathBellmanFord()
 		wxMessageBox(wxT("Can't search the shortest path using Bellman-Ford algorithm."), wxT("Search path error"), wxICON_ERROR);
 }
 
+void DrawingPanel::CircleLayout()
+{
+	if(m_graph->Empty())wxMessageBox(wxT("The graph is empty. Can't use layout."), wxT("Graph layout error"), wxICON_ERROR);
+
+
+	
+}
+
+void DrawingPanel::TreeLayout()
+{
+	if(m_graph->Empty())wxMessageBox(wxT("The graph is empty. Can't use layout."), wxT("Graph layout error"), wxICON_ERROR);
+
+
+
+}
+
 void DrawingPanel::DrawNode(const Node* node)
 {
 	wxClientDC dc(this);
