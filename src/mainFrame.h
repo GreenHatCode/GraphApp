@@ -66,6 +66,10 @@ private:
     void OnRunDijkstraAlgorithm(wxCommandEvent& evt);
     void OnRunBellmanFordAlgorithm(wxCommandEvent& evt);
 
+    // layout menu
+    void OnCircleLayout(wxCommandEvent& evt);
+    void OnTreeLayout(wxCommandEvent& evt);
+
     // toolbar
     void OnProcessGraph(wxCommandEvent& evt);
     void SetEditingRegime(wxCommandEvent& evt);

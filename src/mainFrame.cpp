@@ -40,6 +40,8 @@ BEGIN_EVENT_TABLE(mainFrame, wxFrame)
 	EVT_MENU(ID_BUILD_PATH_BELLMAN_FORD_ALGORITHM, mainFrame::OnRunBellmanFordAlgorithm)
 	EVT_TOOL(ID_PROCESS_GRAPH, mainFrame::OnProcessGraph)
 	EVT_TOOL_RANGE(ID_MODE_NORMAL, ID_MODE_DELETE, mainFrame::SetEditingRegime)
+	EVT_MENU(ID_TREE_LAYOUT, mainFrame::OnCircleLayout)
+	EVT_MENU(ID_TREE_LAYOUT, mainFrame::OnTreeLayout
 END_EVENT_TABLE()
 
 
@@ -292,6 +294,16 @@ void mainFrame::OnRunDijkstraAlgorithm(wxCommandEvent &evt)
 void mainFrame::OnRunBellmanFordAlgorithm(wxCommandEvent &evt)
 {
 	drawingPanel->SearchPathBellmanFord();
+}
+
+void mainFrame::OnCircleLayout(wxCommandEvent &evt)
+{
+	// drawingPanel.CircleLayout(); TODO: IMPLEMENT
+}
+
+void mainFrame::OnTreeLayout(wxCommandEvent &evt)
+{
+	// drawingPanel.TreeLayout(); TODO: IMPLEMENT
 }
 
 void mainFrame::SetEditingRegime(wxCommandEvent& evt)
