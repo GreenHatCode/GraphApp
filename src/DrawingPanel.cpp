@@ -602,8 +602,7 @@ void DrawingPanel::TreeLayout()
 	int tree_height = std::ceil(std::log2(total_nodes_amount + 1));
 	int max_nodes_at_tree_bottom = std::pow(2, tree_height - 1);
 
-	int hSpacing = 80;
-	int vSpacing = std::max(node_radius + 20, this->GetSize().x / (max_nodes_at_tree_bottom + 1));
+	int vSpacing = node_radius + std::max(20, this->GetSize().y / (max_nodes_at_tree_bottom + 1));
 	int panel_width = this->GetSize().x;
 	int topY = 50; // Y coord of the root node
 
