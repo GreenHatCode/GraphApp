@@ -13,12 +13,16 @@ enum {
 	ID_BUILD_KIRCHHOFF_MATRIX,
 	ID_BUILD_PATH_DIJKSTRA_ALGORITHM,
 	ID_BUILD_PATH_BELLMAN_FORD_ALGORITHM,
-	ID_NODE_STRUCTURE_INFO
+	ID_TIP_OF_THE_DAY,
+	ID_TREE_LAYOUT,
+	ID_CIRCLE_LAYOUT
 };
 
 BEGIN_EVENT_TABLE(mainFrame, wxFrame)
 	EVT_MENU(wxID_EXIT, mainFrame::OnQuit)
-	EVT_MENU(wxID_HELP, mainFrame::OnHelp)
+	EVT_HELP(wxID_ANY, mainFrame::OnHelp)
+	EVT_MENU(ID_TIP_OF_THE_DAY, mainFrame::OnShowToolTip)
+	EVT_MENU(wxID_HELP, mainFrame::OnNodeStructureInfo)
 	EVT_MENU(wxID_CLEAR, mainFrame::OnClear)
 	EVT_MENU(ID_CLEAR_CALCULATION_PARAMETERS, mainFrame::OnClearCalculationParameters)
 	EVT_MENU(ID_ADD_EDGE_DIALOG, mainFrame::OnInvokeAddEdgeDialog)
@@ -36,7 +40,8 @@ BEGIN_EVENT_TABLE(mainFrame, wxFrame)
 	EVT_MENU(ID_BUILD_PATH_BELLMAN_FORD_ALGORITHM, mainFrame::OnRunBellmanFordAlgorithm)
 	EVT_TOOL(ID_PROCESS_GRAPH, mainFrame::OnProcessGraph)
 	EVT_TOOL_RANGE(ID_MODE_NORMAL, ID_MODE_DELETE, mainFrame::SetEditingRegime)
-	EVT_MENU(ID_NODE_STRUCTURE_INFO, mainFrame::OnNodeStructureInfo)
+	EVT_MENU(ID_CIRCLE_LAYOUT, mainFrame::OnCircleLayout)
+	EVT_MENU(ID_TREE_LAYOUT, mainFrame::OnTreeLayout)
 END_EVENT_TABLE()
 
 
@@ -60,6 +65,10 @@ mainFrame::mainFrame(const wxString& title)
 	editMenu->Append(ID_CLEAR_CALCULATION_PARAMETERS, wxT("Clear calculation &results\tCtrl+Shift+R"), wxT("Clears node parameters and unpaints edges"));
 	editMenu->Append(ID_ADD_EDGE_DIALOG, wxT("&Add edge\tCtrl+E"), wxT("Adds a new edge via dialog"));
 
+	wxMenu* layoutMenu = new wxMenu;
+	layoutMenu->Append(ID_TREE_LAYOUT, wxT("Tree layout\tCtrl+Shift+T"));
+	layoutMenu->Append(ID_CIRCLE_LAYOUT, wxT("Circle layout\tCtrl+Shift+O"));
+
 	wxMenu* buildMenu = new wxMenu;
 	buildMenu->Append(ID_BUILD_ADJACENCY_MATRIX, wxT("&Adjacency matrix\tCtrl+A"), wxT("Builds adjacency matrix"));
 	buildMenu->Append(ID_BUILD_INCIDENCE_MATRIX, wxT("&Incidence matrix\tCtrl+I"), wxT("Builds incidence matrix"));
@@ -70,18 +79,18 @@ mainFrame::mainFrame(const wxString& title)
 	pathSubMenu->Append(ID_BUILD_PATH_BELLMAN_FORD_ALGORITHM, wxT("Shortest path &Bellman-Ford algorithm\tCtrl+B"), wxT("Searches for the shortest pathes using Bellman-Ford algorithm"));
 	buildMenu->AppendSubMenu(pathSubMenu, wxT("&Search path"));
 
-
 	wxMenu* prefMenu = new wxMenu;
 	prefMenu->Append(wxID_PREFERENCES);
 
 	wxMenu* helpMenu = new wxMenu;
-	helpMenu->Append(wxID_HELP);
+	helpMenu->Append(wxID_HELP); // shows node sturcture info
 	helpMenu->Append(wxID_ABOUT); // redirects to project github repository
-	helpMenu->Append(ID_NODE_STRUCTURE_INFO, wxT("Node structure information"));
+	helpMenu->Append(ID_TIP_OF_THE_DAY, wxT("&Tip of the day"));
 
 	wxMenuBar* menuBar = new wxMenuBar;
 	menuBar->Append(fileMenu, wxT("&File"));
 	menuBar->Append(editMenu, wxT("&Edit"));
+	menuBar->Append(layoutMenu, wxT("&Layout"));
 	menuBar->Append(buildMenu, wxT("&Build"));
 	menuBar->Append(prefMenu, wxT("&Preferences"));
 	menuBar->Append(helpMenu, wxT("&Help"));
@@ -240,10 +249,9 @@ void mainFrame::OnPreferences(wxCommandEvent& evt)
 	SetPreferences();
 }
 
-void mainFrame::OnHelp(wxCommandEvent& evt)
+void mainFrame::OnHelp(wxHelpEvent& evt)
 {
-	// Shows tool tips
-	ShowToolTip();
+	OnNodeStructureInfo(evt);
 }
 
 void mainFrame::OnAbout(wxCommandEvent& evt)
@@ -256,6 +264,11 @@ void mainFrame::OnNodeStructureInfo(wxCommandEvent &evt)
 	NodeStructureInfoDialog* dlg = new NodeStructureInfoDialog(this, wxID_ANY, wxT(""));
 	dlg->ShowModal();
 	dlg->Destroy();
+}
+
+void mainFrame::OnShowToolTip(wxCommandEvent &evt)
+{
+	ShowToolTip();
 }
 
 void mainFrame::OnRunAdjacencyMatrixAlgorithm(wxCommandEvent &evt)
@@ -281,6 +294,16 @@ void mainFrame::OnRunDijkstraAlgorithm(wxCommandEvent &evt)
 void mainFrame::OnRunBellmanFordAlgorithm(wxCommandEvent &evt)
 {
 	drawingPanel->SearchPathBellmanFord();
+}
+
+void mainFrame::OnCircleLayout(wxCommandEvent &evt)
+{
+	drawingPanel->CircleLayout(); 
+}
+
+void mainFrame::OnTreeLayout(wxCommandEvent &evt)
+{
+	drawingPanel->TreeLayout();
 }
 
 void mainFrame::SetEditingRegime(wxCommandEvent& evt)

@@ -538,37 +538,89 @@ bool DrawingPanel::ProcessCurrentGraph()
 
 void DrawingPanel::BuildAdjacencyMatrix()
 {
-	// TODO: implement Adjacency matrix
 	if(!m_graph_processor->BuildAdjacencyMatrix()) 
 		wxMessageBox(wxT("Can't build adjacency matrix."), wxT("Build matrix error"), wxICON_ERROR);
 }
 
 void DrawingPanel::BuildIncidenceMatrix()
 {
-	// TODO: implement Incidence matrix
 	if(!m_graph_processor->BuildIncidenceMatrix()) 
 		wxMessageBox(wxT("Can't build incidence matrix."), wxT("Build matrix error"), wxICON_ERROR);
 }
 
 void DrawingPanel::BuildKirchhoffMatrix()
 {
-	// TODO: implement Kirchhoff matrix
 	if(!m_graph_processor->BuildKirchhoffMatrix()) 
 		wxMessageBox(wxT("Can't build Kirchhoff matrix."), wxT("Build matrix error"), wxICON_ERROR);
 }
 
 void DrawingPanel::SearchPathDijkstra()
 {
-	// TODO: implement Dijkstra's algorithm
 	if(!m_graph_processor->SearchPathDijkstra()) 
 		wxMessageBox(wxT("Can't search the shortest path using Dijkstra's algorithm."), wxT("Search path error"), wxICON_ERROR);
 }
 
 void DrawingPanel::SearchPathBellmanFord()
 {
-	// TODO: implement Bellman–Ford algorithm
 	if(!m_graph_processor->SearchPathBellmanFord()) 
 		wxMessageBox(wxT("Can't search the shortest path using Bellman-Ford algorithm."), wxT("Search path error"), wxICON_ERROR);
+}
+
+void DrawingPanel::CircleLayout()
+{
+	if(m_graph->Empty())wxMessageBox(wxT("The graph is empty. Can't use layout."), wxT("Graph layout error"), wxICON_ERROR);
+
+	int total_nodes_amount = m_graph->GetNodeAmount();
+	int node_radius = 30;
+	int centerX = this->GetSize().x / 2;
+	int centerY = this->GetSize().y / 2;
+
+	// compute the radius
+	double angle_step = 2 * M_PI / std::max(1, total_nodes_amount - 1);
+	double min_radius = node_radius / (2 * std::sin(angle_step / 2));
+	double curr_radius = std::min(this->GetSize().x, this->GetSize().y) / 2 - 50; // 50px is margin between nodes
+	double radius = std::max(min_radius, curr_radius);
+
+	for (int node_index = 0; node_index < total_nodes_amount - 1; node_index++)
+	{
+		double angle = 2 * M_PI * node_index / (total_nodes_amount - 1);
+		int x = centerX + radius * std::cos(angle);
+		int y = centerY + radius * std::sin(angle);
+		m_graph->GetNodeByIndexInArray(node_index)->coords = wxPoint(x, y);
+	}
+	m_graph->GetNodeByIndexInArray(m_graph->GetNodeAmount() - 1)->coords = wxPoint(centerX, centerY);
+
+	Refresh();
+}
+
+void DrawingPanel::TreeLayout()
+{
+	if(m_graph->Empty())wxMessageBox(wxT("The graph is empty. Can't use layout."), wxT("Graph layout error"), wxICON_ERROR);
+
+	int total_nodes_amount = m_graph->GetNodeAmount();
+	int node_radius = 30;
+	int tree_height = std::ceil(std::log2(total_nodes_amount + 1));
+	int max_nodes_at_tree_bottom = std::pow(2, tree_height - 1);
+
+	int vSpacing = node_radius + std::max(20, this->GetSize().y / (max_nodes_at_tree_bottom + 1));
+	int panel_width = this->GetSize().x;
+	int topY = 50; // Y coord of the root node
+
+	for (int i = 0; i < total_nodes_amount; i++)
+	{
+		int tree_level = std::floor(std::log2(i + 1));
+		int tree_level_start = std::pow(2, tree_level) - 1;
+		int tree_level_offset = i - tree_level_start;
+		int nodes_in_level = std::pow(2, tree_level);
+
+		int axis_spacing = panel_width / (nodes_in_level + 1);
+		int x = axis_spacing * (tree_level_offset + 1);
+		int y = topY + tree_level * vSpacing;
+
+		m_graph->GetNodeByIndexInArray(i)->coords = wxPoint(x, y);
+	}
+
+	Refresh();
 }
 
 void DrawingPanel::DrawNode(const Node* node)

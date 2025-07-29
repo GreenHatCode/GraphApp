@@ -43,6 +43,8 @@ public:
     void SearchPathDijkstra();
     void SearchPathBellmanFord();
 
+    void CircleLayout();
+    void TreeLayout();
 
 
     // preferences set methods

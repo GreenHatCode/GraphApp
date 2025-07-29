@@ -54,9 +54,10 @@ private:
     void OnPreferences(wxCommandEvent& evt);
     
     // help menu
-    void OnHelp(wxCommandEvent& evt); // shows tool tip
+    void OnHelp(wxHelpEvent& evt); // shows node structure
     void OnAbout(wxCommandEvent& evt); // redirect to app github page
     void OnNodeStructureInfo(wxCommandEvent& evt); // shows image with node structure
+    void OnShowToolTip(wxCommandEvent& evt);
 
     // build menu
     void OnRunAdjacencyMatrixAlgorithm(wxCommandEvent& evt);
@@ -64,6 +65,10 @@ private:
     void OnRunKirchhoffMatrixAlgorithm(wxCommandEvent& evt);
     void OnRunDijkstraAlgorithm(wxCommandEvent& evt);
     void OnRunBellmanFordAlgorithm(wxCommandEvent& evt);
+
+    // layout menu
+    void OnCircleLayout(wxCommandEvent& evt);
+    void OnTreeLayout(wxCommandEvent& evt);
 
     // toolbar
     void OnProcessGraph(wxCommandEvent& evt);
