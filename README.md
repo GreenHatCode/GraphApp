@@ -23,19 +23,28 @@ GraphApp is a feature-rich application for working with network graphs, where us
   - On Windows: Microsoft Visual Studio 2019 or newer
   - On Linux/macOS: GCC/Clang
 
-### Steps
+### Build Instructions
 
 1. Clone the repository:
     ```bash
     git clone https://github.com/GreenHatCode/GraphApp.git
+    cd GraphApp
     ```
 2.  Change git remote url to avoid accidental pushes to base project
     ```bash
     git remote set-url origin github_username/repo_name
     git remote -v # confirm the changes
     ```
-3. Open the solution in Microsoft Visual Studio (open file GraphApp.sln)
-4. Compile the project under x86, select debug or release. 
+3. Create a build directory and run CMake
+    ```bash
+    mkdir build
+    cd build
+    cmake ..
+    cmake --build .
+    ```
+4. Run the application.
+
+   The compiled executable can be found in the build directory, depending on your platform and configuration.
 
 ## Available options
 The main feature of this application is drawing and processing network graphs. You can draw a graph (add, move and delete nodes and edges) and then calculate timing parameters for each node (which represents an event), according to node indices, edge weights and graph topology. You can also print the graph using the standard printing options in your OS or save it to a file. The application has modifiable settings (colors, day tips and warnings) that the user can set in the preferences dialog.
