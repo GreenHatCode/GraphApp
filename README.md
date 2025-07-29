@@ -1,5 +1,5 @@
 # GraphApp
-This project is an application for drawing, analyzing and processing network graphs.
+GraphApp is a desktop application for drawing, analyzing, and processing network graphs. It provides a visual and interactive interface for working with graph structures, calculating timing parameters, and customizing the layout and display.
 
 ## Table of Contents
 
@@ -10,7 +10,7 @@ This project is an application for drawing, analyzing and processing network gra
 
 ## About
 
-This is a comprehensive application for working with network graphs, in which the user can specify the node index and edge weight. The application features are focused on processing network graphs. The user can also save the graph to a file or print it as an image.
+GraphApp is a feature-rich application for working with network graphs, where users can assign indices to nodes and set weights for edges. It supports visual editing, automatic graph analysis, and exporting of results. Users can save their work, export graphs as images, and customize the interface.
 
 ## Installation
 
