@@ -46,21 +46,73 @@ GraphApp is a feature-rich application for working with network graphs, where us
 
    The compiled executable can be found in the build directory, depending on your platform and configuration.
 
-## Available options
-The main feature of this application is drawing and processing network graphs. You can draw a graph (add, move and delete nodes and edges) and then calculate timing parameters for each node (which represents an event), according to node indices, edge weights and graph topology. You can also print the graph using the standard printing options in your OS or save it to a file. The application has modifiable settings (colors, day tips and warnings) that the user can set in the preferences dialog.
+## Available Options
 
-List of available options
-- draw graph
-- edit the graph (move nodes, clear the drawing area and add/remove graph elements)
-- load/save graph to a file (the application uses xml files to store graphs)
-- graph processing
-    - graph validation before processing
-    - calculating: early date of event occurrence, late date of event occurrence, time reserve for each event (node)
-    - printing the processing results in three possible ways: to the drawing area, to a separate window (the user can copy the results as text) and to a file
-- printing of the graph using standard printer options in the user OS
-- preferences dialog with various options to customize the user interface and UX of the application
-- application help (provided throught tip of the day and help button in menu)
+GraphApp is a powerful application for drawing, editing, analyzing, and exporting network graphs. It offers a wide variety of tools to manipulate graph structure, perform computations, and customize user experience. Below is a detailed list of features and options available in the application:
 
+### Graph Editing
+
+- **Add/Edit/Delete nodes and edges** directly on the canvas.
+- **Move nodes** freely in the drawing area.
+- **Context menus**:
+  - On empty area: *Add Node*
+  - On node: *Edit Node*, *Delete Node*
+  - On edge: *Edit Edge*, *Turn Around Edge*, *Delete Edge*
+- **New Add Edge Dialog** – Quickly create edges between distant nodes via a dialog, with dropdowns for node selection and edge weight input.
+- **Clear drawing area** to reset the canvas.
+
+### File Handling
+
+- **Load/Save graphs** using XML-based project files.
+- Show the **current filename in the app title bar** for better context.
+- Export graph as **image** or send to printer via standard OS print dialog.
+
+### Graph Processing
+
+GraphApp supports advanced graph analysis with configurable options:
+
+- **Timing analysis for events (nodes)**:
+  - Early and late occurrence dates
+  - Time reserve (slack)
+- **Critical path highlighting**
+- **Complexity factor** calculation
+- **Dynamic update** of calculation results: Auto-recalculate parameters when the graph is modified (toggle in preferences)
+- **Preserve previous parameter selection** across processing sessions
+- **Clear calculation results**: One-click reset of visual and computed graph data
+
+### Algorithms and Calculations
+
+Available under the **Build** tab:
+
+- **Adjacency Matrix** – Shows node connectivity
+- **Incidence Matrix** – Edge incidence on nodes
+- **Kirchhoff Matrix** – Useful for electrical/network graph properties
+- **Shortest Path (Dijkstra)** – Between two selected nodes
+- **Shortest Path (Bellman–Ford)** – From lowest-index node to all reachable nodes
+
+All matrix outputs appear in a dialog with copyable text format.
+
+### Graph Layouts
+
+Automatically arrange nodes using:
+
+- **Circular layout** – Evenly spaced nodes around a circle
+- **Tree layout** – Hierarchical top-down or left-right placement for structured views
+
+### Preferences & Customization
+
+Accessible via the **Preferences Dialog**:
+
+- Customize colors, UI behavior, and warnings
+- Enable/disable **dynamic result updating**
+- Store and manage previously used processing settings
+
+### Help and Guidance
+
+- **Tip of the Day** on startup
+- Help menu with:
+  - **Node Structure Info** – Visual breakdown of node fields and layout
+  - Access to documentation and contextual explanations
 
 ## Credit
 GraphApp uses the following external project(s):
