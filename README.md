@@ -16,9 +16,12 @@ GraphApp is a feature-rich application for working with network graphs, where us
 
 ### Prerequisites
 
-- Installed and configured wxWidgets framework
-- C++14 or above
-- Microsoft Visual Studio 2019 or newer
+- C++14 or newer
+- [wxWidgets](https://wxwidgets.org/) (installed and configured)
+- CMake 3.14 or newer
+- A supported C++ compiler:
+  - On Windows: Microsoft Visual Studio 2019 or newer
+  - On Linux/macOS: GCC/Clang
 
 ### Steps
 
