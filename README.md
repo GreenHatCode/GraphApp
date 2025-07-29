@@ -63,7 +63,7 @@ List of available options
 
 
 ## Credit
-Here you can find links to projects which I've used in GraphApp
-- .ini parser [link to GitHub repository](https://github.com/metayeti/mINI/tree/master)
+GraphApp uses the following external project(s):
+- [mINI](https://github.com/metayeti/mINI/tree/master) – Lightweight `.ini` file parser
 
 
