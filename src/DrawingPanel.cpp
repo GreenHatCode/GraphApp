@@ -724,20 +724,13 @@ void DrawingPanel::DrawEdge(const Edge* edge)
 
 	dc.DrawPolygon(points); // drawing triangle
 	delete points;
-
+	
+	
 	// drawing edge weight
-	wxPoint midpoint = ((*(edge->from)).coords + (*(edge->to)).coords) / 2;
 	wxString edge_weight_text;
 	edge_weight_text << (*edge).weight;
-	wxSize str_width = dc.GetTextExtent(edge_weight_text);
-	
+	wxSize str_size = dc.GetTextExtent(edge_weight_text);
 
-	if (m_colour_scheme == ColourSchemes::COLOURED)dc.SetTextForeground(*wxWHITE);
-	else dc.SetTextForeground(*wxBLACK);
-
-	wxFont font(12, wxFONTFAMILY_DEFAULT, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_BOLD);
-	dc.SetFont(font);
-	
 	// compute the angle for text
 	double angle = 0;
 
@@ -751,21 +744,37 @@ void DrawingPanel::DrawEdge(const Edge* edge)
 	// right - from 90 to -90 (actually 270) degrees
 	//
 	// so on the left we draw the edge weight starting from the FROM node to the TO node
-	// and on the right - from the TO node to the TO node.
-
-
+	// and on the right - from the TO node to the FROM node.
+	wxPoint print_point(0, 0);
 	if (angle >= -90 && angle <= 90) 
 	{
 		// left half
 		if (angle < 0) angle += 360;
+		
+		// calculate the print point
+		// so that the text is centered on the edge line
+		// the point coordinates depend on the edge weight string length
+		print_point = wxPoint(from->coords.x + normalized_x * (d/2 - str_size.x / 2), from->coords.y + normalized_y * (d/2 - str_size.x));
 	}
 	else
 	{
 		// right half
 		if (angle < 0) angle += 180;
 		else angle -= 180;
+		
+		// calculate the print point
+		// so that the text is centered on the edge line
+		// the point coordinates depend on the edge weight string length
+		print_point = wxPoint(to->coords.x - normalized_x * (d/2 - str_size.x / 2), to->coords.y - normalized_y * (d/2 - str_size.x));
 	}
-	dc.DrawRotatedText(edge_weight_text, midpoint, angle);
+
+
+	if (m_colour_scheme == ColourSchemes::COLOURED)dc.SetTextForeground(*wxWHITE);
+	else dc.SetTextForeground(*wxBLACK);
+	wxFont font(12, wxFONTFAMILY_DEFAULT, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_BOLD);
+	dc.SetFont(font);
+
+	dc.DrawRotatedText(edge_weight_text, print_point, angle);
 
 	dc.SetPen(wxNullPen);
 }
