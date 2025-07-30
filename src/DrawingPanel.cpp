@@ -695,11 +695,11 @@ void DrawingPanel::DrawEdge(const Edge* edge)
 	const Node* to = (*edge).to;
 
 	wxPoint vector((to->coords.x - from->coords.x), (to->coords.y - from->coords.y));
-	double d = sqrt(pow(to->coords.x - from->coords.x, 2) + pow(to->coords.y - from->coords.y, 2));
+	float d = sqrt(pow(to->coords.x - from->coords.x, 2) + pow(to->coords.y - from->coords.y, 2));
 	
 	// normalized vector
-	double normalized_x = vector.x / d;
-	double normalized_y = vector.y / d;
+	float normalized_x = vector.x / d;
+	float normalized_y = vector.y / d;
 	
 	wxPoint triangle_head; // the first triangle node
 	triangle_head.x = to->coords.x - 30 * normalized_x;
@@ -724,23 +724,57 @@ void DrawingPanel::DrawEdge(const Edge* edge)
 
 	dc.DrawPolygon(points); // drawing triangle
 	delete points;
-
+	
+	
 	// drawing edge weight
-	wxPoint midpoint = ((*(edge->from)).coords + (*(edge->to)).coords) / 2;
-	midpoint.y += 10;
 	wxString edge_weight_text;
 	edge_weight_text << (*edge).weight;
-	wxSize str_width = dc.GetTextExtent(edge_weight_text);
+	wxSize str_size = dc.GetTextExtent(edge_weight_text);
+
+	// compute the angle for text
+	double angle = 0;
+
+	double dx = to->coords.x - from->coords.x;
+	double dy = to->coords.y - from->coords.y;
+
+	angle = -(std::atan2(dy, dx) * 180.0 / M_PI);
 	
+	// divide the whole 360 degree circle into two halves
+	// left - from -90 to 90 degrees, and
+	// right - from 90 to -90 (actually 270) degrees
+	//
+	// so on the left we draw the edge weight starting from the FROM node to the TO node
+	// and on the right - from the TO node to the FROM node.
+	wxPoint print_point(0, 0);
+	if (angle >= -90 && angle <= 90) 
+	{
+		// left half
+		if (angle < 0) angle += 360;
+		
+		// calculate the print point
+		// so that the text is centered on the edge line
+		// the point coordinates depend on the edge weight string length
+		print_point = wxPoint(from->coords.x + normalized_x * (d/2 - str_size.x / 2), from->coords.y + normalized_y * (d/2 - str_size.y));
+	}
+	else
+	{
+		// right half
+		if (angle < 0) angle += 180;
+		else angle -= 180;
+		
+		// calculate the print point
+		// so that the text is centered on the edge line
+		// the point coordinates depend on the edge weight string length
+		print_point = wxPoint(to->coords.x - normalized_x * (d/2 - str_size.x / 2), to->coords.y - normalized_y * (d/2 - str_size.y));
+	}
+
 
 	if (m_colour_scheme == ColourSchemes::COLOURED)dc.SetTextForeground(*wxWHITE);
 	else dc.SetTextForeground(*wxBLACK);
-
 	wxFont font(12, wxFONTFAMILY_DEFAULT, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_BOLD);
 	dc.SetFont(font);
-	
 
-	dc.DrawText(edge_weight_text, midpoint);
+	dc.DrawRotatedText(edge_weight_text, print_point, angle);
 
 	dc.SetPen(wxNullPen);
 }
