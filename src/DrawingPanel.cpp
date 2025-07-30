@@ -696,8 +696,11 @@ void DrawingPanel::DrawEdge(const Edge* edge)
 
 	wxPoint vector((to->coords.x - from->coords.x), (to->coords.y - from->coords.y));
 	float d = sqrt(pow(to->coords.x - from->coords.x, 2) + pow(to->coords.y - from->coords.y, 2));
+	float d = sqrt(pow(to->coords.x - from->coords.x, 2) + pow(to->coords.y - from->coords.y, 2));
 	
 	// normalized vector
+	float normalized_x = vector.x / d;
+	float normalized_y = vector.y / d;
 	float normalized_x = vector.x / d;
 	float normalized_y = vector.y / d;
 	
