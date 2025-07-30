@@ -754,7 +754,7 @@ void DrawingPanel::DrawEdge(const Edge* edge)
 		// calculate the print point
 		// so that the text is centered on the edge line
 		// the point coordinates depend on the edge weight string length
-		print_point = wxPoint(from->coords.x + normalized_x * (d/2 - str_size.x / 2), from->coords.y + normalized_y * (d/2 - str_size.x));
+		print_point = wxPoint(from->coords.x + normalized_x * (d/2 - str_size.x / 2), from->coords.y + normalized_y * (d/2 - str_size.y));
 	}
 	else
 	{
@@ -765,7 +765,7 @@ void DrawingPanel::DrawEdge(const Edge* edge)
 		// calculate the print point
 		// so that the text is centered on the edge line
 		// the point coordinates depend on the edge weight string length
-		print_point = wxPoint(to->coords.x - normalized_x * (d/2 - str_size.x / 2), to->coords.y - normalized_y * (d/2 - str_size.x));
+		print_point = wxPoint(to->coords.x - normalized_x * (d/2 - str_size.x / 2), to->coords.y - normalized_y * (d/2 - str_size.y));
 	}
 
 
