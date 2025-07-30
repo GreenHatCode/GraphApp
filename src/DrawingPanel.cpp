@@ -745,7 +745,17 @@ void DrawingPanel::DrawEdge(const Edge* edge)
 	double dy = to->coords.y - from->coords.y;
 
 	angle = -(std::atan2(dy, dx) * 180.0 / M_PI);
-	if(angle < 0) angle += 360;
+	if (angle < 0) angle += 360;
+	if (angle > 85) angle = 0;
+
+	// compute the dist from the line to text
+	// it depends on the text rotation angle
+
+
+
+
+
+
 	dc.DrawRotatedText(edge_weight_text, midpoint, angle);
 
 	dc.SetPen(wxNullPen);
