@@ -123,6 +123,9 @@ mainFrame::mainFrame(const wxString& title)
 
 	SetIcon(wxIcon(wxT("res/favicon.ico"), wxBITMAP_TYPE_ICO));
 
+	wxFileName exe_path(wxStandardPaths::Get().GetExecutablePath());
+	wxString config_file = exe_path.GetPath() + wxFileName::GetPathSeparator() + "res\\files\\global.ini";
+	m_app_preferences.SetPreferenceFile(config_file.ToStdString());
 	SetPreferences();
 }
 
