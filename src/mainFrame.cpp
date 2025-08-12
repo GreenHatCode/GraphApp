@@ -136,17 +136,16 @@ void mainFrame::OnNew(wxCommandEvent& evt)
 
 void mainFrame::OnOpen(wxCommandEvent& evt)
 {
+	// todo: check if the filename is empty, if not open it
 	wxFileDialog* load_file_dialog = new wxFileDialog(this, wxT("Load Graph"), "", "",
 		wxT("Graph (*.graph)|*.graph"), wxFD_OPEN);
 	if (load_file_dialog->ShowModal() == wxID_OK)
 	{
-		if (m_graph_file->LoadGraph(load_file_dialog->GetPath()) == nullptr)
+		if (!OpenGraphFile(load_file_dialog->GetPath()))
 		{
 			wxLogError("Cannot load graph in file '%s'.", load_file_dialog->GetPath());
 			return;
 		}
-		drawingPanel->SetGraph(m_graph_file->LoadGraph(load_file_dialog->GetPath()));
-		this->SetTitle(load_file_dialog->GetFilename().substr(0, load_file_dialog->GetFilename().find('.', true)) + " - Graph App");
 	}
 }
 
@@ -363,4 +362,14 @@ void mainFrame::ShowStartupTip()
 		}
 	}
 
+}
+
+bool mainFrame::OpenGraphFile(wxString file_path)
+{
+	if (m_graph_file->LoadGraph(file_path) == nullptr) return false;
+
+	drawingPanel->SetGraph(m_graph_file->LoadGraph(file_path));
+	this->SetTitle(file_path.SubString(file_path.find_last_of('\\') + 1, file_path.find_last_of('.') - 1) + " - Graph App");
+    
+	return true;
 }

@@ -28,6 +28,7 @@ class mainFrame :
 public:
     mainFrame(const wxString& title);
     void ShowStartupTip(); // shows startup tip window unless disabled in files/global.ini
+    bool OpenGraphFile(wxString file_path); // loads graph from file 
 
 private:
     // settings variables
@@ -39,7 +40,7 @@ private:
     // menu bar functions
     // file menu
     void OnNew(wxCommandEvent& evt); // clears all data
-    void OnOpen(wxCommandEvent& evt); // loads graph from file
+    void OnOpen(wxCommandEvent& evt); // loads graph from a specific file
     void OnSave(wxCommandEvent& evt); // save graph to current save file
     void OnSaveAs(wxCommandEvent& evt); // save graph to a new file
     void OnPrint(wxCommandEvent& evt);
