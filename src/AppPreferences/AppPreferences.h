@@ -24,7 +24,7 @@ enum ColourSchemes
 class AppPreferences
 {
 public:
-	AppPreferences(const std::string& preference_file = "");
+	AppPreferences(const std::string& preference_file);
 
 	void SetPreferenceFile(const std::string& value);
 	std::string GetPreferenceFile();
