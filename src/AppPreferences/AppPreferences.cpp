@@ -3,13 +3,17 @@
 
 AppPreferences::AppPreferences(const std::string& preference_file)
 {
-	m_preference_file = preference_file;
-	LoadDataFromFile();
+	if (!preference_file.empty())
+	{
+		m_preference_file = preference_file;
+		LoadDataFromFile();
+	}
 }
 
 void AppPreferences::SetPreferenceFile(const std::string& value)
 {
 	m_preference_file = value;
+	LoadDataFromFile();
 }
 
 std::string AppPreferences::GetPreferenceFile()
@@ -63,7 +67,7 @@ bool AppPreferences::SaveDataToFile()
 	mINI::INIStructure ini;
 	if (!otf.read(ini))
 	{
-		wxLogError("Unable to read preference file \"%s\". File AppPreference.cpp.", m_preference_file);
+		wxLogError("Unable to read preference file \"%s\".", m_preference_file);
 		return false;
 	}
 
@@ -82,7 +86,7 @@ bool AppPreferences::SaveDataToFile()
 
 	if (!otf.write(ini))
 	{
-		wxLogError("Unable to write data to %s. File: AppPreference.cpp.", m_preference_file);
+		wxLogError("Unable to write data to %s.", m_preference_file);
 		return false;
 	}
 	else return true;
@@ -94,7 +98,7 @@ bool AppPreferences::LoadDataFromFile()
 	mINI::INIStructure ini;
 	if (!otf.read(ini))
 	{
-		wxLogError("Unable to read preference file \"%s\". File AppPreference.cpp.", m_preference_file);
+		wxLogError("Unable to read preference file \"%s\".", m_preference_file);
 		return false;
 	}
 
