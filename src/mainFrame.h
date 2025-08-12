@@ -11,6 +11,7 @@
 #include "AddEdgeDialog.h"
 #include <wx/utils.h> 
 #include "NodeStructureInfoDialog.h"
+#include <wx/stdpaths.h>
 
 // toolbar images
 #include "toolbar_icons/cursor24.xpm"
@@ -28,18 +29,19 @@ class mainFrame :
 public:
     mainFrame(const wxString& title);
     void ShowStartupTip(); // shows startup tip window unless disabled in files/global.ini
+    bool OpenGraphFile(wxString file_path); // loads graph from file 
 
 private:
     // settings variables
     bool m_showTipAtStartup = true;
     DrawingPanel* drawingPanel;
-    AppPreferences m_app_preferences{ "res/files/global.ini" };
+    AppPreferences m_app_preferences;
     GraphFile* m_graph_file;
 
     // menu bar functions
     // file menu
     void OnNew(wxCommandEvent& evt); // clears all data
-    void OnOpen(wxCommandEvent& evt); // loads graph from file
+    void OnOpen(wxCommandEvent& evt); // loads graph from a specific file
     void OnSave(wxCommandEvent& evt); // save graph to current save file
     void OnSaveAs(wxCommandEvent& evt); // save graph to a new file
     void OnPrint(wxCommandEvent& evt);
